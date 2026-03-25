@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:3000/api'
+const BASE = 'http://localhost:5678/api'
 
 export const api = {
   getServers: () => fetch(`${BASE}/servers`).then(r => r.json()),

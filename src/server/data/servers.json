@@ -1,23 +1,23 @@
 [
   {
-    "id": "2f43672d-b7c5-4eb8-aa08-30fffd503538",
-    "name": "Paper",
-    "fileName": "java",
-    "command": "-jar D:\\MC\\paper-1.21.11-127.jar",
-    "cwd": "D:\\MC"
+    "id": "1b98a916-5488-46e4-8e86-cbbdb50cb447",
+    "name": "MC26.1",
+    "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
+    "command": "-jar \"F:\\Minecraft\\Minecraft Server\\26.1\\server.jar\"",
+    "cwd": "F:\\Minecraft\\Minecraft Server\\26.1"
   },
   {
-    "id": "d900667b-252b-47bf-8d4f-12b1a4d86d3c",
-    "name": "HL",
-    "fileName": "D:\\SteamCMD\\steamapps\\common\\Half-Life\\hlds.exe",
-    "command": "-console -game cstrike +map cs_747",
-    "cwd": "D:\\SteamCMD\\steamapps\\common\\Half-Life"
+    "id": "d43440bc-fddf-4194-9011-734383829644",
+    "name": "paper",
+    "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
+    "command": "-jar \"F:\\Minecraft\\Minecraft Server\\1.21.11\\paper-1.21.11-117.jar\"",
+    "cwd": "F:\\Minecraft\\Minecraft Server\\1.21.11"
   },
   {
-    "id": "08f861b4-2099-459f-bd17-f61cd0d0b02d",
-    "name": "testmc",
-    "fileName": "java",
-    "command": "-jar paper-1.21.11-127.jar",
-    "cwd": "D:\\MC"
+    "id": "a164c774-5021-497e-ac56-9544b31a39c1",
+    "name": "Bedrock",
+    "fileName": "F:\\Minecraft\\Minecraft Server\\Bedrock\\bedrock_server.exe",
+    "command": "",
+    "cwd": "F:\\Minecraft\\Minecraft Server\\Bedrock"
   }
 ]

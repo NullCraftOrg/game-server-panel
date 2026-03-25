@@ -18,7 +18,6 @@ async function stop(id) {
 let term
 let fitAddon = new FitAddon();
 let socket
-let currentOffset = 0
 
 onMounted(async () => {
   term = new Terminal({
@@ -51,35 +50,36 @@ onMounted(async () => {
   const data = await api.getLog(props.id)
   if (data.logs) {
     term.write(data.logs)
-    currentOffset = data.logs.length
   }
 
-  // WS（带 offset）
+  // WS
   socket = createWS(
     props.id,
-    () => currentOffset,
     (data) => {
-      currentOffset = data.offset
-      term.write(data.text)
+      term.write(data)
     }
   )
 
-  // ✅ 输入（终端级）
-  let inputBuffer = ''
+  // // 输入（终端级）
+  // let inputBuffer = ''
+
+  // term.onData((data) => {
+  //   if (data === '\r') {
+  //     socket.send(inputBuffer + '\n')
+  //     inputBuffer = ''
+  //     term.write('\r\n')
+  //   } else if (data === '\u007f') {
+  //     // backspace
+  //     inputBuffer = inputBuffer.slice(0, -1)
+  //     term.write('\b \b')
+  //   } else {
+  //     inputBuffer += data
+  //     term.write(data)
+  //   }
+  // })
 
   term.onData((data) => {
-    if (data === '\r') {
-      socket.send(inputBuffer + '\n')
-      inputBuffer = ''
-      term.write('\r\n')
-    } else if (data === '\u007f') {
-      // backspace
-      inputBuffer = inputBuffer.slice(0, -1)
-      term.write('\b \b')
-    } else {
-      inputBuffer += data
-      term.write(data)
-    }
+    socket.send(data + '\n')
   })
 })
 

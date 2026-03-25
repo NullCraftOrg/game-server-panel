@@ -1,15 +1,12 @@
-export function createWS(id, getOffset, onMessage) {
+export function createWS(id, onMessage) {
   let ws;
   let timer;
 
   function connect() {
-    const offset = getOffset();
-
-    ws = new WebSocket(`ws://localhost:3000?id=${id}&offset=${offset}`);
+    ws = new WebSocket(`ws://localhost:5678?id=${id}`);
 
     ws.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      onMessage(data);
+      onMessage(e.data);
     };
 
     ws.onclose = () => {
