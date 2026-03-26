@@ -3,6 +3,8 @@ const BASE = 'http://localhost:5678/api'
 export const api = {
   getServers: () => fetch(`${BASE}/servers`).then(r => r.json()),
 
+  getServer: (id) => fetch(`${BASE}/servers/${id}`).then(r => r.json()),
+
   createServer: (data) =>
     fetch(`${BASE}/servers`, {
       method: 'POST',

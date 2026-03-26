@@ -1,11 +1,27 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, onBeforeMount } from 'vue'
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
-import { createWS } from '../utils/ws'
-import { api } from '../api'
+import { createWS } from '@/utils/ws'
+import { api } from '@/api'
+import { useServerStore } from '@/stores/serverStore'
 
 const props = defineProps(['id'])
+
+// TODO Pinna 不能持久化刷新就会丢失，考虑改成API获取？
+// const serverStore = useServerStore();
+
+const inputCommand = ref('say 你好，世界！ hello, world!')
+
+const server = ref({})
+
+async function getServer(id) {
+  server.value = await api.getServer(id)
+}
+
+function send(command) {
+  socket.send(command + '\n')
+}
 
 async function start(id) {
   await api.start(id)
@@ -19,15 +35,29 @@ let term
 let fitAddon = new FitAddon();
 let socket
 
+function resizeScreen() {
+  try {
+    fitAddon.fit()
+  } catch (e) {
+    console.log("e", e.message)
+  }
+}
+
+onBeforeMount(() => {
+  getServer(props.id)
+  // setInterval(() => getServer(props.id), 1000)
+  
+})
+
 onMounted(async () => {
   term = new Terminal({
     cursorBlink: true,
     fontSize: 14,
     fontFamily: '"Fira Code", Consolas, monospace, "Powerline Extra Symbols"',
-    // theme: {
-    //   foreground: "#000000", //字体
-    //   background: "#ECECEC", //背景色
-    // }
+    theme: {
+      foreground: "#fff", //字体
+      background: "#212121", //背景色
+    }
   })
 
   let termElement = document.getElementById('term');
@@ -36,15 +66,8 @@ onMounted(async () => {
   term.loadAddon(fitAddon);
   term.open(termElement);
   fitAddon.fit();
-
+  // 自动适应文本大小
   window.addEventListener("resize", resizeScreen)
-      function resizeScreen() {
-        try {
-          fitAddon.fit()
-        } catch (e) {
-          console.log("e", e.message)
-        }
-      }
 
   // 加载历史
   const data = await api.getLog(props.id)
@@ -60,41 +83,90 @@ onMounted(async () => {
     }
   )
 
-  // // 输入（终端级）
-  // let inputBuffer = ''
-
-  // term.onData((data) => {
-  //   if (data === '\r') {
-  //     socket.send(inputBuffer + '\n')
-  //     inputBuffer = ''
-  //     term.write('\r\n')
-  //   } else if (data === '\u007f') {
-  //     // backspace
-  //     inputBuffer = inputBuffer.slice(0, -1)
-  //     term.write('\b \b')
-  //   } else {
-  //     inputBuffer += data
-  //     term.write(data)
-  //   }
-  // })
-
+  // 发送数据
   term.onData((data) => {
     socket.send(data + '\n')
   })
+
 })
 
 onUnmounted(() => {
   socket?.close()
+  // serverStore.clear()
 })
 </script>
 
 <template>
-  <div>
-    <b>{{ props.id }}</b>
-    <div>
-      <button @click="start(props.id)">启动</button>
-      <button @click="stop(props.id)">停止</button>
+  <div class="mt-2">
+
+    <div class="flex justify-between">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+            <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+            <path d="M6 6h.01M6 18h.01" />
+          </g>
+        </svg>
+        <p class="text-xl">{{ server.name ?? "未知服务器" }}</p>
+
+        <div class="badge badge-ghost">
+          <div class="inline-grid *:[grid-area:1/1]">
+            <template v-if="server.isRunning">
+              <div class="status status-success animate-ping"></div>
+              <div class="status status-success"></div>
+            </template>
+            <template v-else>
+              <div class="status status-error animate-ping"></div>
+              <div class="status status-error"></div>
+            </template>
+          </div>
+          {{ server.isRunning > 0 ? '正在运行' : '未运行' }}
+        </div>
+
+      </div>
+
+      <div class="flex gap-2 mb-2">
+        <button class="btn" @click="start(props.id)">
+          <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+          </svg>
+          启动
+        </button>
+        <button class="btn" @click="stop(props.id)">
+          <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M18 6L6 18M6 6l12 12" />
+          </svg>
+          停止
+        </button>
+      </div>
     </div>
-    <div id="term"></div>
+
+    <div class="rounded-box shadow-sm mb-2" style="background-color: #212121;">
+      <div class="p-2 min-h-[400px]" id="term"></div>
+    </div>
+
+    <div class="flex gap-2">
+      <label class="input input-sm w-full">
+        <svg class="h-[1.25em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 19h8M4 17l6-6l-6-6" />
+        </svg>
+        <input type="text" class="grow" v-model="inputCommand" placeholder="发送命令至终端" />
+      </label>
+      <button class="btn btn-sm" @click="send(inputCommand)">
+        发送命令
+        <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="m10 16l4-4l-4-4m-7 4h11" />
+            <path d="M3 8V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3" />
+          </g>
+        </svg>
+      </button>
+    </div>
+
   </div>
+
 </template>

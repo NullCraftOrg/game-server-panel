@@ -38,15 +38,19 @@ async function create() {
 
 <template>
   <h3>新建服务器</h3>
-  <input v-model="name" placeholder="名称" />
-  <input v-model="fileName" placeholder="启动文件" />
-  <input v-model="command" placeholder="启动命令" />
-  <input v-model="cwd" placeholder="目录" />
-  <button @click="create">创建</button>
+  <input class="input" v-model="name" placeholder="名称" />
+  <input class="input" v-model="fileName" placeholder="启动文件" />
+  <input class="input" v-model="command" placeholder="启动命令" />
+  <input class="input" v-model="cwd" placeholder="目录" />
+  <button class="btn btn-sm" @click="create">创建</button>
 
   <div>
-    <p>选择启动文件：</p>
-    <input type="file" @change="handleFileChange" />
+<fieldset class="fieldset">
+  <legend class="fieldset-legend">Pick a file</legend>
+  <input type="file" class="file-input" @change="handleFileChange"/>
+  <label class="label">Max size 2MB</label>
+</fieldset>
+
     <div v-if="fileInfo">
       <p>文件名：{{ fileInfo.name }}</p>
       <p>文件大小：{{ (fileInfo.size / 1024).toFixed(2) }} KB</p>

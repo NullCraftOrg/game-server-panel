@@ -12,6 +12,7 @@ class GameServer {
         this.cwd = cwd;
         this.process = null;
         this.clients = new Set();
+        this.isRunning = false;
 
         // 日志
         this.logBuffer = [];
@@ -40,11 +41,13 @@ class GameServer {
 
         this.process.onData((data) => {
             this.appendLog(data);
+            this.isRunning = true;
         });
 
         this.process.onExit(() => {
-            this.appendLog('\n--- [进程退出] ---\n');
+            this.appendLog('--- [进程退出] ---\r\n');
             this.process = null;
+            this.isRunning = false;
         });
     }
 

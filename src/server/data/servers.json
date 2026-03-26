@@ -19,5 +19,33 @@
     "fileName": "F:\\Minecraft\\Minecraft Server\\Bedrock\\bedrock_server.exe",
     "command": "",
     "cwd": "F:\\Minecraft\\Minecraft Server\\Bedrock"
+  },
+  {
+    "id": "2aa35c67-8693-4dac-b67a-fd559a6fc441",
+    "name": "WorkMCTest",
+    "fileName": "C:\\Program Files\\Microsoft\\jdk-21.0.10.7-hotspot\\bin\\java.exe",
+    "command": "-jar paper-1.21.11-127.jar",
+    "cwd": "D:\\MC\\MCPaper"
+  },
+  {
+    "id": "8afc235b-e313-4393-8d2a-7e0ad93d0102",
+    "name": "111",
+    "fileName": "",
+    "command": "",
+    "cwd": "."
+  },
+  {
+    "id": "871e3988-2559-48bc-91a3-461c26fe3463",
+    "name": "2222",
+    "fileName": "",
+    "command": "",
+    "cwd": "."
+  },
+  {
+    "id": "8dbafb12-26c5-4c42-ab71-5f6b6f7b9176",
+    "name": "3333",
+    "fileName": "",
+    "command": "",
+    "cwd": "."
   }
 ]

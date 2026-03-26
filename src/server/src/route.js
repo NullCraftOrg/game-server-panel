@@ -11,6 +11,11 @@ router.post('/servers', (req, res) => {
     res.json(server);
 });
 
+router.get('/servers/:id', (req, res) => {
+  const server = manager.get(req.params.id);
+  res.json(server);
+});
+
 router.post('/servers/:id/start', (req, res) => {
     manager.get(req.params.id)?.start();
     res.send('ok');
