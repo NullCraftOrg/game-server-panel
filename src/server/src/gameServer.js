@@ -1,5 +1,6 @@
 const os = require('node:os');
-const { spawn } = require('node-pty');
+// const { spawn } = require('node-pty');
+const pty = require("node-pty");
 const path = require('path');
 const fs = require('fs');
 
@@ -18,25 +19,24 @@ class GameServer {
         this.logBuffer = [];
         this.maxLines = 10000;
 
-        this.logFile = path.join(__dirname, `../data/logs/${id}.log`);
-        fs.mkdirSync(path.dirname(this.logFile), { recursive: true });
+        // this.logFile = path.join(__dirname, `../data/logs/${id}.log`);
+        // fs.mkdirSync(path.dirname(this.logFile), { recursive: true });
     }
 
     start() {
         if (this.process) return;
 
-        this.process = spawn(this.fileName, this.command, {
-            name: 'xterm-color',
+        this.process = pty.spawn(this.fileName, this.command, {
+            name: 'xterm-256color',
             rows: 10000,
             cols: 10000,
-            cwd:this.cwd,
+            cwd: this.cwd,
             windowsHide: true,
             env: {
-    ...process.env,
-    // 关键：设置 UTF-8 编码环境
-    LANG: 'zh_CN.UTF-8',
-    LC_ALL: 'zh_CN.UTF-8'
-  }
+                ...process.env,
+                // 关键：设置 UTF-8 编码环境
+                LANG: "en_US.UTF-8"
+            }
         });
 
         this.process.onData((data) => {
@@ -73,7 +73,7 @@ class GameServer {
     }
 
     appendLog(text) {
-        
+
         this.logBuffer.push(text);
 
         if (this.logBuffer.length > this.maxLines) {
@@ -81,7 +81,7 @@ class GameServer {
         }
 
         // 写文件
-        fs.appendFile(this.logFile, text, () => { });
+        // fs.appendFile(this.logFile, text, () => { });
 
         // 推送
         this.broadcast(text);

@@ -13,6 +13,8 @@ router.post('/servers', (req, res) => {
 
 router.get('/servers/:id', (req, res) => {
   const server = manager.get(req.params.id);
+  if (!server) return res.status(404).end();
+  
   res.json(server);
 });
 

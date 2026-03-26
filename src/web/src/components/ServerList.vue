@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import { api } from '@/api'
 import { useRouter } from 'vue-router'
 import { useServerStore } from '@/stores/serverStore'
@@ -11,6 +11,7 @@ const router = useRouter()
 
 async function load() {
   servers.value = await api.getServers()
+  console.log(servers.value, 'data')
 }
 
 async function start(id) {
@@ -27,12 +28,17 @@ async function remove(id) {
 }
 
 function openConsole(id, server) {
-   // 保存到 store
+  // 保存到 store
   // serverStore.setCurrentServer(server)
   router.push(`/console/${id}`)
 }
 
-onMounted(load)
+
+onMounted(() => {
+  load()
+
+  setInterval(load, 2000)
+})
 </script>
 
 <template>
@@ -44,8 +50,14 @@ onMounted(load)
 
         <div class="card-title">
           <div class="inline-grid *:[grid-area:1/1]">
-            <div class="status status-error animate-ping"></div>
-            <div class="status status-error"></div>
+            <template v-if="s.isRunning">
+              <div class="status status-success animate-ping"></div>
+              <div class="status status-success"></div>
+            </template>
+            <template v-else>
+              <div class="status status-error animate-ping"></div>
+              <div class="status status-error"></div>
+            </template>
           </div>
           <h2>
             {{ s.name }}
@@ -55,6 +67,20 @@ onMounted(load)
         <!-- <p>这是一个服务器信息巴拉巴拉。。。</p> -->
 
         <div class="justify-end card-actions">
+          <button class="btn btn-square btn-ghost" @click="start(s.id)">
+            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+            </svg>
+          </button>
+
+          <button class="btn btn-square btn-ghost" @click="stop(s.id)">
+            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+
           <button class="btn btn-square btn-ghost" @click="openConsole(s.id, s)">
             <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

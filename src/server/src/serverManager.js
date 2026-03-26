@@ -37,7 +37,8 @@ class ServerManager {
       name: s.name,
       fileName: s.fileName,
       command: s.command,
-      cwd: s.cwd
+      cwd: s.cwd,
+      isRunning: s.isRunning
     }));
   }
 

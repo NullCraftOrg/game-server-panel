@@ -20,11 +20,12 @@ async function getServer(id) {
 }
 
 function send(command) {
-  socket.send(command + '\n')
+  socket.send(command + '\r')
 }
 
 async function start(id) {
   await api.start(id)
+  await getServer(props.id)
 }
 
 async function stop(id) {
@@ -44,19 +45,21 @@ function resizeScreen() {
 }
 
 onBeforeMount(() => {
-  getServer(props.id)
-  // setInterval(() => getServer(props.id), 1000)
-  
+  setInterval(() => getServer(props.id), 1000)
 })
 
 onMounted(async () => {
+
+  getServer(props.id)
+
   term = new Terminal({
     cursorBlink: true,
+    allowUnicode: true,
+    convertEol: true,
     fontSize: 14,
     fontFamily: '"Fira Code", Consolas, monospace, "Powerline Extra Symbols"',
     theme: {
-      foreground: "#fff", //字体
-      background: "#212121", //背景色
+      background: "#212121" //背景色
     }
   })
 
@@ -85,7 +88,8 @@ onMounted(async () => {
 
   // 发送数据
   term.onData((data) => {
-    socket.send(data + '\n')
+    console.log("data", data)
+    socket.send(data)
   })
 
 })

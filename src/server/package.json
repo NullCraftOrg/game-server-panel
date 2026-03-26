@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "run": "node index.js",
     "setup": "npm i"
   },
   "keywords": [],

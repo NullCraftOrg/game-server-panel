@@ -1,627 +1,0 @@
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[08:32:58 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[08:32:58 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[08:32:59 INFO]: [PluginInitializerManager] Initializing plugins...
-[08:33:00 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[08:33:06 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[08:33:08 INFO]: Loaded 1470 recipes
-[08:33:08 INFO]: Loaded 1584 advancements
-[08:33:08 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[08:33:08 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 371.4ms
-[08:33:09 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[08:33:09 WARN]: ****************************
-[m[1m[93m[08:33:09 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[08:33:09 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[08:33:09 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[08:33:09 WARN]: ****************************[m[55X
-[08:33:09 INFO]: Loading properties[65X
-[08:33:09 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[08:33:10 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[08:33:10 INFO]: Server Ping Player Sample Count: 12
-[08:33:10 INFO]: Using 4 threads for Netty based IO
-[08:33:10 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[08:33:11 INFO]: Default game type: SURVIVAL
-[08:33:11 INFO]: Generating keypair
-[?2004h> [08:33:11 INFO]: Starting Minecraft server on *:25565[K
-> [K[08:33:11 INFO]: Paper: Using Java compression from Velocity.[K
-[08:33:11 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[08:33:11 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[08:33:11 INFO]: Preparing level "world"[K
-> [K[08:33:12 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-[K[08:33:12 INFO]: Preparing spawn area: 100%
-> [41X[08:33:12 INFO]: Prepared spawn area in 2 ms[K
-> [K[08:33:12 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-[08:33:12 INFO]: Preparing spawn area: 100%[K
-> [K[08:33:12 INFO]: Prepared spawn area in 1 ms[K
-[08:33:12 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-> [K[08:33:12 INFO]: Preparing spawn area: 100%[K
-> [K[08:33:12 INFO]: Prepared spawn area in 2 ms[K
-> [K[08:33:12 INFO]: Done preparing level "world" (0.539s)[K
-> [K[08:33:12 INFO]: [spark] Starting background profiler...[K
-> [K[K[08:33:12 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.
-> [151X[08:33:12 INFO]: Running delayed init tasks[K
-> [K[08:33:12 INFO]: Done (14.626s)! For help, type "help"[K
-> [K[31mh[?2004l[?2004h[m
-> [31me[?2004l[?2004h[m[09:29:10 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-h[24m[3m<--[HERE][23m[m[K
-> [31me[m[K
-> [K[09:29:11 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-e[24m[3m<--[HERE][23m[m[K
-> [K[31ml[?2004l[?2004h[m
-> [09:29:11 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-l[24m[3m<--[HERE][23m[m[K
-> [K[31ml[?2004l[?2004h[m
-> [09:29:11 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-l[24m[3m<--[HERE][23m[m[K
-> [K[31mo[?2004l[?2004h[m
-> [09:29:12 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-o[24m[3m<--[HERE][23m[m[K
-> [K[31mu[?2004l[?2004h[m> [31mundefined[m[K
-[09:34:29 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-undefined[24m[3m<--[HERE][23m[m[K
-> [K[31mh[?2004l[?2004h[m> [31mhello[m[K
-[09:35:17 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [66;3H[?25h[09:35:17 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [69;3H[?25h[09:35:17 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[?2004l[?2004h[m> [31mhello[m[K
-[09:35:21 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[?2004l[?2004h[m> [31mhello[m[K
-[09:35:21 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[?2004l[?2004h[m> [31mhello[m[K
-[09:35:22 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [81;3H[?25h[09:35:22 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [84;3H[?25h[09:35:23 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[?2004l[?2004h[m> [31mhello[m[K
-[09:35:23 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[?2004l[?2004h[m> [31mhello[m[K
-[09:35:23 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [93;3H[?25h[09:35:23 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [96;3H[?25h[09:36:11 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello11[m
->        [99;3H[?25h[09:36:13 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello11[24m[3m<--[HERE][23m[m[K
-> [K[31ms[msay [36m1[m[K[25l[?2004l[?2004h> say [36m111[m
->        [102;3H[?25h[09:36:16 INFO]: [Not Secure] [Server] 111[K
-> [K[31ms[?2004l[?2004h[m> say [36m我我我[m[K
-[09:37:01 INFO]: [Not Secure] [Server] 我我我[K
-> [K[31ms[?2004l[?2004h[m> say [36m12333444[m[K
-> [K[09:37:05 INFO]: [Not Secure] [Server] 12333444[K
-> [K[31ms[msay [36m1233333444[m[K[?2004l[?2004h
-> [09:37:08 INFO]: [Not Secure] [Server] 1233333444[K
-> [K[31ms[?2004l[?2004h[m> say [36m1233333444[m[K
-> [K[09:37:09 INFO]: [Not Secure] [Server] 1233333444[K
-> [K[31ms[?2004l[?2004h[m> say [36m1233333444[m[K
-> [K[09:37:09 INFO]: [Not Secure] [Server] 1233333444[K
-> [K[31ms[?2004l[?2004h[m> say [36m1233333444[m[K
-> [K[09:37:09 INFO]: [Not Secure] [Server] 1233333444[K
-> [K[31m1[25l[?2004l[?2004h[m> [31m1212[m
->     [116;3H[?25h[09:37:21 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-1212[24m[3m<--[HERE][23m[m[K
-> [K[31m1[25l[?2004l[?2004h[m> [31m1212[m
->     [119;3H[?25h[09:37:21 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-1212[24m[3m<--[HERE][23m[m[K
-> [K[31m1[25l[?2004l[?2004h[m> [31m1212[m
->     [122;3H[?25h[09:37:22 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-1212[24m[3m<--[HERE][23m[m[K
-> [K[31m1[25l[?2004l[?2004h[m> [31m1212[m
->     [125;3H[?25h[09:37:22 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-1212[24m[3m<--[HERE][23m[m[K
-> [K[31mu[?2004l[?2004h[m> [31mundefined[m
-> [9X[09:37:38 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-undefined[24m[3m<--[HERE][23m[m[K
-> [K[31mu[?2004l[?2004h[m> [31mundefined[m
-> [9X[09:37:38 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-undefined[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [134;3H[?25h[09:37:48 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [137;3H[?25h[09:37:48 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31ms[?2004l[msay [36m111[m[K
-[?2004h[09:37:50 INFO]: [Not Secure] [Server] 111[K
-> [K[31mh[25l[?2004l[?2004h[m> [31mhello[m
->      [142;3H[?25h[09:38:14 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-hello[24m[3m<--[HERE][23m[m[K
-> [K[31mh[?2004l[?2004h[m> [31mhello[m[K
-[K[09:38:14 INFO]: [91mUnknown or incomplete command. See below for error[4m
-hello[24m[3m<--[HERE][23m[m[53X
-> [65X[31ms[msay [36m你好，世界！ hello, world![m[K[?2004l[?2004h
-> [09:38:35 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K[31ms[?2004l[?2004h[m> say [36m你好，世界！ hello, world![m[K
-> [K[09:38:36 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K[31m1[?2004l[?2004h[m
-> [09:38:38 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-1[24m[3m<--[HERE][23m[m[K
-> [K[31m1[?2004l[?2004h[m
-> [09:38:38 INFO]: [91mUnknown or incomplete command. See below for error[m[K[4m[91m
-1[24m[3m<--[HERE][23m[m[K
-> [K[31ms[msay [36m你好，世界！ hello, world![m[K
-[?2004l[?2004h> [09:38:39 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K[31ms[msay [36m你好，世界！ hel[m[K[?2004l[?2004h> say [36m你好，世界！ hello, world![m[K
-[09:39:06 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K[31ms[?2004l[?2004h[m> say [36m你好，世界！ hello, world![m[K
-> [K[09:40:09 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K[31ms[?2004l[?2004h[m> say [36m你好，世界！ hello, world![m[K
-> [K[09:42:31 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K
---- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[09:45:42 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[09:45:42 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[09:45:43 INFO]: [PluginInitializerManager] Initializing plugins...
-[09:45:43 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[09:45:50 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[09:45:52 INFO]: Loaded 1470 recipes
-[09:45:52 INFO]: Loaded 1584 advancements
-[09:45:52 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[09:45:53 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 414.4ms
-[09:45:53 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[09:45:53 WARN]: ****************************[m[55X[1m[93m
-[09:45:53 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[m[1m[93m[09:45:53 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[17X[1m[93m
-[09:45:53 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/
-[09:45:53 WARN]: ****************************[m[52X
-[09:45:53 INFO]: Loading properties[62X
-[09:45:54 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[09:45:54 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[09:45:54 INFO]: Server Ping Player Sample Count: 12
-[09:45:54 INFO]: Using 4 threads for Netty based IO
-[09:45:55 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[09:45:55 INFO]: Default game type: SURVIVAL
-[?2004h[09:45:55 INFO]: Generating keypair[K
-> [K[09:45:55 INFO]: Starting Minecraft server on *:25565[K
-> [K[09:45:55 INFO]: Paper: Using Java compression from Velocity.[K
-> [K[09:45:55 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[09:45:55 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[09:45:55 INFO]: Preparing level "world"[K
-> [K[09:45:56 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-> [K[09:45:56 INFO]: Preparing spawn area: 100%[K
-> [K[09:45:56 INFO]: Prepared spawn area in 3 ms[K
-[09:45:56 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-[09:45:56 INFO]: Prepared spawn area in 2 ms[K
-[09:45:56 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-[09:45:56 INFO]: Preparing spawn area: 100%[K
-> [K[09:45:56 INFO]: Prepared spawn area in 2 ms[K
-[09:45:56 INFO]: Done preparing level "world" (0.606s)[K
-> [K[09:45:56 INFO]: [spark] Starting background profiler...[K
-[09:45:56 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-> [K[09:45:56 INFO]: Running delayed init tasks[K
-[K[09:45:56 INFO]: Done (15.269s)! For help, type "help"
-> [52X[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[10:07:21 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[10:07:21 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[10:07:21 INFO]: [PluginInitializerManager] Initializing plugins...
-[10:07:22 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[10:07:27 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[10:07:30 INFO]: Loaded 1470 recipes
-[10:07:30 INFO]: Loaded 1584 advancements
-[10:07:30 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[10:07:30 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 367.3ms
-[10:07:31 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[10:07:31 WARN]: ****************************[m[55X[1m[93m
-[10:07:31 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[10:07:31 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[10:07:31 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[10:07:31 WARN]: ****************************[m[55X
-[10:07:31 INFO]: Loading properties[65X
-[10:07:31 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[10:07:31 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[10:07:31 INFO]: Server Ping Player Sample Count: 12
-[10:07:31 INFO]: Using 4 threads for Netty based IO
-[10:07:32 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[10:07:32 INFO]: Default game type: SURVIVAL
-[10:07:32 INFO]: Generating keypair
-[10:07:32 INFO]: Starting Minecraft server on *:25565
-[?2004h> [10:07:32 INFO]: Paper: Using Java compression from Velocity.[K
-[K[10:07:32 INFO]: Paper: Using Java cipher from Velocity.
-> [54X[10:07:32 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-> [K[10:07:33 INFO]: Preparing level "world"[K
-> [K[10:07:33 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-> [K[10:07:33 INFO]: Preparing spawn area: 100%[K
-> [K[10:07:33 INFO]: Prepared spawn area in 3 ms[K
-> [K[10:07:33 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-[10:07:33 INFO]: Prepared spawn area in 2 ms[K
-[10:07:33 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-[10:07:33 INFO]: Prepared spawn area in 2 ms[K
-[10:07:33 INFO]: Done preparing level "world" (0.482s)[K
-> [10:07:33 INFO]: [spark] Starting background profiler...[K
-> [K[10:07:33 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-> [K[10:07:33 INFO]: Running delayed init tasks[K
-> [K[10:07:33 INFO]: Done (13.537s)! For help, type "help"[K
-> [K
---- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[10:14:32 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[10:14:32 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[10:14:32 INFO]: [PluginInitializerManager] Initializing plugins...
-[10:14:33 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[10:14:39 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[10:14:41 INFO]: Loaded 1470 recipes
-[10:14:42 INFO]: Loaded 1584 advancements
-[10:14:42 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[10:14:42 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 392.5ms
-[10:14:43 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[10:14:43 WARN]: ****************************[m[55X[1m[93m
-[10:14:43 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[10:14:43 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[10:14:43 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[10:14:43 WARN]: ****************************[m[55X
-[10:14:43 INFO]: Loading properties[65X
-[10:14:43 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[10:14:43 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[10:14:43 INFO]: Server Ping Player Sample Count: 12
-[10:14:43 INFO]: Using 4 threads for Netty based IO
---- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[10:14:48 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[10:14:48 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[10:14:48 INFO]: [PluginInitializerManager] Initializing plugins...
-[10:14:49 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[10:14:56 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[10:14:59 INFO]: Loaded 1470 recipes
-[10:14:59 INFO]: Loaded 1584 advancements
-[10:14:59 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[10:14:59 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 414.0ms
-[10:15:00 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[10:15:00 WARN]: ****************************[m[55X[1m[93m
-[10:15:00 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[10:15:00 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[10:15:00 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[10:15:00 WARN]: ****************************[m[55X
-[10:15:00 INFO]: Loading properties[65X
-[10:15:00 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[10:15:00 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[10:15:00 INFO]: Server Ping Player Sample Count: 12
-[10:15:00 INFO]: Using 4 threads for Netty based IO
-[10:15:01 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[10:15:02 INFO]: Default game type: SURVIVAL
-[10:15:02 INFO]: Generating keypair
-[?2004h> [10:15:02 INFO]: Starting Minecraft server on *:25565[K
-> [K[K[10:15:02 INFO]: Paper: Using Java compression from Velocity.
-> [59X[K[10:15:02 INFO]: Paper: Using Java cipher from Velocity.
-> [54X[10:15:02 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[10:15:02 INFO]: Preparing level "world"[K
-> [K[10:15:03 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-[K[10:15:03 INFO]: Prepared spawn area in 2 ms[K
-[10:15:03 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-> [K[10:15:03 INFO]: Prepared spawn area in 1 ms[K
-[10:15:03 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-[10:15:03 INFO]: Preparing spawn area: 100%[K
-[K[10:15:03 INFO]: Prepared spawn area in 4 ms
-> [K[10:15:03 INFO]: Done preparing level "world" (0.575s)
-> [52X[10:15:03 INFO]: [spark] Starting background profiler...[K
-> [K[K[10:15:03 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.
-> [151X[K[10:15:03 INFO]: Running delayed init tasks
-> [41X[K[10:15:03 INFO]: Done (16.381s)! For help, type "help"
-> [52X[31ms[?2004l[?2004h[m> stop[K
-> [K[10:15:14 INFO]: Stopping the server[K
-[10:15:14 INFO]: Stopping server[K
-> [K[10:15:14 INFO]: Saving players[K
-> [K[10:15:14 INFO]: Saving worlds[K
-[10:15:14 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld[K
-> [K[10:15:14 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world'[K
-[10:15:14 INFO]: [ChunkHolderManager] Halted chunk system for world 'world'[K
-[10:15:14 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'world'[K
-[10:15:14 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world' in 0.00s[K
-[10:15:14 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world'[K
-[10:15:14 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world'[K
-> [K[K--- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[10:51:47 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[10:51:47 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[10:51:48 INFO]: [PluginInitializerManager] Initializing plugins...
-[10:51:48 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[10:51:54 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[10:51:57 INFO]: Loaded 1470 recipes
-[10:51:57 INFO]: Loaded 1584 advancements
-[10:51:57 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[10:51:58 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 451.5ms
-[10:51:58 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[10:51:58 WARN]: ****************************[m[55X[1m[93m
-[10:51:58 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[10:51:58 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[10:51:58 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[10:51:58 WARN]: ****************************[m[55X
-[10:51:58 INFO]: Loading properties[65X
-[10:51:59 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[10:51:59 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[10:51:59 INFO]: Server Ping Player Sample Count: 12
-[10:51:59 INFO]: Using 4 threads for Netty based IO
-[10:52:00 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[10:52:00 INFO]: Default game type: SURVIVAL
-[10:52:00 INFO]: Generating keypair
-[?2004h> [10:52:00 INFO]: Starting Minecraft server on *:25565[K
-> [K[10:52:00 INFO]: Paper: Using Java compression from Velocity.[K
-[10:52:00 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[10:52:00 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[10:52:00 INFO]: Preparing level "world"[K
-> [K[10:52:01 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-[K[10:52:01 INFO]: Preparing spawn area: 100%
-> [41X[10:52:01 INFO]: Prepared spawn area in 3 ms[K
-> [K[10:52:01 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-> [K[K[10:52:01 INFO]: Prepared spawn area in 2 ms
-> [42X[K[10:52:01 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
-> [75X[K[10:52:01 INFO]: Prepared spawn area in 2 ms[K
-[10:52:01 INFO]: Done preparing level "world" (0.499s)[K
-> [K[10:52:01 INFO]: [spark] Starting background profiler...[K
-> [K[K[10:52:01 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-[10:52:01 INFO]: Running delayed init tasks[K
-[K[10:52:01 INFO]: Done (15.208s)! For help, type "help"
-> [52X[31ms[msay [36m你好，世界！ hello, [m[K[?2004l[?2004h> say [36m你好，世界！ hello, world![m
-> [30X[10:52:02 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K--- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[11:01:04 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[11:01:04 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[11:01:05 INFO]: [PluginInitializerManager] Initializing plugins...
-[11:01:05 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[11:01:12 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[11:01:14 INFO]: Loaded 1470 recipes
-[11:01:14 INFO]: Loaded 1584 advancements
-[11:01:14 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[11:01:15 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 410.0ms
-[11:01:15 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[11:01:15 WARN]: ****************************[m[55X[1m[93m
-[11:01:15 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[11:01:15 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[11:01:15 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[11:01:15 WARN]: ****************************[m[55X
-[11:01:15 INFO]: Loading properties[65X
-[11:01:16 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[11:01:16 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[11:01:16 INFO]: Server Ping Player Sample Count: 12
-[11:01:16 INFO]: Using 4 threads for Netty based IO
-[11:01:17 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[11:01:17 INFO]: Default game type: SURVIVAL
-[11:01:17 INFO]: Generating keypair
-[11:01:17 INFO]: Starting Minecraft server on *:25565
-[?2004h> [11:01:17 INFO]: Paper: Using Java compression from Velocity.[K
-[11:01:17 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[11:01:17 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[11:01:17 INFO]: Preparing level "world"[K
-> [K[K[11:01:18 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
-> [77X[11:01:18 INFO]: Preparing spawn area: 100%[K
-> [K[11:01:18 INFO]: Prepared spawn area in 3 ms[K
-> [K[11:01:18 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-[11:01:18 INFO]: Prepared spawn area in 1 ms[K
-[11:01:18 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-[11:01:18 INFO]: Prepared spawn area in 1 ms[K
-[11:01:18 INFO]: Done preparing level "world" (0.483s)[K
-> [K[11:01:18 INFO]: [spark] Starting background profiler...[K
-> [K[11:01:18 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-> [K[11:01:18 INFO]: Running delayed init tasks[K
-> [K[K[11:01:18 INFO]: Done (14.974s)! For help, type "help"
-> [52X[31ms[msay[31m [m[K [36m你好，世界！ hello, world![m[K[?2004l[?2004h
-> [11:57:51 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K[31ms[?2004l[?2004h[m> say [36m你好，世界！ hello, world![m[K
-> [K[12:29:06 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K--- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[14:04:17 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[14:04:17 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[14:04:18 INFO]: [PluginInitializerManager] Initializing plugins...
-[14:04:18 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[14:04:24 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[14:04:27 INFO]: Loaded 1470 recipes
-[14:04:27 INFO]: Loaded 1584 advancements
-[14:04:27 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[14:04:28 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 443.9ms
-[14:04:28 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[14:04:28 WARN]: ****************************[m[55X[1m[93m
-[14:04:28 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[14:04:28 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[14:04:28 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[14:04:28 WARN]: ****************************[m[55X
-[14:04:28 INFO]: Loading properties[65X
-[14:04:28 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[14:04:29 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[14:04:29 INFO]: Server Ping Player Sample Count: 12
-[14:04:29 INFO]: Using 4 threads for Netty based IO
-[14:04:30 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[14:04:30 INFO]: Default game type: SURVIVAL
-[14:04:30 INFO]: Generating keypair
-[?2004h> [14:04:30 INFO]: Starting Minecraft server on *:25565[K
-> [K[14:04:30 INFO]: Paper: Using Java compression from Velocity.[K
-> [K[14:04:30 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[14:04:30 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[14:04:30 INFO]: Preparing level "world"[K
-> [K[14:04:31 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-> [14:04:31 INFO]: Preparing spawn area: 100%[K
-[14:04:31 INFO]: Prepared spawn area in 3 ms[K
-> [K[K[14:04:31 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-[14:04:31 INFO]: Prepared spawn area in 1 ms[K
-> [K[14:04:31 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-> [K[K[14:04:31 INFO]: Prepared spawn area in 6 ms
-> [K[14:04:31 INFO]: Done preparing level "world" (0.607s)[K
-[K[14:04:31 INFO]: [spark] Starting background profiler...[K
-[14:04:31 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-[14:04:31 INFO]: Running delayed init tasks[K
-[14:04:31 INFO]: Done (15.353s)! For help, type "help"[K
-> [K[31ms[msay[31m [m[K[?2004l[?2004h> say [36m你好，世界！ hello, world![m[K
-> [K[14:04:42 INFO]: [Not Secure] [Server] 你好，世界！ hello, world![K
-> [K--- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h--- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[15:26:32 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[15:26:32 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[15:26:33 INFO]: [PluginInitializerManager] Initializing plugins...
-[15:26:33 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[15:26:39 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[15:26:42 INFO]: Loaded 1470 recipes
-[15:26:42 INFO]: Loaded 1584 advancements
-[15:26:42 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[15:26:42 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 400.2ms
-[15:26:43 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[15:26:43 WARN]: ****************************[m[55X[1m[93m
-[15:26:43 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[15:26:43 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[15:26:43 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[15:26:43 WARN]: ****************************[m[55X
-[15:26:43 INFO]: Loading properties[65X
-[15:26:43 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[15:26:43 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[15:26:43 INFO]: Server Ping Player Sample Count: 12
-[15:26:43 INFO]: Using 4 threads for Netty based IO
-[15:26:44 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[15:26:45 INFO]: Default game type: SURVIVAL
-[15:26:45 INFO]: Generating keypair
-[?2004h[15:26:45 INFO]: Starting Minecraft server on *:25565[K
-> [K[15:26:45 INFO]: Paper: Using Java compression from Velocity.[K
-> [K[15:26:45 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[15:26:45 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[15:26:45 INFO]: Preparing level "world"[K
-> [K[15:26:45 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-> [K[15:26:45 INFO]: Preparing spawn area: 100%[K
-[K[15:26:45 INFO]: Prepared spawn area in 2 ms
-> [42X[15:26:45 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-> [K[15:26:45 INFO]: Prepared spawn area in 1 ms[K
-> [K[15:26:45 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-> [K[15:26:45 INFO]: Prepared spawn area in 2 ms[K
-> [K[15:26:45 INFO]: Done preparing level "world" (0.529s)[K
-[15:26:46 INFO]: [spark] Starting background profiler...[K
-[15:26:46 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-> [K[15:26:46 INFO]: Running delayed init tasks[K
-> [K[15:26:46 INFO]: Done (14.883s)! For help, type "help"[K
-> [K--- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[15:30:07 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[15:30:07 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[15:30:08 INFO]: [PluginInitializerManager] Initializing plugins...
-[15:30:09 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[15:30:17 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[15:30:21 INFO]: Loaded 1470 recipes
-[15:30:21 INFO]: Loaded 1584 advancements
-[15:30:21 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[15:30:22 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 523.7ms
-[15:30:23 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[15:30:23 WARN]: ****************************
-[m[1m[93m[15:30:23 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[15:30:23 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[15:30:23 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[15:30:23 WARN]: ****************************[m[55X
-[15:30:23 INFO]: Loading properties[65X
-[15:30:23 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[15:30:23 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[15:30:23 INFO]: Using 4 threads for Netty based IO
-[15:30:23 INFO]: Server Ping Player Sample Count: 12
-[15:30:24 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[15:30:25 INFO]: Default game type: SURVIVAL
-[15:30:25 INFO]: Generating keypair
-[?2004h[15:30:25 INFO]: Starting Minecraft server on *:25565[K
-> [K[15:30:25 INFO]: Paper: Using Java compression from Velocity.[K
-[15:30:25 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[15:30:25 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[15:30:25 INFO]: Preparing level "world"[K
-> [K[15:30:26 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-[15:30:26 INFO]: Prepared spawn area in 1 ms[K
-> [K[K[15:30:26 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
-> [78X[K[15:30:26 INFO]: Prepared spawn area in 1 ms
-> [42X[15:30:26 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-> [K[15:30:26 INFO]: Prepared spawn area in 2 ms[K
-[K[15:30:26 INFO]: Done preparing level "world" (0.857s)
-> [52X[15:30:26 INFO]: [spark] Starting background profiler...[K
-> [15:30:26 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-> [15:30:26 INFO]: Running delayed init tasks[K
-> [15:30:26 INFO]: Done (20.481s)! For help, type "help"[K
-> [K[15:32:36 INFO]: Stopping server[K
-[15:32:36 INFO]: Saving players[K
-> [K[15:32:36 INFO]: Saving worlds[K
-[15:32:36 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld[K
-> [K[15:32:36 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world'[K
-[15:32:36 INFO]: [ChunkHolderManager] Halted chunk system for world 'world'[K
-[15:32:36 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'world'[K
-[15:32:36 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world' in 0.00s[K
-[K[15:32:36 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world'[K
-[15:32:36 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world'[K
-> [K[15:32:36 INFO]: Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether[K
-[15:32:36 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_nether'[K
-[15:32:36 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_nether'[K
-[15:32:36 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'world_nether'[K
-> [K[15:32:36 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s[K
-[15:32:36 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world_nether'[K
-[15:32:36 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world_nether'[K
-[15:32:36 INFO]: Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end[K
-[15:32:36 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_the_end'[K
-[15:32:36 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_the_end'[K
-> [K[K--- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[15:43:49 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[15:43:49 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[15:43:49 INFO]: [PluginInitializerManager] Initializing plugins...
-[15:43:50 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[15:43:57 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
---- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[15:52:22 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[15:52:22 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[15:52:23 INFO]: [PluginInitializerManager] Initializing plugins...
-[15:52:24 INFO]: [PluginInitializerManager] Initialized 0 plugins
-[15:52:32 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[15:52:35 INFO]: Loaded 1470 recipes
-[15:52:35 INFO]: Loaded 1584 advancements
-[15:52:35 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[15:52:36 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 650.4ms
-[15:52:37 INFO]: Starting minecraft server version 1.21.11
-[1m[93m[15:52:37 WARN]: ****************************
-[m[1m[93m[15:52:37 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
-[15:52:37 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.[m[20X[1m[93m
-[15:52:37 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/[m   [1m[93m
-[15:52:37 WARN]: ****************************[m[55X
-[15:52:37 INFO]: Loading properties[65X
-[15:52:37 INFO]: This server is running Paper version 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[15:52:37 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[15:52:37 INFO]: Server Ping Player Sample Count: 12
-[15:52:37 INFO]: Using 4 threads for Netty based IO
-[15:52:38 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
-[15:52:39 INFO]: Default game type: SURVIVAL
-[15:52:39 INFO]: Generating keypair
-[?2004h[15:52:39 INFO]: Starting Minecraft server on *:25565[K
-> [K[15:52:39 INFO]: Paper: Using Java compression from Velocity.[K
-[15:52:39 INFO]: Paper: Using Java cipher from Velocity.[K
-> [K[15:52:39 INFO]: Server permissions file permissions.yml is empty, ignoring it[K
-[15:52:39 INFO]: Preparing level "world"[K
-> [K[K[15:52:40 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...[K
-[15:52:40 INFO]: Preparing spawn area: 100%[K
-[15:52:40 INFO]: Prepared spawn area in 25 ms[K
-> [K[15:52:40 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...[K
-[15:52:40 INFO]: Prepared spawn area in 2 ms[K
-[15:52:40 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...[K
-[K[15:52:40 INFO]: Prepared spawn area in 2 ms
-> [15:52:40 INFO]: Done preparing level "world" (1.094s)[K
-> [K[15:52:41 INFO]: [spark] Starting background profiler...[K
-> [15:52:41 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows10/amd64), so the built-in Java engine will be used instead.[K
-> [K[15:52:41 INFO]: Running delayed init tasks[K
-[K[15:52:41 INFO]: Done (19.738s)! For help, type "help"
-> --- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[15:57:06 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[15:57:06 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[15:57:06 INFO]: [PluginInitializerManager] Initializing plugins...
-[15:57:07 INFO]: [PluginInitializerManager] Initialized 0 plugins
---- [进程退出] ---
-[2J[m[HStarting org.bukkit.craftbukkit.Main
-]0;C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot\bin\java.exe[?25h[15:59:05 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.10+7-LTS; Microsoft Microsoft-13106404) on Windows 10 10.0 (amd64)
-[15:59:05 INFO]: [bootstrap] Loading Paper 1.21.11-127-main@bd74bf6 (2026-03-10T02:55:23Z) for Minecraft 1.21.11
-[15:59:06 INFO]: [PluginInitializerManager] Initializing plugins...
-[15:59:06 INFO]: [PluginInitializerManager] Initialized 0 plugins
---- [进程退出] ---
