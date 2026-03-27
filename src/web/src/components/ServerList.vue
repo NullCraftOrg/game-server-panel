@@ -2,8 +2,9 @@
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { api } from '@/api'
 import { useRouter } from 'vue-router'
-import { useServerStore } from '@/stores/serverStore'
-import Console from '@/components/Console.vue'
+import AddServer from './AddServer.vue'
+
+
 
 const servers = ref([])
 const router = useRouter()
@@ -42,7 +43,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <h3>服务器列表</h3>
+
+  <h3 class="">服务器列表</h3>
+
+  <AddServer></AddServer>
 
   <div class="grid grid-cols-4 gap-4">
     <div class="card bg-base-100 card-sm shadow-sm" v-for="s in servers" :key="s.id">
@@ -93,5 +97,4 @@ onMounted(() => {
       </div>
     </div>
   </div>
-
 </template>

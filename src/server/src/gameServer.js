@@ -1,5 +1,4 @@
 const os = require('node:os');
-// const { spawn } = require('node-pty');
 const pty = require("node-pty");
 const path = require('path');
 const fs = require('fs');
@@ -44,8 +43,8 @@ class GameServer {
             this.isRunning = true;
         });
 
-        this.process.onExit(() => {
-            this.appendLog('--- [进程退出] ---\r\n');
+        this.process.onExit((code, signal) => {
+            this.appendLog(`--- [进程退出: ${signal}(${code})] ---\r\n`);
             this.process = null;
             this.isRunning = false;
         });

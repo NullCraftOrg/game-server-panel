@@ -4,7 +4,6 @@ import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import { createWS } from '@/utils/ws'
 import { api } from '@/api'
-import { useServerStore } from '@/stores/serverStore'
 
 const props = defineProps(['id'])
 
@@ -15,17 +14,17 @@ const inputCommand = ref('say 你好，世界！ hello, world!')
 
 const server = ref({})
 
-async function getServer(id) {
-  server.value = await api.getServer(id)
+async function getServerInfo(id) {
+  server.value = await api.getServerInfo(id)
 }
 
 function send(command) {
-  socket.send(command + '\r')
+  socket.send(command + '\r\n')
 }
 
 async function start(id) {
   await api.start(id)
-  await getServer(props.id)
+  await getServerInfo(props.id)
 }
 
 async function stop(id) {
@@ -45,12 +44,12 @@ function resizeScreen() {
 }
 
 onBeforeMount(() => {
-  setInterval(() => getServer(props.id), 1000)
+  setInterval(() => getServerInfo(props.id), 1000)
 })
 
 onMounted(async () => {
 
-  getServer(props.id)
+  getServerInfo(props.id)
 
   term = new Terminal({
     cursorBlink: true,

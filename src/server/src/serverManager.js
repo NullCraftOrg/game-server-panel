@@ -10,8 +10,9 @@ class ServerManager {
     this.load();
   }
 
+  // 创建服务器
   create({ name, fileName, command, cwd }) {
-    const id = uuidv4(); // ✅ UUID 防重复
+    const id = uuidv4(); // UUID 防重复
 
     const server = new GameServer({
       id,
@@ -27,10 +28,12 @@ class ServerManager {
     return server;
   }
 
+  // 获取指定服务器
   get(id) {
     return this.servers.get(id);
   }
 
+  // 获取全部服务器
   list() {
     return Array.from(this.servers.values()).map(s => ({
       id: s.id,
@@ -42,11 +45,13 @@ class ServerManager {
     }));
   }
 
+  // 保存服务器配置
   save() {
     const data = this.list();
     fs.writeFileSync(this.file, JSON.stringify(data, null, 2));
   }
 
+  // 加载服务器配置文件
   load() {
     if (!fs.existsSync(this.file)) return;
 
@@ -55,6 +60,18 @@ class ServerManager {
       const server = new GameServer(item);
       this.servers.set(item.id, server);
     }
+  }
+
+  // 获取服务器状态信息
+  info(id){
+    const server = this.servers.get(id);
+
+    if(server){
+      const { name, fileName, command, cwd, isRunning } = server;
+      return { name, fileName, command, cwd, isRunning };
+    }
+
+    return;
   }
 }
 

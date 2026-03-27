@@ -13,9 +13,15 @@ router.post('/servers', (req, res) => {
 
 router.get('/servers/:id', (req, res) => {
   const server = manager.get(req.params.id);
-  if (!server) return res.status(404).end();
-  
+  if(!server){
+    return res.status(404).end();
+  }
   res.json(server);
+});
+
+router.get('/servers/:id/info', (req, res) => {
+  const infoData = manager.info(req.params.id);
+  res.json(infoData);
 });
 
 router.post('/servers/:id/start', (req, res) => {
@@ -37,7 +43,9 @@ router.delete('/servers/:id', (req, res) => {
 
 router.get('/servers/:id/log', (req, res) => {
   const server = manager.get(req.params.id);
-  if (!server) return res.status(404).end();
+  if (!server){
+    return res.status(404).end();
+  }
 
   res.json({
   logs: server.logBuffer.map(i => i.text).join('')

@@ -4,48 +4,39 @@
     "name": "MC26.1",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
     "command": "-jar \"F:\\Minecraft\\Minecraft Server\\26.1\\server.jar\"",
-    "cwd": "F:\\Minecraft\\Minecraft Server\\26.1"
+    "cwd": "F:\\Minecraft\\Minecraft Server\\26.1",
+    "isRunning": false
   },
   {
     "id": "d43440bc-fddf-4194-9011-734383829644",
     "name": "paper",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
     "command": "-jar \"F:\\Minecraft\\Minecraft Server\\1.21.11\\paper-1.21.11-117.jar\"",
-    "cwd": "F:\\Minecraft\\Minecraft Server\\1.21.11"
+    "cwd": "F:\\Minecraft\\Minecraft Server\\1.21.11",
+    "isRunning": false
   },
   {
     "id": "a164c774-5021-497e-ac56-9544b31a39c1",
     "name": "Bedrock",
     "fileName": "F:\\Minecraft\\Minecraft Server\\Bedrock\\bedrock_server.exe",
     "command": "",
-    "cwd": "F:\\Minecraft\\Minecraft Server\\Bedrock"
+    "cwd": "F:\\Minecraft\\Minecraft Server\\Bedrock",
+    "isRunning": false
   },
   {
     "id": "2aa35c67-8693-4dac-b67a-fd559a6fc441",
     "name": "WorkMCTest",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-21.0.10.7-hotspot\\bin\\java.exe",
     "command": "-jar paper-1.21.11-127.jar",
-    "cwd": "D:\\MC\\MCPaper"
+    "cwd": "D:\\MC\\MCPaper",
+    "isRunning": false
   },
   {
-    "id": "8afc235b-e313-4393-8d2a-7e0ad93d0102",
-    "name": "111",
-    "fileName": "",
-    "command": "",
-    "cwd": "."
-  },
-  {
-    "id": "871e3988-2559-48bc-91a3-461c26fe3463",
-    "name": "2222",
-    "fileName": "",
-    "command": "",
-    "cwd": "."
-  },
-  {
-    "id": "8dbafb12-26c5-4c42-ab71-5f6b6f7b9176",
-    "name": "3333",
-    "fileName": "",
-    "command": "",
-    "cwd": "."
+    "id": "1718de46-b5dd-4f05-90d2-778096b8f755",
+    "name": "WorkMC26.1",
+    "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
+    "command": "-Dfile.encoding=UTF-8 -jar server.jar",
+    "cwd": "D:\\MC\\MC26.1",
+    "isRunning": false
   }
 ]

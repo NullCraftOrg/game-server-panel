@@ -19,6 +19,8 @@ export const api = {
   delete: (id) =>
     fetch(`${BASE}/servers/${id}`, { method: 'DELETE' }),
 
+  getServerInfo: (id) => fetch(`${BASE}/servers/${id}/info`).then(r => r.json()),
+
   getLog: (id) =>
     fetch(`${BASE}/servers/${id}/log`).then(r => r.json())
 }
