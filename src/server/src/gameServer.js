@@ -13,6 +13,7 @@ class GameServer {
         this.process = null;
         this.clients = new Set();
         this.isRunning = false;
+        this.pid = null;
 
         // 日志
         this.logBuffer = [];
@@ -38,15 +39,20 @@ class GameServer {
             }
         });
 
+        console.log(`${this.name} - 启动进程: ${this.process.pid}`);
+        
+        this.pid = this.process.pid;
+
         this.process.onData((data) => {
             this.appendLog(data);
             this.isRunning = true;
         });
 
-        this.process.onExit((code, signal) => {
-            this.appendLog(`--- [进程退出: ${signal}(${code})] ---\r\n`);
+        this.process.onExit(({ exitCode, signal }) => {
+            this.appendLog(`--- [进程退出: ${signal ?? 'Exit'}(${exitCode})] ---\r\n`);
             this.process = null;
             this.isRunning = false;
+            console.log(`${this.name} - 进程退出: ${exitCode}, signal: ${signal}`);
         });
     }
 

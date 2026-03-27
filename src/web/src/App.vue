@@ -1,15 +1,19 @@
 <script setup>
 import Header from '@/components/Header.vue';
-import Breadcrumbs from './components/Breadcrumbs.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import Footer from '@/components/Footer.vue';
 
 </script>
 
 <template>
-  <Header />
-  
-  <div class="w-full px-10 mt-2">
-    <Breadcrumbs />
-    <router-view />
-  </div>
+  <div class="flex flex-col min-h-screen bg-base-200">
+    <Header />
 
+    <main class="flex-1 container mx-auto p-3 my-3">
+      <Breadcrumbs />
+      <router-view />
+    </main>
+
+    <Footer />
+  </div>
 </template>

@@ -28,6 +28,18 @@ class ServerManager {
     return server;
   }
 
+  // 更新服务器
+  update(id, { name, fileName, command, cwd }) {
+    const server = this.servers.get(id);
+    if (!server) return;
+    server.name = name;
+    server.fileName = fileName;
+    server.command = command;
+    server.cwd = cwd;
+    this.save();
+    return server;
+  }
+
   // 获取指定服务器
   get(id) {
     return this.servers.get(id);

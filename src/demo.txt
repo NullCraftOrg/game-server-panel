@@ -1,0 +1,7 @@
+MCPaper-1.21.11
+
+C:\Program Files\Microsoft\jdk-25.0.2.10-hotspot\bin\java.exe
+
+-jar paper-1.21.11-117.jar
+
+F:\Minecraft\Minecraft Server\1.21.11

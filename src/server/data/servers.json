@@ -1,21 +1,5 @@
 [
   {
-    "id": "1b98a916-5488-46e4-8e86-cbbdb50cb447",
-    "name": "MC26.1",
-    "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
-    "command": "-jar \"F:\\Minecraft\\Minecraft Server\\26.1\\server.jar\"",
-    "cwd": "F:\\Minecraft\\Minecraft Server\\26.1",
-    "isRunning": false
-  },
-  {
-    "id": "d43440bc-fddf-4194-9011-734383829644",
-    "name": "paper",
-    "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
-    "command": "-jar \"F:\\Minecraft\\Minecraft Server\\1.21.11\\paper-1.21.11-117.jar\"",
-    "cwd": "F:\\Minecraft\\Minecraft Server\\1.21.11",
-    "isRunning": false
-  },
-  {
     "id": "a164c774-5021-497e-ac56-9544b31a39c1",
     "name": "Bedrock",
     "fileName": "F:\\Minecraft\\Minecraft Server\\Bedrock\\bedrock_server.exe",
@@ -37,6 +21,14 @@
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
     "command": "-Dfile.encoding=UTF-8 -jar server.jar",
     "cwd": "D:\\MC\\MC26.1",
+    "isRunning": false
+  },
+  {
+    "id": "80e5f79d-c745-419b-ac63-893ee869f5ac",
+    "name": "MCPaper-1.21.11",
+    "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
+    "command": "-jar paper-1.21.11-117.jar nogui",
+    "cwd": "F:\\Minecraft\\Minecraft Server\\1.21.11",
     "isRunning": false
   }
 ]
