@@ -3,7 +3,7 @@ export function createWS(id, onMessage) {
   let timer;
 
   function connect() {
-    ws = new WebSocket(`ws://localhost:5678?id=${id}`);
+    ws = new WebSocket(`ws://localhost:${__API_PORT__}?id=${id}`);
 
     ws.onmessage = (e) => {
       onMessage(e.data);

@@ -33,9 +33,13 @@ router.put('/servers/:id', (req, res) => {
 
 // 通过Id删除服务器
 router.delete('/servers/:id', (req, res) => {
-  manager.servers.delete(req.params.id);
-  manager.save();
-  res.send('ok');
+  const serverId = manager.delete(req.params.id);
+  if (req.params.id === serverId) {
+    res.send('ok');
+  }
+  else {
+    return res.status(404).end();
+  }
 });
 
 // 通过Id获取服务器信息(后续考虑增加更多数据)
@@ -61,6 +65,7 @@ router.post('/servers/:id/start', (req, res) => {
   manager.get(req.params.id)?.start();
   res.send('ok');
 });
+
 router.post('/servers/:id/stop', (req, res) => {
   manager.get(req.params.id)?.stop();
   res.send('ok');

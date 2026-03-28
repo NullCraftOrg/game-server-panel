@@ -1,11 +1,14 @@
 const WebSocket = require('ws');
 const manager = require('./serverManager');
+const config = require('./utils/config');
 
 function initWS(server) {
-  const wss = new WebSocket.Server({ server }); // ✅ 关键点
+  const wss = new WebSocket.Server({ server });
+
+  const ip = config?.ip ?? 'localhost'
 
   wss.on('connection', (ws, req) => {
-    const url = new URL(req.url, 'http://localhost');
+    const url = new URL(req.url, `http://${ip}`);
     const id = url.searchParams.get('id');
 
     const srv = manager.get(id);
@@ -19,7 +22,7 @@ function initWS(server) {
     }
 
     ws.on('message', (msg) => {
-      srv.sendCommand(msg.toString());
+      srv.sendCommand(msg.toString("utf-8"));
     });
 
     ws.on('close', () => {
@@ -28,4 +31,4 @@ function initWS(server) {
   });
 }
 
-  module.exports = initWS;
+module.exports = initWS;

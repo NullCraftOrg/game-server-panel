@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:5678/api'
+const BASE = `http://localhost:${__API_PORT__}/api`
 
 export const api = {
 

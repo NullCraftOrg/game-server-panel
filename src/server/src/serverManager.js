@@ -2,6 +2,7 @@ const GameServer = require('./gameServer');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
+const log = require('./log');
 
 class ServerManager {
   constructor() {
@@ -25,6 +26,8 @@ class ServerManager {
     this.servers.set(id, server);
     this.save();
 
+    log.info('创建服务器配置:', server.id);
+
     return server;
   }
 
@@ -32,12 +35,26 @@ class ServerManager {
   update(id, { name, fileName, command, cwd }) {
     const server = this.servers.get(id);
     if (!server) return;
+    // 单独控制需要更新的内容，以防出现问题。
     server.name = name;
     server.fileName = fileName;
     server.command = command;
     server.cwd = cwd;
     this.save();
+
+    log.info('更新服务器配置:', id);
+
     return server;
+  }
+
+  // 删除服务器
+  delete(id){
+    this.servers.delete(id);
+    this.save();
+
+    log.warn('删除服务器配置:', id);
+
+    return id;
   }
 
   // 获取指定服务器

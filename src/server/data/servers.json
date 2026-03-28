@@ -9,7 +9,7 @@
   },
   {
     "id": "2aa35c67-8693-4dac-b67a-fd559a6fc441",
-    "name": "WorkMCTest",
+    "name": "WorkMCTest1",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-21.0.10.7-hotspot\\bin\\java.exe",
     "command": "-jar paper-1.21.11-127.jar",
     "cwd": "D:\\MC\\MCPaper",
@@ -29,6 +29,14 @@
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
     "command": "-jar paper-1.21.11-117.jar nogui",
     "cwd": "F:\\Minecraft\\Minecraft Server\\1.21.11",
+    "isRunning": false
+  },
+  {
+    "id": "155c4cf9-86e3-41d7-80ce-a4ec77370117",
+    "name": "😀",
+    "fileName": "111",
+    "command": "",
+    "cwd": ".",
     "isRunning": false
   }
 ]

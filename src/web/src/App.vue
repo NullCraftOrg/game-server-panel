@@ -2,7 +2,6 @@
 import Header from '@/components/Header.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import Footer from '@/components/Footer.vue';
-
 </script>
 
 <template>

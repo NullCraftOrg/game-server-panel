@@ -1,0 +1,3 @@
+ip: localhost
+port: 9119
+app-log-to-file: false

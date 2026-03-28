@@ -2,6 +2,7 @@ const os = require('node:os');
 const pty = require("node-pty");
 const path = require('path');
 const fs = require('fs');
+const log = require('./log');
 
 class GameServer {
     constructor({ id, name, fileName, command, cwd }) {
@@ -24,6 +25,7 @@ class GameServer {
     }
 
     start() {
+
         if (this.process) return;
 
         this.process = pty.spawn(this.fileName, this.command, {
@@ -34,25 +36,26 @@ class GameServer {
             windowsHide: true,
             env: {
                 ...process.env,
-                // 关键：设置 UTF-8 编码环境
-                LANG: "en_US.UTF-8"
+                LANG: 'en_US.UTF-8',       // 或 'zh_CN.UTF-8'
+                LC_ALL: 'en_US.UTF-8'
             }
         });
 
-        console.log(`${this.name} - 启动进程: ${this.process.pid}`);
-        
-        this.pid = this.process.pid;
+        if (this.process.pid) {
+            this.pid = this.process.pid;
+            this.isRunning = true;
+            log.info('启动进程:', this.name, 'PID:', this.process.pid);
+        }
 
         this.process.onData((data) => {
             this.appendLog(data);
-            this.isRunning = true;
         });
 
         this.process.onExit(({ exitCode, signal }) => {
             this.appendLog(`--- [进程退出: ${signal ?? 'Exit'}(${exitCode})] ---\r\n`);
             this.process = null;
             this.isRunning = false;
-            console.log(`${this.name} - 进程退出: ${exitCode}, signal: ${signal}`);
+            log.info('进程退出:', this.name, 'ExitCode:', exitCode, 'Signal:', signal);
         });
     }
 
