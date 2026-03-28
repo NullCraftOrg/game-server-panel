@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const command = ref('say 你好，世界！ hello, world!')
+const command = ref('')
 const emit = defineEmits(['send'])
 
 const send = () => {
@@ -18,7 +18,7 @@ const send = () => {
         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M12 19h8M4 17l6-6l-6-6" />
       </svg>
-      <input type="text" class="grow" v-model="command" placeholder="发送命令至终端" @keyup.enter="send" />
+      <input type="text" class="grow" v-model="command" placeholder="发送命令至终端 回车快捷发送" @keyup.enter="send" />
     </label>
     <button class="btn btn-sm" @click="send">
       发送命令

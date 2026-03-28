@@ -5,7 +5,7 @@ const { Logger, LOG_LEVELS, LEVEL_NAMES } = require('./utils/logger');
 const outputs = ['console'];
 
 // 是否记录运行日志
-if(config.app_log_to_file){
+if(config['app_log_to_file']){
  outputs.push('./logs/app.log');   
 }
 

@@ -4,7 +4,7 @@
 
             <div class="stack w-20">
                 <div class="card bg-base-200 text-center shadow-md">
-                    <div class="card-body"><img src="/static/images/NullCraft_256.png" alt="NullCraft.org logo"></div>
+                    <div class="card-body"><img src="/static/images/NullCraft_256.png" alt="NullCraft.org logo" draggable="false"></div>
                 </div>
                 <div class="card bg-base-200 text-center shadow">
                     <div class="card-body">B</div>

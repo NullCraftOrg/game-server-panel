@@ -7,7 +7,7 @@
       </h3>
 
       <!-- 表单区域 -->
-      <div class="py-4 space-y-3">
+      <div class="py-4 flex flex-col gap-2">
         <!-- 服务器名称 -->
         <label class="form-control w-full">
           <div class="label">
@@ -62,6 +62,11 @@
           />
         </label>
 
+        <label>
+          <input type="checkbox" v-model="formData.forceUtf8Mode" :checked="formData.forceUtf8Mode" class="checkbox checkbox-primary" />
+          启用强兼容UTF8模式(中文乱码时勾选)
+        </label>
+
         <!-- 错误提示 -->
         <p v-if="errorMsg" class="text-error text-sm mt-2">{{ errorMsg }}</p>
       </div>
@@ -108,7 +113,8 @@ const formData = ref({
   name: '',
   fileName: '',
   command: '',
-  cwd: ''
+  cwd: '',
+  forceUtf8Mode: false,
 })
 
 const errorMsg = ref('')
@@ -120,7 +126,8 @@ const resetForm = () => {
     name: '',
     fileName: '',
     command: '',
-    cwd: ''
+    cwd: '',
+    forceUtf8Mode: false,
   }
   errorMsg.value = ''
 }
@@ -132,7 +139,8 @@ const fillForm = () => {
       name: props.server.name || '',
       fileName: props.server.fileName || '',
       command: props.server.command || '',
-      cwd: props.server.cwd || ''
+      cwd: props.server.cwd || '',
+      forceUtf8Mode: props.server.forceUtf8Mode || false,
     }
   } else {
     resetForm()

@@ -32,7 +32,8 @@ async function create(data) {
         name: data.name,
         fileName: data.fileName,
         command: data.command,
-        cwd: data.cwd || '.'
+        cwd: data.cwd,
+        forceUtf8Mode: data.forceUtf8Mode
     })
     await serverStore.fetchServers()
     console.log('成功创建服务器。')
@@ -43,7 +44,8 @@ async function update(id, data) {
         name: data.name,
         fileName: data.fileName,
         command: data.command,
-        cwd: data.cwd
+        cwd: data.cwd,
+        forceUtf8Mode: data.forceUtf8Mode
     })
     await serverStore.fetchServers()
     console.log('成功更新服务器。')
@@ -99,6 +101,7 @@ const openEditDialog = (server) => {
 const handleConfirm = (data) => {
     if (data.id) {
         update(data.id, data)
+        console.log(data, 'confda');
     } else {
         create(data)
     }

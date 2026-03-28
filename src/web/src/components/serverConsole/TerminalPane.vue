@@ -1,9 +1,12 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Terminal } from '@xterm/xterm'
-import { FitAddon } from '@xterm/addon-fit'
 import { createWS } from '@/utils/ws'
 import { api } from '@/api'
+// xterm 终端相关
+import { Terminal } from '@xterm/xterm'
+import { FitAddon } from '@xterm/addon-fit'
+import { WebLinksAddon } from '@xterm/addon-web-links';
+// import { WebglAddon } from '@xterm/addon-webgl';
 
 const props = defineProps(['id'])
 
@@ -15,7 +18,7 @@ let socket = null
 // 暴露给父组件发送命令的方法
 const sendCommand = (command) => {
   if (socket) {
-    socket.send(command + '\r\n')
+    socket.send(command + '\r')
   } else {
     console.warn('WebSocket未连接，无法发送命令')
   }
@@ -24,7 +27,7 @@ const sendCommand = (command) => {
 // 暴露
 defineExpose({ sendCommand })
 
-// 自适应大小
+// 跟随窗口大小变化自适应
 function resizeScreen() {
   try {
     fitAddon?.fit()
@@ -42,13 +45,19 @@ onMounted(async () => {
     fontSize: 14,
     fontFamily: '"Fira Code", Consolas, monospace, "Powerline Extra Symbols"',
     theme: {
-      background: '#212121'
-    }
+      background: "#212121",
+    },
   })
 
+  // 加载插件
   fitAddon = new FitAddon()
   term.loadAddon(fitAddon)
+  term.loadAddon(new WebLinksAddon());
+  // term.loadAddon(new WebglAddon());
+
+  // 打开终端
   term.open(termElement.value)
+  // 自适应大小
   fitAddon.fit()
 
   // 加载历史日志
@@ -82,7 +91,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="rounded-box shadow-sm mb-2" style="background-color: #212121;">
-    <div ref="termElement" class="p-2 min-h-[400px]"></div>
+  <div class="rounded-box shadow-sm mb-2 p-2" style="background-color: #212121;">
+    <div ref="termElement"></div>
   </div>
 </template>

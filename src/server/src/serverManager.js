@@ -11,8 +11,8 @@ class ServerManager {
     this.load();
   }
 
-  // 创建服务器
-  create({ name, fileName, command, cwd }) {
+  // 创建服务器 - 只写确定永久文件化保存的内容。
+  create({ name, fileName, command, cwd, forceUtf8Mode }) {
     const id = uuidv4(); // UUID 防重复
 
     const server = new GameServer({
@@ -20,7 +20,8 @@ class ServerManager {
       name,
       fileName,
       command,
-      cwd
+      cwd,
+      forceUtf8Mode,
     });
 
     this.servers.set(id, server);
@@ -32,7 +33,7 @@ class ServerManager {
   }
 
   // 更新服务器
-  update(id, { name, fileName, command, cwd }) {
+  update(id, { name, fileName, command, cwd, forceUtf8Mode }) {
     const server = this.servers.get(id);
     if (!server) return;
     // 单独控制需要更新的内容，以防出现问题。
@@ -40,9 +41,11 @@ class ServerManager {
     server.fileName = fileName;
     server.command = command;
     server.cwd = cwd;
+    server.forceUtf8Mode = forceUtf8Mode;
+
     this.save();
 
-    log.info('更新服务器配置:', id);
+    log.info('更新服务器配置:', id, forceUtf8Mode);
 
     return server;
   }
@@ -70,14 +73,18 @@ class ServerManager {
       fileName: s.fileName,
       command: s.command,
       cwd: s.cwd,
-      isRunning: s.isRunning
+      forceUtf8Mode: s.forceUtf8Mode,
+      isRunning: s.isRunning // 用于内存中读取状态，save() 时会被剔除。
     }));
   }
 
   // 保存服务器配置
   save() {
-    const data = this.list();
-    fs.writeFileSync(this.file, JSON.stringify(data, null, 2));
+    // 获取全部服务器
+    const servers = this.list();
+    // 剔除不需要永久化文件保存的值：isRunning
+    const clearServers = servers.map(({ isRunning, ...rest }) => rest);
+    fs.writeFileSync(this.file, JSON.stringify(clearServers, null, 2));
   }
 
   // 加载服务器配置文件
@@ -96,8 +103,8 @@ class ServerManager {
     const server = this.servers.get(id);
 
     if(server){
-      const { name, fileName, command, cwd, isRunning } = server;
-      return { name, fileName, command, cwd, isRunning };
+      const { name, fileName, command, cwd, isRunning, forceUtf8Mode } = server;
+      return { name, fileName, command, cwd, isRunning, forceUtf8Mode };
     }
 
     return;
