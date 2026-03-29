@@ -29,48 +29,57 @@ class GameServer {
     start() {
         if (this.process) return;
 
-        // 当启用 config 中的 force-win-chcp-65001 时并且为 Windows 环境下
-        // 使用 cmd + chcp 设置 UTF-8 编码，避免乱码问题
-        const isWin = os.platform() === 'win32';
+        try {
+            // 当启用 config 中的 force-win-chcp-65001 时并且为 Windows 环境下
+            // 使用 cmd + chcp 设置 UTF-8 编码，避免乱码问题
+            const isWin = os.platform() === 'win32';
 
-        if (this.forceUtf8Mode && isWin) {
+            if (this.forceUtf8Mode && isWin) {
 
-            const forceChcpMode = "当前使用强兼UTF-8模式(config.yml -> force-win-chcp-65001)启动服务器。"
-            log.warn(forceChcpMode);
+                const forceChcpMode = "当前使用强兼容UTF-8模式启动服务器。"
+                log.warn(forceChcpMode);
 
-            const shell = 'cmd.exe';
+                const shell = 'cmd.exe';
 
-            const chcpArgs = [
-                '/d',
-                '/s',
-                '/c',
-                `echo "${forceChcpMode}"`,
-                '&',
-                'chcp 65001>nul',
-                '&',
-                'cls',
-                '&',
-                `"${this.fileName}"`,
-                `${this.command}`
-            ];
+                const chcpArgs = [
+                    '/d',
+                    '/s',
+                    '/c',
+                    `echo ${forceChcpMode}`,
+                    '&&',
+                    'chcp 65001>nul',
+                    '&&',
+                    'cls',
+                    '&&',
+                    `"${this.fileName}"`,
+                    `${this.command}`
+                ];
 
-            this.process = pty.spawn(shell, chcpArgs.join(' '), {
-                name: 'xterm-256color',
-                rows: this.maxLines,
-                cols: this.maxLines,
-                cwd: this.cwd,
-                windowsHide: true,
-            });
-        }
-        else {
-            // 正常方式
-            this.process = pty.spawn(this.fileName, this.command, {
-                name: 'xterm-256color',
-                rows: this.maxLines,
-                cols: this.maxLines,
-                cwd: this.cwd,
-                windowsHide: true,
-            });
+                this.process = pty.spawn(shell, chcpArgs.join(' '), {
+                    name: 'xterm-256color',
+                    rows: this.maxLines,
+                    cols: this.maxLines,
+                    cwd: this.cwd,
+                    windowsHide: true,
+                });
+            }
+            else {
+                // 正常方式
+                this.process = pty.spawn(this.fileName, this.command, {
+                    name: 'xterm-256color',
+                    rows: this.maxLines,
+                    cols: this.maxLines,
+                    cwd: this.cwd,
+                    windowsHide: true,
+                });
+            }
+
+        } catch (ex) {
+            const errMsg = ['启动进程:', this.name,'失败!', '原因:', ex.name, ex.message].join(' ');
+            log.error(errMsg);
+            this.appendLog(errMsg + '\r\n');
+
+            return;
         }
 
         // 进程启动成功后，记录 PID 和状态，并发送日志消息
@@ -82,7 +91,6 @@ class GameServer {
             this.appendLog(startMsg + '\r\n');
             log.info(startMsg);
         }
-        this.process.on
 
         // 将进程输出通过 WebSocket 广播给所有客户端，并缓存日志
         this.process.onData((data) => {
@@ -115,7 +123,8 @@ class GameServer {
         }
     }
 
-    // 追加日志并广播
+    // 广播消息并追加到缓存日志中用于读取
+    // 注意：非必要内容不建议加入到缓存日志中，可单独通过 broadcast() 发送通知。
     appendLog(text) {
         this.logBuffer.push(text);
 

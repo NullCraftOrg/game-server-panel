@@ -13,7 +13,7 @@ defineEmits(['start', 'stop', 'console'])
 <template>
   <div class="card-actions">
     <!-- 启动按钮 -->
-    <button class="btn btn-sm btn-soft btn-success" :class="[isRunning ? 'btn-disabled' : '']" @click="$emit('start')">
+    <button class="btn btn-sm btn-soft btn-success" :disabled="isRunning" @click="$emit('start')">
       <span v-show="loading" class="size-[1.2em] loading loading-spinner"></span>
       <svg v-show="!loading" class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24"
         height="24" viewBox="0 0 24 24">

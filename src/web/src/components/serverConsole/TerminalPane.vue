@@ -6,7 +6,7 @@ import { api } from '@/api'
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import { WebLinksAddon } from '@xterm/addon-web-links';
-// import { WebglAddon } from '@xterm/addon-webgl';
+import { WebglAddon } from '@xterm/addon-webgl';
 
 const props = defineProps(['id'])
 
@@ -39,6 +39,7 @@ function resizeScreen() {
 onMounted(async () => {
   // 初始化终端
   term = new Terminal({
+    rows: 28,
     cursorBlink: true,
     allowUnicode: true,
     convertEol: true,
@@ -53,18 +54,20 @@ onMounted(async () => {
   fitAddon = new FitAddon()
   term.loadAddon(fitAddon)
   term.loadAddon(new WebLinksAddon());
-  // term.loadAddon(new WebglAddon());
+  term.loadAddon(new WebglAddon());
 
   // 打开终端
   term.open(termElement.value)
   // 自适应大小
   fitAddon.fit()
 
-  // 加载历史日志
-  const data = await api.getServerLog(props.id)
-  if (data.logs) {
-    term.write(data.logs)
-  }
+  // 2026-03-23 已不需要通过API加载，补发日志功能使用 WebsSocket 连接时发送。
+  // 通过HTTP API加载历史日志
+  // const data = await api.getServerLog(props.id)
+  // if (data.logs) {
+  //   console.log(data.logs, 'data.logs');
+  //   term.write(data.logs)
+  // }
 
   // 建立 WebSocket
   socket = createWS(

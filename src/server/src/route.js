@@ -56,7 +56,7 @@ router.get('/servers/:id/log', (req, res) => {
   }
 
   res.json({
-    logs: server.logBuffer.map(i => i.text).join('')
+    logs: server.logBuffer
   });
 });
 

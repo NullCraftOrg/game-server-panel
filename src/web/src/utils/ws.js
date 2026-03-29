@@ -10,7 +10,7 @@ export function createWS(id, onMessage) {
     };
 
     ws.onclose = () => {
-      console.log('重连中...');
+      console.log('重连中...', ws);
       timer = setTimeout(connect, 2000);
     };
   }

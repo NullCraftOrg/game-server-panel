@@ -19,9 +19,9 @@
     "id": "1718de46-b5dd-4f05-90d2-778096b8f755",
     "name": "WorkMC26.1",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
-    "command": "-Dfile.encoding=UTF-8 -jar server.jar",
+    "command": "-jar server.jar",
     "cwd": "D:\\MC\\MC26.1",
-    "forceUtf8Mode": false
+    "forceUtf8Mode": true
   },
   {
     "id": "80e5f79d-c745-419b-ac63-893ee869f5ac",

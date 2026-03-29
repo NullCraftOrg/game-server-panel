@@ -16,7 +16,7 @@ function initWS(server) {
 
     srv.clients.add(ws);
 
-    // 补发缺失日志
+    // 补发内存中的缓存日志
     for (const item of srv.logBuffer) {
       ws.send(item);
     }
