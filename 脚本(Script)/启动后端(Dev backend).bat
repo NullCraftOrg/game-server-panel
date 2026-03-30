@@ -1,4 +1,6 @@
 @echo off
-cd ../web
+cd ../src/server/src
+
 npm run dev
+
 PAUSE

@@ -27,7 +27,7 @@
     "id": "80e5f79d-c745-419b-ac63-893ee869f5ac",
     "name": "MCPaper-1.21.11",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
-    "command": "-jar paper-1.21.11-117.jar nogui",
+    "command": "-jar paper-1.21.11-127.jar nogui",
     "cwd": "F:\\Minecraft\\Minecraft Server\\1.21.11",
     "forceUtf8Mode": false
   },
@@ -46,13 +46,5 @@
     "command": "-jar server.jar",
     "cwd": "F:\\Minecraft\\Minecraft Server\\26.1",
     "forceUtf8Mode": true
-  },
-  {
-    "id": "5e97be26-5757-4ed8-8c3b-4df68d44c746",
-    "name": "11",
-    "fileName": "11",
-    "command": "",
-    "cwd": ".",
-    "forceUtf8Mode": false
   }
 ]

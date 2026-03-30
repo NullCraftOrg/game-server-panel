@@ -2,6 +2,8 @@ const BASE = `http://localhost:${__API_PORT__}/api`
 
 export const api = {
 
+  getMonitor: () => fetch(`${BASE}/monitor`).then(r => r.json()),
+
   // 获取全部服务器
   getServers: () => fetch(`${BASE}/servers`).then(r => r.json()),
 

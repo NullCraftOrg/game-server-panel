@@ -4,7 +4,7 @@ import ServerList from '@/components/ServerList.vue';
 </script>
 
 <template>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 mb-3">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
       <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
         <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />

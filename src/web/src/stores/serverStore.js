@@ -53,7 +53,6 @@ export const useServerStore = defineStore('server', () => {
         } finally {
             loading.value = false
         }
-        console.log('Servers fetched:', servers.value)
     }
 
     // 启动轮询

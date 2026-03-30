@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const manager = require('./serverManager');
+const systemMonitor = require('./systemMonitor');
+
+// 获取系统监控信息
+router.get('/monitor', (req, res) => {
+  res.json(systemMonitor.getInfo());
+});
 
 // 获取全部服务器数据
 router.get('/servers', (req, res) => {

@@ -9,6 +9,10 @@
             <li>
                 <RouterLink to="/servers" exactActiveClass="menu-active">服务器列表</RouterLink>
             </li>
+
+        </ul>
+
+        <ul class="menu menu-horizontal gap-2">
             <li>
                 <label class="swap swap-rotate">
                     <!-- this hidden checkbox controls the state -->

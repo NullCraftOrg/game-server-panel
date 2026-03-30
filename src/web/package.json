@@ -1,8 +1,16 @@
 {
-  "name": "web",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
+  "name": "nullcraft-game-server-panel-web",
+  "version": "1.0.0",
+  "description": "Frontend web for NGSP(NullCraft Game Server Panel)",
+  "homepage": "https://github.com/NullCraftOrg/game-server-panel",
+  "funding": "https://docs.nullcraft.org/donate",
+  "keywords": [ "NullCraft", "Game", "Server", "Panel" ],
+  "author": "FastChen <fastchen@nullcraft.org> (https://fastchen.com)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NullCraftOrg/game-server-panel.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

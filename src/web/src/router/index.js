@@ -1,22 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import ServersView from '@/views/ServersView.vue'
 import ConsoleView from '@/views/ConsoleView.vue'
-import TestView from '@/views/TestView.vue'
 import ServerListView from '@/views/ServerListView.vue'
+
+// 测试用
+import TestView from '@/views/TestView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: HomeView,
-    meta: { breadcrumb: '首页' }
+    meta: {
+      title: '仪表盘',
+      breadcrumb: '首页'
+    }
   },
   {
     path: '/servers',
     name: 'Servers',
-    component: ServersView,
+    // component: ServerListView, // 设置空路由组件，主路由就不需要设置了
     meta: {
+      title: '服务器列表',
       breadcrumb: '服务器列表',
       parent: 'Home'
     },
@@ -35,6 +40,7 @@ const routes = [
         name: 'Console',
         component: ConsoleView,
         meta: {
+          title: '控制台',
           breadcrumb: (route) => `控制台 - ${route.params.id}`,
           parent: 'Servers'
         },
@@ -44,6 +50,7 @@ const routes = [
         name: 'Files',
         component: TestView,
         meta: {
+          title: '文件管理',
           breadcrumb: (route) => `文件管理 - ${route.params.id}`,
           parent: 'Servers'
         },
@@ -61,7 +68,14 @@ const routes = [
   }
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
+
+// 设置名称
+router.beforeEach(to => {
+  document.title = 'NGSP - ' + (to.meta.title ?? to.name);
+});
+
+export default router
