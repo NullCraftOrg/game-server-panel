@@ -4,7 +4,13 @@
   "description": "Backend server for NGSP(NullCraft Game Server Panel)",
   "homepage": "https://github.com/NullCraftOrg/game-server-panel",
   "funding": "https://docs.nullcraft.org/donate",
-  "keywords": [ "NullCraft", "Game", "Server", "Panel" ],
+  "type": "commonjs",
+  "keywords": [
+    "NullCraft",
+    "Game",
+    "Server",
+    "Panel"
+  ],
   "author": "FastChen <fastchen@nullcraft.org> (https://fastchen.com)",
   "license": "Apache-2.0",
   "repository": {
@@ -13,7 +19,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "node --watch src/index.js",
     "setup": "npm i"
   },
   "dependencies": {
@@ -23,8 +29,5 @@
     "node-pty": "^1.1.0",
     "uuid": "^13.0.0",
     "ws": "^8.20.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
   }
 }
