@@ -19,7 +19,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch src/index.js",
+    "dev": "node src/index.js",
     "setup": "npm i"
   },
   "dependencies": {
