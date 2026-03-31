@@ -1,4 +1,72 @@
 <template>
+
+  <div class="card bg-base-100 shadow">
+    <div class="card-body">
+      <div class="flex justify-between items-center">
+        <h2 class="card-title">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+          </svg>
+          后端信息
+        </h2>
+        <button class="btn btn-sm"><svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path d="m7 11l2-2l-2-2m4 6h4"></path>
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+            </g>
+          </svg>
+          访问后端</button>
+      </div>
+
+      <!-- 基本信息区域 使用 stat 组件 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+        <div class="stat bg-base-200 rounded-box p-3">
+          <div class="stat-title">后端地址</div>
+          <div class="stat-value text-xl">localhost:9119</div>
+          <div class="stat-desc">运行版本: v22.20.0</div>
+        </div>
+        <div class="stat bg-base-200 rounded-box p-3">
+          <div class="stat-title">运行时间</div>
+          <div class="stat-value text-xl">35分钟 16秒</div>
+          <div class="stat-desc">PID: 25852</div>
+        </div>
+      </div>
+
+      <!-- 堆叠进度条：使用 flex 布局手动构建 -->
+      <div class="h-2 flex w-full overflow-hidden rounded-full">
+        <!-- 用户态占比：宽度 58% -->
+        <div class="bg-primary" style="width: 58%"></div>
+        <!-- 系统态占比：宽度 42% -->
+        <div class="bg-secondary" style="width: 42%"></div>
+      </div>
+
+      <!-- 图例和数值 -->
+      <div class="flex justify-between text-sm">
+        <div class="flex items-center gap-2">
+          <div class="h-2 w-2 rounded-full bg-primary"></div>
+          <span>用户态 <span class="font-mono font-bold">1468.0</span> ms</span>
+          <span class="text-xs text-base-content/50">(58%)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="h-2 w-2 rounded-full bg-secondary"></div>
+          <span>系统态 <span class="font-mono font-bold">1062.0</span> ms</span>
+          <span class="text-xs text-base-content/50">(42%)</span>
+        </div>
+      </div>
+
+      <!-- 分隔线与总计 -->
+      <div class="divider my-0"></div>
+      <div class="flex justify-between">
+        <span class="text-sm font-semibold">总计 CPU 时间</span>
+        <span class="font-mono text-lg font-bold">2530.0 ms</span>
+      </div>
+    </div>
+  </div>
+
+
   <div class="min-h-screen bg-base-200 p-4 md:p-6">
     <!-- 主容器 -->
     <div class="max-w-7xl mx-auto">
@@ -15,14 +83,18 @@
           <div class="card-body">
             <div class="flex justify-between items-center mb-2">
               <h2 class="card-title">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                 </svg>
                 系统信息
               </h2>
               <button class="btn btn-sm btn-outline" @click="refreshServerInfo">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 mr-1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-4 mr-1">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
                 刷新数据
               </button>
@@ -103,15 +175,19 @@
                 <h3 class="font-mono text-sm font-semibold">终端 · 模拟器</h3>
               </div>
               <button class="btn btn-xs btn-ghost" @click="clearTerminal" title="清屏">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-4">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                 </svg>
               </button>
             </div>
 
             <!-- 终端输出区域 (滚动) -->
-            <div ref="terminalOutputRef" class="bg-black text-green-400 font-mono text-sm p-4 h-96 overflow-y-auto flex-1">
-              <div v-for="(line, idx) in terminalLines" :key="idx" class="whitespace-pre-wrap break-words leading-relaxed">
+            <div ref="terminalOutputRef"
+              class="bg-black text-green-400 font-mono text-sm p-4 h-96 overflow-y-auto flex-1">
+              <div v-for="(line, idx) in terminalLines" :key="idx"
+                class="whitespace-pre-wrap break-words leading-relaxed">
                 {{ line }}
               </div>
               <!-- 模拟光标占位 -->
@@ -122,14 +198,9 @@
             <div class="p-3 border-t border-base-300 bg-base-100">
               <div class="flex items-center gap-2">
                 <span class="font-mono text-sm text-base-content/70">$</span>
-                <input
-                  v-model="currentCommand"
-                  type="text"
-                  class="input input-bordered input-sm font-mono flex-1 bg-base-200"
-                  placeholder="输入命令 (help 查看帮助)..."
-                  @keyup.enter="executeCommand"
-                  autofocus
-                />
+                <input v-model="currentCommand" type="text"
+                  class="input input-bordered input-sm font-mono flex-1 bg-base-200" placeholder="输入命令 (help 查看帮助)..."
+                  @keyup.enter="executeCommand" autofocus />
                 <button class="btn btn-sm btn-primary" @click="executeCommand">执行</button>
               </div>
             </div>
@@ -369,9 +440,11 @@ onBeforeUnmount(() => {
 .overflow-y-auto::-webkit-scrollbar {
   width: 6px;
 }
+
 .overflow-y-auto::-webkit-scrollbar-track {
   background: #1f2937;
 }
+
 .overflow-y-auto::-webkit-scrollbar-thumb {
   background: #4b5563;
   border-radius: 4px;

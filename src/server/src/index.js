@@ -1,21 +1,23 @@
 const http = require('http');
 const cors = require('cors');
 const express = require('express');
+const { router, apiRouter } = require('./router/index');
 const initWS = require('./ws');
-const router = require('./route');
 const config = require('./utils/config');
 const log = require('./log');
 
 const app = express();
+const server = http.createServer(app);
+
+// 初始化WebSocket
+initWS(server);
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api', router);
-
-const server = http.createServer(app);
-
-initWS(server);
+// 初始化路由
+app.use('/', router);
+app.use('/api', apiRouter);
 
 const ip = config?.ip ?? 'localhost'
 const port = config?.port ?? 6996

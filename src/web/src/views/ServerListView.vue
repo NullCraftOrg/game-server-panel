@@ -14,5 +14,5 @@ import ServerList from '@/components/ServerList.vue';
     </svg>
     <h3 class="text-xl">服务器列表</h3>
   </div>
-  <server-list />
+  <ServerList />
 </template>

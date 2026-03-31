@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const manager = require('./serverManager');
-const systemMonitor = require('./systemMonitor');
+const manager = require('../serverManager');
+const systemMonitor = require('../systemMonitor');
+
+router.get('/', (req, res) => {
+  res.send('api ok');
+});
 
 // 获取系统监控信息
 router.get('/monitor', (req, res) => {

@@ -16,7 +16,7 @@
             <li>
                 <label class="swap swap-rotate">
                     <!-- this hidden checkbox controls the state -->
-                    <input type="checkbox" class="theme-controller" value="dark" />
+                    <input type="checkbox" class="theme-controller" value="ngsp-dark" />
 
                     <!-- sun icon -->
                     <svg class="swap-off h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

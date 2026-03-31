@@ -15,7 +15,7 @@ defineEmits(['start', 'stop', 'edit', 'delete', 'console'])
 </script>
 
 <template>
-    <div class="card bg-base-100 card-sm shadow-sm">
+    <div class="card bg-base-100 card-sm shadow">
         <div class="card-body">
             <div class="card-title">
                 <ServerStatusIndicator :is-running="server.isRunning" />

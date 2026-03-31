@@ -55,14 +55,7 @@ const formatUptime = (seconds) => {
     if (hours > 0) parts.push(`${hours}小时`)
     if (minutes > 0) parts.push(`${minutes}分钟`)
     if (secs > 0 || parts.length === 0) parts.push(`${secs}秒`)
-    return parts.join(' ')
-}
-
-// 辅助函数：微秒转毫秒
-const formatCpuMicro = (microseconds) => {
-    if (microseconds == null || isNaN(microseconds)) return '0 µs'
-    if (microseconds < 1000) return `${microseconds} µs`
-    return `${(microseconds / 1000).toFixed(1)} ms`
+    return parts.join('')
 }
 
 // 计算 Node.js 堆内存使用率
@@ -73,17 +66,23 @@ const heapUsagePercent = computed(() => {
 })
 
 const percentColor = (percent) => {
-    if (!percent) return 'success'
+    // 处理无效值
+    if (percent == null || isNaN(percent)) {
+        return 'neutral'; // 或者默认颜色
+    }
 
-    if (percent >= 80) {
-        return 'error'
-    }
-    else if (percent >= 60) {
-        return 'warning'
+    // 明确区间
+    if (percent >= 80 && percent <= 100) {
+        return 'error';
+    } else if (percent >= 60 && percent < 80) {
+        return 'warning';
+    } else if (percent >= 0 && percent < 60) {
+        return 'success';
     } else {
-        return 'success'
+        // 负数或大于100的情况
+        return 'neutral';
     }
-}
+};
 
 console.log(percentColor(20))
 
@@ -211,16 +210,15 @@ const handleConfirm = (data) => {
                     </g>
                 </svg>
             </DashboardUsageCard>
-        </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+            <DashboardNodeJsInfoCard :ip="appInfo?.ip" :port="appInfo?.port" :pid="nodejsInfo?.pid" :version="nodejsInfo?.version"
+                :uptime="formatUptime(nodejsInfo?.uptime)" :cpuUser="nodejsInfo.cpu?.user"
+                :cpuSystem="nodejsInfo.cpu?.system" />
+
+                        
             <DashboardSystemInfoCard :hostname="systemInfo?.hostname" :uptime="formatUptime(systemInfo?.uptime)"
-                :os="systemInfo.os?.type + ` (${systemInfo.os?.release})`" :cpu-model="systemInfo.cpu?.model"
+                :os="systemInfo.os?.type + ` (${systemInfo.os?.release})`" :platform="systemInfo.os?.platform" :cpu-model="systemInfo.cpu?.model"
                 :cpu-arch="systemInfo.cpu?.arch" />
-
-            <DashboardNodeJsInfoCard :pid="nodejsInfo?.pid" :version="nodejsInfo?.version"
-                :uptime="formatUptime(nodejsInfo?.uptime)" :cpuUser="formatCpuMicro(nodejsInfo.cpu?.user)"
-                :cpuSystem="formatCpuMicro(nodejsInfo.cpu?.system)" />
 
             <DashboardNodeJsRamCard :rss="formatBytes(nodejsInfo.ram?.rss)"
                 :heap-total="formatBytes(nodejsInfo.ram?.heapTotal)" :heap-used="formatBytes(nodejsInfo.ram?.heapUsed)"

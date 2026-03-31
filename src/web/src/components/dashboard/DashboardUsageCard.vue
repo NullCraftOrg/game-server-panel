@@ -9,10 +9,10 @@ defineProps(['title', 'left', 'right', 'percent', 'desc', 'percentColor'])
                 :style="{ '--value': Math.round(percent) }">{{ Math.round(percent) }}</div>
         </div>
         <div class="stat-title">{{ title ?? '-' }}</div>
-        <div class="stat-value">{{ left ?? '-' }}<span class="text-xl">/{{ right ?? '-' }}</span></div>
+        <div class="stat-value">{{ left ?? '-' }}<span class="text-2xl">/{{ right ?? '-' }}</span></div>
         <div class="stat-desc overflow-hidden flex items-center gap-1">
             <slot></slot>
-            <p class="text-ellipsis">{{ desc ?? '-' }}</p>
+            <p>{{ desc ?? '-' }}</p>
         </div>
     </div>
 </template>
