@@ -33,20 +33,3 @@ export default defineConfig(({ mode }) => {
     }
   }
 })
-
-// export default defineConfig({
-//   plugins: [
-//     tailwindcss(),
-//     vue(),
-//     vueDevTools(),
-//   ],
-//    server: {
-//     port: 6996,          // 设置开发服务器端口
-//     open: true           // 自动打开浏览器
-//   },
-//   resolve: {
-//     alias: {
-//       '@': fileURLToPath(new URL('./src', import.meta.url))
-//     },
-//   },
-// })
