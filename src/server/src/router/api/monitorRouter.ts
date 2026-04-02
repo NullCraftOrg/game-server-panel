@@ -6,7 +6,7 @@ const monitorRouter = express.Router();
 //BaseURL = /api/servers
 
 monitorRouter.get("/", (req, res) => {
-  res.json(systemMonitor.getInfo());
+  res.json(systemMonitor.getInfo())
 });
 
-export default monitorRouter;
+export default monitorRouter

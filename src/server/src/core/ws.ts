@@ -1,5 +1,6 @@
 import { WebSocketServer } from 'ws'
 import ServerManager from './serverManager.ts'
+import { log } from '../log.ts'
 
 export default function InitWebSocket(server: any) {
     const wss = new WebSocketServer({ server })
@@ -15,7 +16,7 @@ export default function InitWebSocket(server: any) {
         if (!srv) return ws.close()
 
         srv.clients.add(ws)
-        console.log(`WebSocket connected: ${id}, total clients: ${srv.clients.size}`)
+        log.debug('WebSocket 已连接至:', id, '客户端数量:', srv.clients.size)
 
         // 连接后发送服务器日志缓冲区中的内容
         for (const line of srv.logBuffer) {

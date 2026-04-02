@@ -1,8 +1,8 @@
 // 一个简单的热重载系统，用于开发阶段文本变动自动重启服务器
-
 import { spawn, ChildProcess } from 'node:child_process';
 import { watch } from 'node:fs';
 import { resolve } from 'node:path';
+import { log } from './log.ts'
 
 let child: ChildProcess | null = null;
 let restarting = false;
@@ -14,19 +14,19 @@ function start() {
   restarting = true;
 
   if (child) {
-    console.warn("清理老进程...");
+    log.warn('[DEV]', "清理老进程...");
     child.kill("SIGKILL"); // Windows + node-pty 推荐直接强杀不然会异常
     child = null;
   }
 
-  console.info("正在启动新进程...");
+  log.info('[DEV]', "正在启动新进程...");
 
   child = spawn(process.execPath, [entry], {
     stdio: "inherit",
   });
 
   child.on("exit", (code) => {
-    console.warn(`线程退出: ${code}`);
+    log.warn('[DEV]', `线程退出: ${code}`);
   });
 
   restarting = false;
@@ -49,7 +49,7 @@ watch(".", { recursive: true }, (_, filename) => {
   if (timer) clearTimeout(timer);
 
   timer = setTimeout(() => {
-    console.info(`触发重载: ${filename}`);
+    log.info('[DEV]', `触发重载: ${filename}`);
     start();
   }, 300);
 });

@@ -1,4 +1,4 @@
-import os from 'os'
+import os from 'node:os'
 import pty from 'node-pty'
 
 // 引用接口定义
@@ -44,7 +44,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
 
     // 启动服务器线程
     start(): void {
-        if (this.process) return; // 已经在运行了
+        if (this.process) return // 已经在运行了
 
         try {
             const isWindows = os.platform() === 'win32'
@@ -67,7 +67,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                     '&&',
                     `"${this.fileName}"`,
                     `${this.command}`
-                ];
+                ]
 
                 this.process = pty.spawn(shell, chcpArgs.join(' '), {
                     name: 'xterm-256color',
@@ -75,7 +75,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                     cols: this.maxLines,
                     cwd: this.cwd,
                     // windowsHide: true,
-                });
+                })
 
             }
             else {
@@ -86,47 +86,47 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                     cols: this.maxLines,
                     cwd: this.cwd,
                     // windowsHide: true,
-                });
+                })
             }
 
         }
         catch (error: any) {
-            const errMsg = ['启动进程:', this.name, '失败!', '原因:', error.name, error.message].join(' ');
-            console.error(errMsg);
-            this.appendLog(errMsg + '\r\n');
+            const errMsg = ['启动进程:', this.name, '失败!', '原因:', error.name, error.message].join(' ')
+            console.error(errMsg)
+            this.appendLog(errMsg + '\r\n')
 
-            return;
+            return
         }
 
         // 进程启动成功后，记录 PID 和状态，并发送日志消息
         if (this.process.pid) {
-            this.pid = this.process.pid;
-            this.isRunning = true;
+            this.pid = this.process.pid
+            this.isRunning = true
 
-            const startMsg = ['启动进程:', this.name, 'PID:', this.process.pid].join(' ');
-            this.appendLog(startMsg + '\r\n');
-            console.info(startMsg);
+            const startMsg = ['启动进程:', this.name, 'PID:', this.process.pid].join(' ')
+            this.appendLog(startMsg + '\r\n')
+            console.info(startMsg)
         }
 
         // 将进程输出通过 WebSocket 广播给所有客户端，并缓存日志
         this.process.onData((data: any) => {
-            this.appendLog(data);
-        });
+            this.appendLog(data)
+        })
 
         // 监听进程退出事件，更新状态并发送日志消息
         this.process.onExit(({ exitCode, signal }: any) => {
-            this.process = null;
-            this.isRunning = false;
+            this.process = null
+            this.isRunning = false
 
-            const exitMsg = ['进程退出:', this.name, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ');
-            this.appendLog(exitMsg + '\r\n');
-            console.info(exitMsg);
-        });
+            const exitMsg = ['进程退出:', this.name, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ')
+            this.appendLog(exitMsg + '\r\n')
+            console.info(exitMsg)
+        })
     }
 
     // 停止服务器进程
     stop(): void {
-        if (!this.process) return; // 没有在运行
+        if (!this.process) return // 没有在运行
 
         try {
             this.process.kill()
@@ -138,31 +138,31 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
 
     // 发送命令到服务器进程
     sendCommand(command: string): void {
-        if (!this.process) return; // 没有在运行
+        if (!this.process) return // 没有在运行
         this.process.write(command)
     }
 
     // 广播消息并追加到缓存日志中用于读取
     // 注意：非必要内容不建议加入到缓存日志中，可单独通过 broadcast() 发送通知
     appendLog(data: string): void {
-        this.logBuffer.push(data);
+        this.logBuffer.push(data)
 
         if (this.logBuffer.length > this.maxLines) {
-            this.logBuffer.shift();
+            this.logBuffer.shift()
         }
 
         // 写文件日志
-        // fs.appendFile(this.logFile, data, () => { });
+        // fs.appendFile(this.logFile, data, () => { })
 
         // 推送
-        this.broadcast(data);
+        this.broadcast(data)
     }
 
     // 广播消息给所有客户端
     broadcast(msg: string): void {
         for (const ws of this.clients) {
             if (ws.readyState === 1) {
-                ws.send(msg);
+                ws.send(msg)
             }
         }
     }

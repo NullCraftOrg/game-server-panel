@@ -4,5 +4,5 @@ ip: localhost
 # 端口 默认：9119
 port: 9119
 
-# 是否记录运行日志到 logs 中
-#app-log-to-file: false
+# 是否记录运行日志到 logs/app.log 中
+app-log-to-file: false

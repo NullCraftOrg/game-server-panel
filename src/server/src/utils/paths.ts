@@ -27,4 +27,5 @@ export const PATHS = {
     root: ROOT,
     src: resolvePath('src'),
     data: resolvePath('data'),
+    logs: resolvePath('logs'),
 }

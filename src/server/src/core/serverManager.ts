@@ -97,8 +97,15 @@ class ServerManager {
 
     // 将服务器列表保存到文件
     save(): void {
-        const data = JSON.stringify(this.list(), null, 2)
-        fs.writeFileSync(this.file, data, 'utf-8')
+        // 确保数据目录存在
+        const dir = path.dirname(this.file);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+
+        // 只保存配置和运行状态，不保存进程等信息
+        const data = this.list().map(({ isRunning, ...rest }) => rest)
+        fs.writeFileSync(this.file, JSON.stringify(data, null, 2), 'utf-8')
     }
 
 }

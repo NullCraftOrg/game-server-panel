@@ -1,71 +1,71 @@
-import os from 'node:os';
-import CPUMonitor from '../utils/cpuMonitor.ts';
+import os from 'node:os'
+import CPUMonitor from '../utils/cpuMonitor.ts'
 import ServerManager from './serverManager.ts'
 
 // 定义各信息对象的接口
 interface AppInfo {
-    ip: string;
-    port: number | string;
+    ip: string
+    port: number | string
     servers: {
-        total: number;
-        running: number;
-    };
+        total: number
+        running: number
+    }
 }
 
 // CPU数据组信息
 interface CpuInfo {
-    total: number;
-    model: string;
-    arch: string;
-    usagePercent: number;
-    coresUsage: number[];
+    total: number
+    model: string
+    arch: string
+    usagePercent: number
+    coresUsage: number[]
 }
 
 // 系统信息数据
 interface SystemInfo {
-    hostname: string;
-    uptime: number;
+    hostname: string
+    uptime: number
     os: {
-        type: string;
-        release: string;
-        platform: string;
-    };
-    cpu: CpuInfo;
+        type: string
+        release: string
+        platform: string
+    }
+    cpu: CpuInfo
     ram: {
-        total: number;
-        free: number;
-        usage: number;
-        usagePercent: number;
-    };
+        total: number
+        free: number
+        usage: number
+        usagePercent: number
+    }
 }
 
 // nodejs基本信息数据
 interface NodejsInfo {
-    pid: number;
-    version: string;
-    uptime: number;
-    cpu: NodeJS.CpuUsage;
-    ram: NodeJS.MemoryUsage;
+    pid: number
+    version: string
+    uptime: number
+    cpu: NodeJS.CpuUsage
+    ram: NodeJS.MemoryUsage
 }
 
 // 返回数据组
 interface MonitorData {
-    app_info: AppInfo;
-    system_info: SystemInfo;
-    nodejs_info: NodejsInfo;
+    app_info: AppInfo
+    system_info: SystemInfo
+    nodejs_info: NodejsInfo
 }
 
 class SystemMonitor {
-    private cpuMonitor: InstanceType<typeof CPUMonitor>;
+    private cpuMonitor: InstanceType<typeof CPUMonitor>
     constructor() {
         // 创建 CPU 监控实例，可传入自定义采样间隔
-        this.cpuMonitor = new CPUMonitor(1000);
+        this.cpuMonitor = new CPUMonitor(1000)
     }
 
     getInfo(): MonitorData {
 
         const servers = ServerManager.list()
-        const runningServers = servers.filter(item => item.isRunning === true);
+        const runningServers = servers.filter(item => item.isRunning === true)
 
         const appInfo: AppInfo = {
             ip: 'localhost',
@@ -120,9 +120,9 @@ class SystemMonitor {
     // 清理资源
     destroy(): void {
         if (this.cpuMonitor) {
-            this.cpuMonitor.stop();
+            this.cpuMonitor.stop()
         }
     }
 }
 
-export default new SystemMonitor();
+export default new SystemMonitor()

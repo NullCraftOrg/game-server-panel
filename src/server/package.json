@@ -1,10 +1,10 @@
 {
-  "name": "nullcraft-game-server-panel-server",
+  "name": "nullcraft-game-server-panel-server-ts",
   "version": "1.0.0",
   "description": "Backend server for NGSP(NullCraft Game Server Panel)",
   "homepage": "https://github.com/NullCraftOrg/game-server-panel",
   "funding": "https://docs.nullcraft.org/donate",
-  "type": "commonjs",
+  "type": "module",
   "keywords": [
     "NullCraft",
     "Game",
@@ -17,9 +17,9 @@
     "type": "git",
     "url": "https://github.com/NullCraftOrg/game-server-panel.git"
   },
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "dev": "node src/index.js",
+    "dev": "node src/dev.ts",
     "setup": "npm i"
   },
   "dependencies": {
@@ -30,7 +30,15 @@
     "uuid": "^13.0.0",
     "ws": "^8.20.0"
   },
-    "engines": {
+  "engines": {
     "node": ">=22.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/js-yaml": "^4.0.9",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.18.1"
   }
 }

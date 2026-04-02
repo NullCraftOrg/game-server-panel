@@ -6,7 +6,7 @@ import { PATHS } from './paths.ts'
 // 配置文件路径（默认位于项目根目录下的 config.yml）
 const CONFIG_FILE_PATH = path.join(PATHS.data, 'config.yml')
 
-let cachedConfig: any = null;
+let cachedConfig: any = null
 
 /**
  * 加载 YAML 配置文件
@@ -16,14 +16,14 @@ let cachedConfig: any = null;
 function loadConfig(): any {
     try {
         // 读取文件内容
-        const fileContent = fs.readFileSync(CONFIG_FILE_PATH, 'utf8');
+        const fileContent = fs.readFileSync(CONFIG_FILE_PATH, 'utf8')
         // 解析 YAML
-        const config = yaml.load(fileContent);
-        return config;
-    } catch (err) {
+        const config = yaml.load(fileContent)
+        return config
+    } catch (err: any) {
         // 处理错误（文件不存在、YAML 格式错误等）
-        console.error('Failed to load configuration:', err.message);
-        throw err; // 让上层决定如何处理（如退出进程）
+        console.error('Failed to load configuration:', err.message)
+        throw err // 让上层决定如何处理（如退出进程）
     }
 }
 
@@ -33,11 +33,11 @@ function loadConfig(): any {
  */
 function getConfig() {
     if (!cachedConfig) {
-        cachedConfig = loadConfig();
+        cachedConfig = loadConfig()
     }
-    return cachedConfig;
+    return cachedConfig
 }
 
 // 导出配置对象（直接使用）
-const config = getConfig();
-export default config;
+const config = getConfig()
+export default config
