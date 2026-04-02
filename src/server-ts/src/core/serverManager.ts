@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import fs from 'node:fs'
 import path from 'node:path'
+import { PATHS } from '../utils/paths.ts'
 import GameServer from './gameServer.ts'
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts'
 
@@ -10,7 +11,7 @@ class ServerManager {
 
     constructor() {
         this.servers = new Map()
-        this.file = path.join(process.cwd(), 'data/servers.json') // 存储服务器列表的文件路径
+        this.file = path.join(PATHS.data, '/servers.json') // 存储服务器列表的文件路径
         this.load()
     }
 

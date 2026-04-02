@@ -35,12 +35,12 @@ const ramSvg = `<g fill="none" stroke="currentColor" stroke-linecap="round" stro
 
 // 辅助函数：字节转可读格式
 const formatBytes = (bytes) => {
-    if (bytes == null || isNaN(bytes)) return '0 B'
-    if (bytes === 0) return '0 B'
+    if (bytes == null || isNaN(bytes)) return '0B'
+    if (bytes === 0) return '0B'
     const k = 1024
     const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
     const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) +  sizes[i]
 }
 
 // 辅助函数：秒转天时分秒

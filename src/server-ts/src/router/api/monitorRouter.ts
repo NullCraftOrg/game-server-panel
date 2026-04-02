@@ -1,12 +1,12 @@
 import express from "express";
+import systemMonitor from "../../core/systemMonitor.ts";
 
 const monitorRouter = express.Router();
 
 //BaseURL = /api/servers
 
 monitorRouter.get("/", (req, res) => {
-  res.send("Hello World! from monitorRouter");
-  //TODO res.json(systemMonitor.getInfo());
+  res.json(systemMonitor.getInfo());
 });
 
 export default monitorRouter;

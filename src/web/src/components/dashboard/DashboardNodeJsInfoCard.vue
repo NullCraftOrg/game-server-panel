@@ -5,9 +5,9 @@ const props = defineProps(['ip', 'port', 'pid', 'version', 'uptime', 'cpuUser', 
 
 // 辅助函数：微秒转毫秒
 const formatCpuMicro = (microseconds) => {
-    if (microseconds == null || isNaN(microseconds)) return '0 µs'
-    if (microseconds < 1000) return `${microseconds} µs`
-    return `${(microseconds / 1000).toFixed(1)} ms`
+    if (microseconds == null || isNaN(microseconds)) return '0µs'
+    if (microseconds < 1000) return `${microseconds}µs`
+    return `${(microseconds / 1000).toFixed(1)}ms`
 }
 
 // 计算 NodeJS 的 CPU user/system 占用时间比 value1 返回value1的结果百分比。

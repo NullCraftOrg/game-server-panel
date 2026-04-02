@@ -1,3 +1,12 @@
+v2026-04-02 15:50:00
+
+[后端更新]
+- TypeScript 版本后端监控系统迁移完毕。
+- TypeScript 版本后端 config.ts 配置功能迁移完毕。
+- 增加 `utils/Paths.ts` 用于代替 ES `__dirname`、`__filename`
+
+---
+
 v2026-04-02 00:20:00
 
 [重要更新]

@@ -1,3 +1,4 @@
 @echo off
 start cmd /k "cd ../src/server & npm i"
+start cmd /k "cd ../src/server-ts & npm i"
 start cmd /k "cd ../src/web & npm i"

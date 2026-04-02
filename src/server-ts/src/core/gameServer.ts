@@ -39,7 +39,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         this.isRunning = false
         this.pid = null
         this.logBuffer = []
-        this.maxLines = 100
+        this.maxLines = 10000
     }
 
     // 启动服务器线程
