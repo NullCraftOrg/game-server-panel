@@ -7,63 +7,53 @@
       </h3>
 
       <!-- 表单区域 -->
-      <div class="py-4 flex flex-col gap-2">
+      <div class="flex flex-col">
         <!-- 服务器名称 -->
-        <label class="form-control w-full">
-          <div class="label">
-            <span class="label-text">服务器名称</span>
-          </div>
-          <input
-            type="text"
-            v-model="formData.name"
-            placeholder="请输入服务器名称"
-            class="input input-bordered w-full"
-            @input="clearError('name')"
-          />
-        </label>
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-3 pt-1">
+          <legend class="fieldset-legend">服务器名称</legend>
+          <label class="input form-control w-full">
+            <input type="text" class="grow" v-model="formData.name" placeholder="请输入服务器名称"
+              @input="clearError('name')" />
+            <span class="badge badge-neutral badge-xs">必填</span>
+          </label>
+        </fieldset>
 
-        <!-- 运行文件 -->
-        <label class="form-control w-full">
-          <div class="label">
-            <span class="label-text">运行文件</span>
-          </div>
-          <input
-            type="text"
-            v-model="formData.fileName"
-            placeholder="请输入要执行的文件完整路径"
-            class="input input-bordered w-full"
-            @input="clearError('fileName')"
-          />
-        </label>
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border px-3 py-2 pt-0">
+          <legend class="fieldset-legend">配置可执行文件</legend>
 
-        <!-- 附加命令 -->
-        <label class="form-control w-full">
-          <div class="label">
-            <span class="label-text">附加命令</span>
-          </div>
-          <input
-            type="text"
-            v-model="formData.command"
-            placeholder="请输入要附加的命令"
-            class="input input-bordered w-full"
-          />
-        </label>
+          <!-- 运行文件 -->
+          <legend class="fieldset-legend">执行文件</legend>
+          <label class="input form-control w-full">
+            路径
+            <input type="text" class="grow" v-model="formData.fileName" placeholder="C:/myserver/example.exe"
+              @input="clearError('fileName')" />
+            <span class="badge badge-neutral badge-xs">必填</span>
+          </label>
+          <p class="label">请输入要执行文件的完整路径</p>
 
-        <!-- 运行目录 -->
-        <label class="form-control w-full">
-          <div class="label">
-            <span class="label-text">运行目录</span>
-          </div>
-          <input
-            type="text"
-            v-model="formData.cwd"
-            placeholder="请输入服务器运行目录"
-            class="input input-bordered w-full"
-          />
-        </label>
+          <!-- 附加命令 -->
+          <legend class="fieldset-legend">附加命令</legend>
+          <label class="input form-control w-full">
+            命令行
+            <input type="text" class="grow" v-model="formData.command" placeholder="-hello -world"
+              @input="clearError('fileName')" />
+            <span class="badge badge-neutral badge-xs">可选</span>
+          </label>
 
-        <label>
-          <input type="checkbox" v-model="formData.forceUtf8Mode" :checked="formData.forceUtf8Mode" class="checkbox checkbox-primary" />
+          <!-- 运行目录 -->
+          <legend class="fieldset-legend">运行目录</legend>
+          <label class="input form-control w-full">
+            目录路径
+            <input type="text" class="grow" v-model="formData.cwd" placeholder="D:/serversaves"
+              @input="clearError('fileName')" />
+            <span class="badge badge-neutral badge-xs">可选</span>
+          </label>
+          <p class="label">通常为服务器文件所在目录</p>
+        </fieldset>
+
+        <label class="mt-2">
+          <input type="checkbox" v-model="formData.forceUtf8Mode" :checked="formData.forceUtf8Mode"
+            class="checkbox checkbox-primary" />
           启用强兼容UTF8模式(中文乱码时勾选)
         </label>
 

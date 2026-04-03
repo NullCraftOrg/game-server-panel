@@ -1,5 +1,5 @@
 // 服务器持久化配置数据（会保存到文件 data\servers.json 后期可能会改造成db）
-// 这些是长期存在的数据
+// 这些是长期存在的数据，非必要存储的配置不要写入，可以使用继承。
 
 export interface ServerConfigInterface {
   id: string              // 唯一ID（uuid）

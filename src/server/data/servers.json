@@ -46,5 +46,13 @@
     "command": "-jar server.jar",
     "cwd": "F:\\Minecraft\\Minecraft Server\\26.1",
     "forceUtf8Mode": true
+  },
+  {
+    "id": "152fe78d-4739-418a-a68d-de9c129ca44c",
+    "name": "1",
+    "fileName": "java",
+    "command": "",
+    "cwd": "",
+    "forceUtf8Mode": false
   }
 ]

@@ -9,6 +9,7 @@ import DashboardServerInfoCard from '@/components/dashboard/DashboardServerInfoC
 import DashboardNodeJsInfoCard from '@/components/dashboard/DashboardNodeJsInfoCard.vue'
 import DashboardSystemInfoCard from '@/components/dashboard/DashboardSystemInfoCard.vue'
 import DashboardNodeJsRamCard from '@/components/dashboard/DashboardNodeJsRamCard.vue'
+import MainTitle from '@/components/MainTitle.vue'
 
 const serverStore = useServerStore()
 
@@ -40,7 +41,7 @@ const formatBytes = (bytes) => {
     const k = 1024
     const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
     const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) +  sizes[i]
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + sizes[i]
 }
 
 // 辅助函数：秒转天时分秒
@@ -159,22 +160,25 @@ const handleConfirm = (data) => {
 </script>
 
 <template>
-    <div class="flex justify-between mb-3">
-        <div class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                    <rect width="7" height="9" x="3" y="3" rx="1" />
-                    <rect width="7" height="5" x="14" y="3" rx="1" />
-                    <rect width="7" height="9" x="14" y="12" rx="1" />
-                    <rect width="7" height="5" x="3" y="16" rx="1" />
-                </g>
-            </svg>
-            <h3 class="text-xl">仪表盘</h3>
+    <MainTitle>
+        <div class="flex justify-between mb-3">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2">
+                        <rect width="7" height="9" x="3" y="3" rx="1" />
+                        <rect width="7" height="5" x="14" y="3" rx="1" />
+                        <rect width="7" height="9" x="14" y="12" rx="1" />
+                        <rect width="7" height="5" x="3" y="16" rx="1" />
+                    </g>
+                </svg>
+                <h3 class="text-xl">仪表盘</h3>
+            </div>
+            <div class="text-center text-sm text-base-content/50">
+                数据刷新于 {{ refreshDate }}
+            </div>
         </div>
-        <div class="text-center text-sm text-base-content/50">
-            数据刷新于 {{ refreshDate }}
-        </div>
-    </div>
+    </MainTitle>
 
     <div class="flex flex-col gap-4">
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
@@ -211,14 +215,14 @@ const handleConfirm = (data) => {
                 </svg>
             </DashboardUsageCard>
 
-            <DashboardNodeJsInfoCard :ip="appInfo?.ip" :port="appInfo?.port" :pid="nodejsInfo?.pid" :version="nodejsInfo?.version"
-                :uptime="formatUptime(nodejsInfo?.uptime)" :cpuUser="nodejsInfo.cpu?.user"
-                :cpuSystem="nodejsInfo.cpu?.system" />
+            <DashboardNodeJsInfoCard :ip="appInfo?.ip" :port="appInfo?.port" :pid="nodejsInfo?.pid"
+                :version="nodejsInfo?.version" :uptime="formatUptime(nodejsInfo?.uptime)"
+                :cpuUser="nodejsInfo.cpu?.user" :cpuSystem="nodejsInfo.cpu?.system" />
 
-                        
+
             <DashboardSystemInfoCard :hostname="systemInfo?.hostname" :uptime="formatUptime(systemInfo?.uptime)"
-                :os="systemInfo.os?.type + ` (${systemInfo.os?.release})`" :platform="systemInfo.os?.platform" :cpu-model="systemInfo.cpu?.model"
-                :cpu-arch="systemInfo.cpu?.arch" />
+                :os="systemInfo.os?.type + ` (${systemInfo.os?.release})`" :platform="systemInfo.os?.platform"
+                :cpu-model="systemInfo.cpu?.model" :cpu-arch="systemInfo.cpu?.arch" />
 
             <DashboardNodeJsRamCard :rss="formatBytes(nodejsInfo.ram?.rss)"
                 :heap-total="formatBytes(nodejsInfo.ram?.heapTotal)" :heap-used="formatBytes(nodejsInfo.ram?.heapUsed)"

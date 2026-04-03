@@ -16,7 +16,7 @@ export default function InitWebSocket(server: any) {
         if (!srv) return ws.close()
 
         srv.clients.add(ws)
-        log.debug('WebSocket 已连接至:', id, '客户端数量:', srv.clients.size)
+        log.debug('[WebSocket]', '已连接至:', id, '客户端数量:', srv.clients.size)
 
         // 连接后发送服务器日志缓冲区中的内容
         for (const line of srv.logBuffer) {
@@ -31,6 +31,7 @@ export default function InitWebSocket(server: any) {
         // 连接关闭时从服务器线程移除
         ws.on('close', () => {
             srv.clients.delete(ws)
+            log.debug('[WebSocket]', '已断开连接:', id, '客户端数量:', srv.clients.size)
         })
     })
 }

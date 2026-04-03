@@ -41,7 +41,8 @@ const routes = [
         component: ConsoleView,
         meta: {
           title: '控制台',
-          breadcrumb: (route) => `控制台 - ${route.params.id}`,
+          breadcrumb: '控制台',
+          // breadcrumb: (route) => `控制台 - ${route.params.id}`,
           parent: 'Servers'
         },
       },
@@ -51,7 +52,8 @@ const routes = [
         component: TestView,
         meta: {
           title: '文件管理',
-          breadcrumb: (route) => `文件管理 - ${route.params.id}`,
+          breadcrumb: '文件管理',
+          // breadcrumb: (route) => `文件管理 - ${route.params.id}`,
           parent: 'Servers'
         },
       },
@@ -71,6 +73,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  // 页面滚动位置判断
+  scrollBehavior(to, from, savedPosition) {
+    // 如果有 savedPosition（比如浏览器的前进/后退），就恢复到之前的位置
+    if (savedPosition) {
+      return savedPosition
+    }
+    // 否则滚动到顶部
+    return { top: 0 }
+  }
 })
 
 // 设置名称

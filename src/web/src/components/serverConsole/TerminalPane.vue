@@ -94,7 +94,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="rounded-box shadow-sm mb-2 p-2" style="background-color: #212121;">
+  <div class="rounded-box shadow-sm my-2 p-2" style="background-color: #212121;">
     <div ref="termElement"></div>
   </div>
 </template>

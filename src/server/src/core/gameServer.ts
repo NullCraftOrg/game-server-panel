@@ -1,4 +1,5 @@
 import os from 'node:os'
+import fs from 'node:fs'
 import pty from 'node-pty'
 
 // 引用接口定义
@@ -16,10 +17,13 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
     forceUtf8Mode?: boolean
 
     // ServerRuntimeInterface
-    process: any        // 子进程（node-pty）
-    clients: Set<any>   // 当前连接的 WebSocket 客户端
+    lastStartTime: number | null
+    lastStopTime: number | null
+    fileExist: boolean
     isRunning: boolean
     pid: number | null
+    process: any        // 子进程（node-pty）
+    clients: Set<any>   // 当前连接的 WebSocket 客户端
     logBuffer: string[] // 日志缓存
     maxLines: number    // 最大日志行数
 
@@ -34,6 +38,9 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         this.forceUtf8Mode = config.forceUtf8Mode || false
 
         // 初始化运行时数据
+        this.lastStartTime = null
+        this.lastStopTime = null
+        this.fileExist = false
         this.process = null
         this.clients = new Set()
         this.isRunning = false
@@ -102,6 +109,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         if (this.process.pid) {
             this.pid = this.process.pid
             this.isRunning = true
+            this.lastStartTime = Date.now() // 更新启动时间
 
             const startMsg = ['启动进程:', this.name, 'PID:', this.process.pid].join(' ')
             this.appendLog(startMsg + '\r\n')
@@ -117,6 +125,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         this.process.onExit(({ exitCode, signal }: any) => {
             this.process = null
             this.isRunning = false
+            this.lastStopTime = Date.now() // 更新停止时间
 
             const exitMsg = ['进程退出:', this.name, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ')
             this.appendLog(exitMsg + '\r\n')
@@ -165,5 +174,12 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                 ws.send(msg)
             }
         }
+    }
+
+    // 检查可执行文件是否存在
+    checkFileExist(filePath: string = this.fileName): boolean {
+        const isExist = fs.existsSync(filePath)
+        this.fileExist = isExist
+        return isExist
     }
 }
