@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { api } from '@/api'
-import { useServerStore } from '@/stores/serverStore' // 需根据实际路径调整
+import { useServerStore } from '@/stores/serverStore'
 
 import AddServerDialog from '@/components/dialogs/AddServerDialog.vue'
 import DashboardUsageCard from '@/components/dashboard/DashboardUsageCard.vue'
@@ -92,9 +92,6 @@ const percentColorMap = {
   error: 'text-error'
 }
 
-
-console.log(percentColor(20))
-
 // 获取监控数据
 async function getMonitorData() {
     try {
@@ -117,7 +114,6 @@ async function getMonitorData() {
         systemCpuTotalCores.value = totalCores * 100
     } catch (error) {
         console.error('获取监控数据失败:', error)
-        // 可根据需求显示用户提示，如 toast 消息
     }
 }
 
@@ -183,7 +179,7 @@ const handleConfirm = (data) => {
                 <h3 class="text-xl">仪表盘</h3>
             </div>
             <div class="text-center text-sm text-base-content/50">
-                数据刷新于 {{ refreshDate }}
+                数据更新于 {{ refreshDate }}
             </div>
         </div>
     </MainTitle>

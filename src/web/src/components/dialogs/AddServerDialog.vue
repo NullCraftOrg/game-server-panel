@@ -12,6 +12,13 @@
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-3 pt-1">
           <legend class="fieldset-legend">服务器名称</legend>
           <label class="input form-control w-full">
+            <svg class="h-[1.25em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path
+                  d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+                <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+              </g>
+            </svg>
             <input type="text" class="grow" v-model="formData.name" placeholder="请输入服务器名称"
               @input="clearError('name')" />
             <span class="badge badge-neutral badge-xs">必填</span>
@@ -24,7 +31,13 @@
           <!-- 运行文件 -->
           <legend class="fieldset-legend">执行文件</legend>
           <label class="input form-control w-full">
-            路径
+            <svg class="h-[1.25em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path
+                  d="M4 11V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h7" />
+                <path d="M14 2v5a1 1 0 0 0 1 1h5M10 18l3-3l-3-3" />
+              </g>
+            </svg>
             <input type="text" class="grow" v-model="formData.fileName" placeholder="C:/myserver/example.exe"
               @input="clearError('fileName')" />
             <span class="badge badge-neutral badge-xs">必填</span>
@@ -34,19 +47,29 @@
           <!-- 附加命令 -->
           <legend class="fieldset-legend">附加命令</legend>
           <label class="input form-control w-full">
-            命令行
+            <svg class="h-[1.25em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path
+                  d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35" />
+                <path d="M14 2v5a1 1 0 0 0 1 1h5M5 16l-3 3l3 3m4 0l3-3l-3-3" />
+              </g>
+            </svg>
             <input type="text" class="grow" v-model="formData.command" placeholder="-hello -world"
               @input="clearError('fileName')" />
-            <span class="badge badge-neutral badge-xs">可选</span>
           </label>
 
           <!-- 运行目录 -->
           <legend class="fieldset-legend">运行目录</legend>
           <label class="input form-control w-full">
-            目录路径
+            <svg class="h-[1.25em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path
+                  d="M2 9.35V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h7" />
+                <path d="m8 16l3-3l-3-3" />
+              </g>
+            </svg>
             <input type="text" class="grow" v-model="formData.cwd" placeholder="D:/serversaves"
               @input="clearError('fileName')" />
-            <span class="badge badge-neutral badge-xs">可选</span>
           </label>
           <p class="label">通常为服务器文件所在目录</p>
         </fieldset>
