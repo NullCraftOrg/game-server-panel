@@ -7,6 +7,7 @@ import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import { WebLinksAddon } from '@xterm/addon-web-links';
 import { WebglAddon } from '@xterm/addon-webgl';
+import { Unicode11Addon } from '@xterm/addon-unicode11';
 
 const props = defineProps(['id'])
 
@@ -39,6 +40,7 @@ function resizeScreen() {
 onMounted(async () => {
   // 初始化终端
   term = new Terminal({
+    allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
     rows: 28,
     cursorBlink: true,
     allowUnicode: true,
@@ -48,6 +50,11 @@ onMounted(async () => {
     theme: {
       background: "#212121",
     },
+    // 目前还没有使用场景。
+    // allowTransparency: true,
+    // theme: {
+    //   background: "transparent",
+    // },
   })
 
   // 加载插件
@@ -55,11 +62,16 @@ onMounted(async () => {
   term.loadAddon(fitAddon)
   term.loadAddon(new WebLinksAddon());
   term.loadAddon(new WebglAddon());
+  term.loadAddon(new Unicode11Addon());
+
+  // 启用 Unicode 11 支持
+  term.unicode.activeVersion = '11';
 
   // 打开终端
   term.open(termElement.value)
   // 自适应大小
   fitAddon.fit()
+
 
   // 2026-03-23 已不需要通过API加载，补发日志功能使用 WebsSocket 连接时发送。
   // 通过HTTP API加载历史日志

@@ -62,6 +62,10 @@ class SystemMonitor {
         this.cpuMonitor = new CPUMonitor(1000)
     }
 
+    /**
+     * 获取系统监控数据
+     * @returns 监控数据
+     */
     getInfo(): MonitorData {
 
         const servers = ServerManager.list()

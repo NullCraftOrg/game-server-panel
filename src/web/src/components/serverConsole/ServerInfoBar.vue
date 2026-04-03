@@ -15,26 +15,31 @@ const props = defineProps({
 
 defineEmits(['start', 'stop'])
 
-const animate = computed(() => {
-  if (props.server.fileExist) {
-    return 'animate-ping'
-  }
-})
-
-const status = computed(() => {
-  // 如果可执行文件不存在则返回灰色状态
+const statusText = computed(() => {
   if (!props.server.fileExist) {
-    return ''
+    return '文件不存在'
   }
-
-  // 文件存在则更新运行状态
-  if (props.server.isRunning) {
-    return 'success'
-  } else {
-    return 'error'
-  }
+  return props.server.isRunning ? '正在运行' : '未运行'
 })
 
+// 颜色映射不能拼接不然Tailwind会被裁切掉相关样式
+const statusMap = {
+  success: 'status-success',
+  error: 'status-error'
+}
+
+const badgeMap = {
+  success: 'badge-success',
+  error: 'badge-error'
+}
+const state = computed(() => {
+  if (!props.server.fileExist) return ''
+  return props.server.isRunning ? 'success' : 'error'
+})
+
+const status = computed(() => statusMap[state.value])
+const badge = computed(() => badgeMap[state.value])
+const animate = computed(() => props.server.fileExist ? 'animate-ping' : '')
 </script>
 
 <template>
@@ -49,12 +54,12 @@ const status = computed(() => {
             </g>
           </svg>
           <p class="text-xl">{{ server.name ?? '读取中' }}</p>
-          <div class="badge badge-soft shadow" :class="status ? 'badge-' + status : ''">
+          <div class="badge badge-soft shadow" :class="badge">
             <div class="inline-grid *:[grid-area:1/1]">
-              <div class="status" :class="status ? 'status-' + status : '', animate"></div>
-              <div class="status" :class="status ? 'status-' + status : ''"></div>
+              <div class="status" :class="status, animate"></div>
+              <div class="status" :class="status"></div>
             </div>
-            {{ server.isRunning ? '正在运行' : '未运行' }}
+            {{ statusText }}
           </div>
         </div>
         <p class="font-mono text-xs">{{ server.id ?? '-' }}</p>

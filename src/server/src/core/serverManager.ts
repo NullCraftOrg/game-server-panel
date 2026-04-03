@@ -5,7 +5,7 @@ import { PATHS } from '../utils/paths.ts'
 import GameServer from './gameServer.ts'
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts'
 
-// 界定 get()、info()、list() 函数返回的内容
+// 界定 get()、info()、list() 函数返回的内容(服务器实例信息)
 export interface ServerInfo extends ServerConfigInterface {
     fileExist: boolean,
     isRunning: boolean,
@@ -19,27 +19,41 @@ class ServerManager {
 
     constructor() {
         this.servers = new Map()
-        this.file = path.join(PATHS.data, '/servers.json') // 存储服务器列表的文件路径
+        this.file = path.join(PATHS.data, 'servers.json') // 存储服务器列表的文件路径
         this.load()
     }
 
-    // 通过Id获取服务器实例信息
-    get(id: string): ServerInfo | undefined {
-        return this.servers.get(id)
+    /**
+     * 通过Id获取服务器实例信息
+     * @param id 服务器唯一Id
+     * @returns 服务器实例信息或undefined
+     */
+    get(id: string): GameServer | undefined {
+        // 我想从结构中去掉一些值例如 process、clients、logBuffer 等等
+        const server = this.servers.get(id)
+        if (!server) return
+        return server
     }
 
-    // 返回：配置 + 运行状态（仅 isRunning）
+    /**
+     * 通过Id获取服务器状态信息
+     * @param id 服务器唯一Id
+     * @returns 服务器实例信息或undefined
+     */
     info(id: string): ServerInfo | undefined {
         const server = this.servers.get(id)
         if (!server) return
 
-        const { id: serverUuid, name, fileName, command, cwd, forceUtf8Mode, fileExist, isRunning, lastStartTime, lastStopTime } = server
-        return {
-            id: serverUuid, name, fileName, command, cwd, forceUtf8Mode, fileExist, isRunning, lastStartTime, lastStopTime
-        }
+        // 去除一些不需要的信息，Info信息最好精简来减少轮询性能损耗。
+        const { process, clients, logBuffer, maxLines, ...newInfoData } = server;
+        
+        return newInfoData
     }
 
-    // 服务器列表
+    /**
+     * 服务器列表
+     * @returns 服务器实例信息数组
+     */
     list(): Array<ServerInfo> {
         return Array.from(this.servers.values()).map(s => ({
             id: s.id,
@@ -56,7 +70,11 @@ class ServerManager {
         }))
     }
 
-    // 创建服务器
+    /**
+     * 创建服务器
+     * @param config 通过服务器配置对象创建服务器，唯一Id会自动生成
+     * @returns GameServer实例
+     */
     create(config: Omit<ServerConfigInterface, 'id'>): GameServer {
         // 通过 uuidv4 随机生成服务器的唯一 Id
         const id = uuidv4()
@@ -73,7 +91,12 @@ class ServerManager {
         return server
     }
 
-    // 更新服务器
+    /**
+     * 通过服务器唯一Id更新服务器配置
+     * @param id 服务器唯一Id
+     * @param config 服务器配置对象
+     * @returns 更新后的GameServer实例或undefined
+     */
     update(id: string, config: Partial<Omit<ServerConfigInterface, 'id'>>): GameServer | undefined {
         // 通过唯一ID获取原数据
         const server = this.servers.get(id)
@@ -92,15 +115,21 @@ class ServerManager {
         return server
     }
 
-    // 删除服务器
+    /**
+     * 删除服务器
+     * @param id 服务器唯一Id
+     * @returns 被删除的服务器唯一Id
+     */
     delete(id: string): string {
         this.servers.delete(id)
         this.save()
         return id
     }
 
-    // 从文件加载服务器列表
-    // TODO: 可能要改造成db
+    /**
+     * 从文件加载服务器列表
+     * TODO: 可能要改造成db
+     */
     load(): void {
         if (!fs.existsSync(this.file)) return
 
@@ -114,7 +143,9 @@ class ServerManager {
         }
     }
 
-    // 将服务器列表保存到文件
+    /**
+     * 将服务器列表保存到文件
+     */
     save(): void {
         // 确保数据目录存在
         const dir = path.dirname(this.file)

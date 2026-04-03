@@ -5,7 +5,7 @@
     "fileName": "F:\\Minecraft\\Minecraft Server\\Bedrock\\bedrock_server.exe",
     "command": "-hello",
     "cwd": "F:\\Minecraft\\Minecraft Server\\Bedrock",
-    "forceUtf8Mode": true
+    "forceUtf8Mode": false
   },
   {
     "id": "2aa35c67-8693-4dac-b67a-fd559a6fc441",

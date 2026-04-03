@@ -7,22 +7,35 @@ import { fileURLToPath } from 'node:url'
  */
 export const __filename = fileURLToPath(import.meta.url)
 
-// 文件目录
+/**
+ * 当文件目录
+ */
 export const __dirname = path.dirname(__filename)
 
-// 根目录
+/**
+ * 项目根目录
+ */
 export const ROOT = path.resolve(process.cwd())
 
-// 从根目录拼接完整路径
+/**
+ * 从根目录拼接完整路径
+ * @param paths 路径片段
+ * @returns 拼接后的完整路径
+ */
 export function resolvePath(...paths: string[]): string{
     return path.resolve(ROOT, ...paths)
 }
 
-// 文件相对路径拼接
+/**
+ * 从文件相对路径拼接
+ * @param paths 路径片段
+ * @returns 拼接后的完整路径
+ */
 export function resolveFromHere(...paths: string[]): string{
      return path.resolve(__dirname, ...paths)
 }
 
+// 定义常用路径
 export const PATHS = {
     root: ROOT,
     src: resolvePath('src'),

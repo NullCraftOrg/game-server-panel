@@ -12,30 +12,24 @@ const props = defineProps({
   }
 })
 
-const animate = computed(() => {
-  if (props.fileExist) {
-    return 'animate-ping'
-  }
-})
+// 颜色映射不能拼接不然Tailwind会被裁切掉相关样式
+const statusMap = {
+  success: 'status-success',
+  error: 'status-error'
+}
 
-const status = computed(() => {
-  // 如果可执行文件不存在则返回灰色状态
-  if (!props.fileExist) {
-    return ''
-  }
-
-  // 文件存在则更新运行状态
-  if (props.isRunning) {
-    return 'success'
-  } else {
-    return 'error'
-  }
+const state = computed(() => {
+  if (!props.fileExist) return ''
+  return props.isRunning ? 'success' : 'error'
 })
+const status = computed(() => statusMap[state.value])
+
+const animate = computed(() => props.fileExist ? 'animate-ping' : '')
 </script>
 
 <template>
   <div class="inline-grid *:[grid-area:1/1]">
-    <div class="status" :class="status ? 'status-' + status : '', animate"></div>
-    <div class="status" :class="status ? 'status-' + status : ''"></div>
+    <div class="status" :class="status, animate"></div>
+    <div class="status" :class="status"></div>
   </div>
 </template>

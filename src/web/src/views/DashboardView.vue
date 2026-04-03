@@ -35,13 +35,13 @@ const ramSvg = `<g fill="none" stroke="currentColor" stroke-linecap="round" stro
 </g>`
 
 // 辅助函数：字节转可读格式
-const formatBytes = (bytes) => {
+const formatBytes = (bytes, decimals = 2) => {
     if (bytes == null || isNaN(bytes)) return '0B'
     if (bytes === 0) return '0B'
     const k = 1024
     const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
     const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + sizes[i]
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + sizes[i]
 }
 
 // 辅助函数：秒转天时分秒
@@ -69,21 +69,29 @@ const heapUsagePercent = computed(() => {
 const percentColor = (percent) => {
     // 处理无效值
     if (percent == null || isNaN(percent)) {
-        return 'neutral'; // 或者默认颜色
+        return percentColorMap.neutral; // 或者默认颜色
     }
 
     // 明确区间
     if (percent >= 80 && percent <= 100) {
-        return 'error';
+        return percentColorMap.error;
     } else if (percent >= 60 && percent < 80) {
-        return 'warning';
+        return percentColorMap.warning;
     } else if (percent >= 0 && percent < 60) {
-        return 'success';
+        return percentColorMap.success;
     } else {
         // 负数或大于100的情况
-        return 'neutral';
+        return percentColorMap.neutral;
     }
 };
+
+const percentColorMap = {
+  neutral: 'text-neutral',
+  success: 'text-success',
+  warning: 'text-warning',
+  error: 'text-error'
+}
+
 
 console.log(percentColor(20))
 
@@ -185,8 +193,8 @@ const handleConfirm = (data) => {
             <DashboardServerInfoCard :all="appInfo.servers?.total" :running="appInfo.servers?.running"
                 @create="openCreateDialog" />
 
-            <DashboardUsageCard title="系统内存" desc="已用内存/内存总数" :left="formatBytes(systemInfo.ram?.usage ?? 0)"
-                :right="formatBytes(systemInfo.ram?.total ?? 0)" :percent="systemInfo.ram?.usagePercent ?? 0"
+            <DashboardUsageCard title="系统内存" desc="已用内存/内存总数" :left="formatBytes(systemInfo.ram?.usage ?? 0, 1)"
+                :right="formatBytes(systemInfo.ram?.total ?? 0, 1)" :percent="systemInfo.ram?.usagePercent ?? 0"
                 :percent-color="percentColor(systemInfo.ram?.usagePercent ?? 0)">
                 <svg class="size-[1.2em] shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24">
@@ -221,7 +229,7 @@ const handleConfirm = (data) => {
 
 
             <DashboardSystemInfoCard :hostname="systemInfo?.hostname" :uptime="formatUptime(systemInfo?.uptime)"
-                :os="systemInfo.os?.type + ` (${systemInfo.os?.release})`" :platform="systemInfo.os?.platform"
+                :os-type="systemInfo.os?.type" :os-release="systemInfo.os?.release" :platform="systemInfo.os?.platform"
                 :cpu-model="systemInfo.cpu?.model" :cpu-arch="systemInfo.cpu?.arch" />
 
             <DashboardNodeJsRamCard :rss="formatBytes(nodejsInfo.ram?.rss)"

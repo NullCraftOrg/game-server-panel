@@ -1,5 +1,5 @@
 <script setup>
-defineProps(['hostname', 'uptime', 'os', 'platform', 'cpuModel', 'cpuArch'])
+defineProps(['hostname', 'uptime', 'osType', 'osRelease', 'platform', 'cpuModel', 'cpuArch'])
 </script>
 
 <template>
@@ -18,16 +18,6 @@ defineProps(['hostname', 'uptime', 'os', 'platform', 'cpuModel', 'cpuArch'])
                     </svg>
                     系统信息
                 </h2>
-                <!-- <a class="btn btn-xs" :href="`http://${props.ip}:${props.port}`" target="_blank"><svg
-                        class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2">
-                            <path d="m10 16l4-4l-4-4m-7 4h11"></path>
-                            <path d="M3 8V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"></path>
-                        </g>
-                    </svg>
-                    访问后端</a> -->
             </div>
 
             <div class="join join-vertical gap-2">
@@ -117,7 +107,7 @@ defineProps(['hostname', 'uptime', 'os', 'platform', 'cpuModel', 'cpuArch'])
                             </button>
                         </div>
                         <div>
-                            <div>{{ os ?? '-' }}</div>
+                            <div>{{ osType ?? '-' }}{{ osRelease ? ` (${osRelease})` : '' }}</div>
                             <div class="text-xs opacity-60">操作系统</div>
                         </div>
                     </div>

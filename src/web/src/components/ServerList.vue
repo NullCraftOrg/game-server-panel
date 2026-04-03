@@ -134,7 +134,8 @@ onUnmounted(() => {
     <ServerListHeader @create="openCreateDialog" @refresh="serverStore.fetchServers" />
 
     <div class="tabs tabs-box border-0 p-0 shadow-none">
-        <input type="radio" name="my_tabs_6" class="tab" :aria-label="`全部 (${serverStore.servers.length})`" checked="checked" />
+        <input type="radio" name="tabs_servers" class="tab" :aria-label="`全部 (${serverStore.servers.length})`"
+            checked="checked" />
         <div class="tab-content mt-3 border-0">
             <!-- 全部服务器卡片列表 -->
             <div class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -144,26 +145,38 @@ onUnmounted(() => {
             </div>
         </div>
 
-        <input type="radio" name="my_tabs_6" class="tab" :aria-label="`正在运行 (${serverStore.servers.filter(item => item.isRunning === true).length})`" />
+        <input type="radio" name="tabs_servers" class="tab"
+            :aria-label="`正在运行 (${serverStore.servers.filter(item => item.isRunning === true).length})`" />
         <div class="tab-content mt-3 border-0">
             <!-- 正在运行服务器卡片列表 -->
             <div class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <ServerCard v-for="server in serverStore.servers.filter(item => item.isRunning === true)" :key="server.id" :server="server"
-                    :loading="isLoading(server.id)" @start="start" @stop="stop" @edit="openEditDialog"
-                    @delete="openDeleteDialog" @console="openConsole" />
+                <ServerCard v-for="server in serverStore.servers.filter(item => item.isRunning === true)"
+                    :key="server.id" :server="server" :loading="isLoading(server.id)" @start="start" @stop="stop"
+                    @edit="openEditDialog" @delete="openDeleteDialog" @console="openConsole" />
             </div>
         </div>
 
-        <input type="radio" name="my_tabs_6" class="tab" :aria-label="`未运行 (${serverStore.servers.filter(item => item.isRunning === false).length})`" />
+        <input type="radio" name="tabs_servers" class="tab"
+            :aria-label="`未运行 (${serverStore.servers.filter(item => item.isRunning === false).length})`" />
         <div class="tab-content mt-3 border-0">
             <!-- 未运行服务器卡片列表 -->
             <div class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <ServerCard v-for="server in serverStore.servers.filter(item => item.isRunning === false)" :key="server.id" :server="server"
-                    :loading="isLoading(server.id)" @start="start" @stop="stop" @edit="openEditDialog"
-                    @delete="openDeleteDialog" @console="openConsole" />
+                <ServerCard v-for="server in serverStore.servers.filter(item => item.isRunning === false)"
+                    :key="server.id" :server="server" :loading="isLoading(server.id)" @start="start" @stop="stop"
+                    @edit="openEditDialog" @delete="openDeleteDialog" @console="openConsole" />
             </div>
         </div>
 
+        <input type="radio" name="tabs_servers" class="tab"
+            :aria-label="`无法运行 (${serverStore.servers.filter(item => item.fileExist === false).length})`" />
+        <div class="tab-content mt-3 border-0">
+            <!-- 无法运行服务器卡片列表 -->
+            <div class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <ServerCard v-for="server in serverStore.servers.filter(item => item.fileExist === false)"
+                    :key="server.id" :server="server" :loading="isLoading(server.id)" @start="start" @stop="stop"
+                    @edit="openEditDialog" @delete="openDeleteDialog" @console="openConsole" />
+            </div>
+        </div>
     </div>
 
     <!-- 对话框 -->

@@ -5,7 +5,7 @@ defineProps(['title', 'left', 'right', 'percent', 'desc', 'percentColor'])
 <template>
     <div class="stat bg-base-100 shadow">
         <div class="stat-figure">
-            <div class="radial-progress" :class="`text-${percentColor}`"  role="progressbar" style="--size: 3rem;"
+            <div class="radial-progress" :class="percentColor" role="progressbar" style="--size: 3rem;"
                 :style="{ '--value': Math.round(percent) }">{{ Math.round(percent) }}</div>
         </div>
         <div class="stat-title">{{ title ?? '-' }}</div>

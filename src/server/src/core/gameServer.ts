@@ -1,7 +1,8 @@
 import os from 'node:os'
 import fs from 'node:fs'
 import pty from 'node-pty'
-
+// 自实现日志
+import { log } from '../log.ts'
 // 引用接口定义
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts'
 import type { ServerRuntimeInterface } from '../interface/ServerRuntimeInterface.ts'
@@ -9,23 +10,23 @@ import type { ServerRuntimeInterface } from '../interface/ServerRuntimeInterface
 // 服务器类，负责管理游戏服务器的生命周期和状态
 export default class GameServer implements ServerConfigInterface, ServerRuntimeInterface {
     // ServerConfigInterface
-    id: string
+    id: string // 服务器唯一标识符(uuidv4)
     name: string
     fileName: string
     command: string
-    cwd: string
-    forceUtf8Mode?: boolean
+    cwd: string // 工作目录
+    forceUtf8Mode?: boolean // 强兼容UTF-8模式（仅Windows有效用于解决部分游戏乱码问题）
 
     // ServerRuntimeInterface
     lastStartTime: number | null
     lastStopTime: number | null
     fileExist: boolean
     isRunning: boolean
-    pid: number | null
-    process: any        // 子进程（node-pty）
-    clients: Set<any>   // 当前连接的 WebSocket 客户端
-    logBuffer: string[] // 日志缓存
     maxLines: number    // 最大日志行数
+    pid: number | null
+    process: any        // 子进程(node-pty)
+    clients: Set<any>   // 当前连接的 WebSocket 客户端(ws.ts)
+    logBuffer: string[] // 日志缓存
 
     // 构造函数，接受服务器配置对象并初始化服务器实例
     constructor(config: ServerConfigInterface) {
@@ -44,14 +45,16 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         this.process = null
         this.clients = new Set()
         this.isRunning = false
+        this.maxLines = 10000
         this.pid = null
         this.logBuffer = []
-        this.maxLines = 10000
     }
 
-    // 启动服务器线程
+    /**
+     * 启动服务器线程
+     */
     start(): void {
-        if (this.process) return // 已经在运行了
+        if (this.process) return
 
         try {
             const isWindows = os.platform() === 'win32'
@@ -59,7 +62,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             if (this.forceUtf8Mode && isWindows) {
                 const useForceUtf8ModeMsg = "当前使用强兼容UTF-8模式启动服务器。"
 
-                console.warn(useForceUtf8ModeMsg)
+                log.warn(`${this.name}(${this.id})`, useForceUtf8ModeMsg)
 
                 const shell = 'cmd.exe'
                 const chcpArgs = [
@@ -83,7 +86,6 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                     cwd: this.cwd,
                     // windowsHide: true,
                 })
-
             }
             else {
                 // 正常方式启动
@@ -98,8 +100,8 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
 
         }
         catch (error: any) {
-            const errMsg = ['启动进程:', this.name, '失败!', '原因:', error.name, error.message].join(' ')
-            console.error(errMsg)
+            const errMsg = ['进程错误:', `${this.name}(${this.id})`, '启动失败!', '原因:', error.name, error.message].join(' ')
+            log.error(errMsg)
             this.appendLog(errMsg + '\r\n')
 
             return
@@ -111,9 +113,9 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.isRunning = true
             this.lastStartTime = Date.now() // 更新启动时间
 
-            const startMsg = ['启动进程:', this.name, 'PID:', this.process.pid].join(' ')
+            const startMsg = ['启动进程:', `${this.name}(${this.id})`, 'PID:', this.process.pid].join(' ')
             this.appendLog(startMsg + '\r\n')
-            console.info(startMsg)
+            log.info(startMsg)
         }
 
         // 将进程输出通过 WebSocket 广播给所有客户端，并缓存日志
@@ -127,32 +129,40 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.isRunning = false
             this.lastStopTime = Date.now() // 更新停止时间
 
-            const exitMsg = ['进程退出:', this.name, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ')
+            const exitMsg = ['进程退出:', `${this.name}(${this.id})`, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ')
             this.appendLog(exitMsg + '\r\n')
-            console.info(exitMsg)
+            log.info(exitMsg)
         })
     }
 
-    // 停止服务器进程
+    /**
+     * 停止服务器进程
+     */
     stop(): void {
         if (!this.process) return // 没有在运行
 
         try {
             this.process.kill()
         }
-        catch (error) {
-            console.error(`停止服务器 ${this.name} 时发生错误:`, error)
+        catch (error: any) {
+            log.error(`停止服务器 ${this.name}(${this.id}) 时发生错误:`, error.message)
         }
     }
 
-    // 发送命令到服务器进程
+    /**
+     * 发送命令到服务器进程
+     * @param command 发送内容
+     */
     sendCommand(command: string): void {
         if (!this.process) return // 没有在运行
         this.process.write(command)
     }
 
-    // 广播消息并追加到缓存日志中用于读取
-    // 注意：非必要内容不建议加入到缓存日志中，可单独通过 broadcast() 发送通知
+    /**
+     * 广播消息并追加到缓存日志中用于读取
+     * 注意：非必要内容不建议加入到缓存日志中，可单独通过 broadcast() 发送通知
+     * @param data 日志内容
+     */
     appendLog(data: string): void {
         this.logBuffer.push(data)
 
@@ -167,7 +177,10 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         this.broadcast(data)
     }
 
-    // 广播消息给所有客户端
+    /**
+     * 广播消息给所有客户端
+     * @param msg 消息内容
+     */
     broadcast(msg: string): void {
         for (const ws of this.clients) {
             if (ws.readyState === 1) {
@@ -176,7 +189,11 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         }
     }
 
-    // 检查可执行文件是否存在
+    /**
+     * 检查可执行文件是否存在
+     * @param filePath 文件路径
+     * @returns 是否存在
+     */
     checkFileExist(filePath: string = this.fileName): boolean {
         const isExist = fs.existsSync(filePath)
         this.fileExist = isExist
