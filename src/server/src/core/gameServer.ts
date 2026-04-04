@@ -10,7 +10,7 @@ import type { ServerRuntimeInterface } from '../interface/ServerRuntimeInterface
 // 服务器类，负责管理游戏服务器的生命周期和状态
 export default class GameServer implements ServerConfigInterface, ServerRuntimeInterface {
     // ServerConfigInterface
-    id: string // 服务器唯一标识符(uuidv4)
+    uuid: string // 服务器唯一标识符(uuidv4)
     name: string
     fileName: string
     command: string
@@ -31,7 +31,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
     // 构造函数，接受服务器配置对象并初始化服务器实例
     constructor(config: ServerConfigInterface) {
         // 初始化配置数据
-        this.id = config.id
+        this.uuid = config.uuid
         this.name = config.name
         this.fileName = config.fileName
         this.command = config.command
@@ -62,7 +62,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             if (this.forceUtf8Mode && isWindows) {
                 const useForceUtf8ModeMsg = "当前使用强兼容UTF-8模式启动服务器。"
 
-                log.warn(`${this.name}(${this.id})`, useForceUtf8ModeMsg)
+                log.warn(`${this.name}(${this.uuid})`, useForceUtf8ModeMsg)
 
                 const shell = 'cmd.exe'
                 const chcpArgs = [
@@ -100,7 +100,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
 
         }
         catch (error: any) {
-            const errMsg = ['进程错误:', `${this.name}(${this.id})`, '启动失败!', '原因:', error.name, error.message].join(' ')
+            const errMsg = ['进程错误:', `${this.name}(${this.uuid})`, '启动失败!', '原因:', error.name, error.message].join(' ')
             log.error(errMsg)
             this.appendLog(errMsg + '\r\n')
 
@@ -113,7 +113,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.isRunning = true
             this.lastStartTime = Date.now() // 更新启动时间
 
-            const startMsg = ['启动进程:', `${this.name}(${this.id})`, 'PID:', this.process.pid].join(' ')
+            const startMsg = ['启动进程:', `${this.name}(${this.uuid})`, 'PID:', this.process.pid].join(' ')
             this.appendLog(startMsg + '\r\n')
             log.info(startMsg)
         }
@@ -129,7 +129,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.isRunning = false
             this.lastStopTime = Date.now() // 更新停止时间
 
-            const exitMsg = ['进程退出:', `${this.name}(${this.id})`, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ')
+            const exitMsg = ['进程退出:', `${this.name}(${this.uuid})`, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ')
             this.appendLog(exitMsg + '\r\n')
             log.info(exitMsg)
         })
@@ -145,7 +145,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.process.kill()
         }
         catch (error: any) {
-            log.error(`停止服务器 ${this.name}(${this.id}) 时发生错误:`, error.message)
+            log.error(`停止服务器 ${this.name}(${this.uuid}) 时发生错误:`, error.message)
         }
     }
 

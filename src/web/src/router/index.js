@@ -36,24 +36,24 @@ const routes = [
         }
       },
       {
-        path: ':id/console',
+        path: ':uuid/console',
         name: 'Console',
         component: ConsoleView,
         meta: {
           title: '控制台',
           breadcrumb: '控制台',
-          // breadcrumb: (route) => `控制台 - ${route.params.id}`,
+          // breadcrumb: (route) => `控制台 - ${route.params.uuid}`,
           parent: 'Servers'
         },
       },
       {
-        path: ':id/files',
+        path: ':uuid/files',
         name: 'Files',
         component: TestView,
         meta: {
           title: '文件管理',
           breadcrumb: '文件管理',
-          // breadcrumb: (route) => `文件管理 - ${route.params.id}`,
+          // breadcrumb: (route) => `文件管理 - ${route.params.uuid}`,
           parent: 'Servers'
         },
       },

@@ -12,6 +12,7 @@ import config from './utils/config.ts'
 // 日志系统
 import { log } from './log.ts'
 
+
 // 临时Debug信息
 console.log('============== DEBUG START ===============');
 console.log('通过 \'/utils/paths.ts\' 配置的全局路径列表:')
@@ -49,5 +50,5 @@ server.listen(port, ip, () => {
   log.none('==============================');
   log.none('');
 
-  log.info('后端服务于:', `http://${ip}:${port}/`);
+  log.info('[Main]', '后端服务于:', `http://${ip}:${port}/`);
 });

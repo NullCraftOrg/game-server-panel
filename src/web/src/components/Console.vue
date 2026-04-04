@@ -6,7 +6,7 @@ import ServerInfoBar from '@/components/serverConsole/ServerInfoBar.vue'
 import TerminalPane from '@/components/serverConsole/TerminalPane.vue'
 import CommandInput from '@/components/serverConsole/CommandInput.vue'
 
-const props = defineProps(['id'])
+const props = defineProps(['uuid'])
 const serverStore = useServerStore()
 
 const server = ref({})
@@ -15,7 +15,7 @@ let timer = null
 
 // 获取服务器信息
 async function getServerInfo() {
-  server.value = await serverStore.fetchServerInfo(props.id)
+  server.value = await serverStore.fetchServerInfo(props.uuid)
 }
 
 // 启动
@@ -23,7 +23,7 @@ async function start() {
   if (actionLoading.value) return
   actionLoading.value = true
   try {
-    await api.startServer(props.id)
+    await api.startServer(props.uuid)
     await getServerInfo()
   } catch (err) {
     console.error('启动失败', err)
@@ -37,7 +37,7 @@ async function stop() {
   if (actionLoading.value) return
   actionLoading.value = true
   try {
-    await api.stopServer(props.id)
+    await api.stopServer(props.uuid)
     await getServerInfo()
   } catch (err) {
     console.error('停止失败', err)
@@ -74,6 +74,6 @@ onUnmounted(() => {
     @start="start"
     @stop="stop"
   />
-  <TerminalPane ref="terminalRef" :id="props.id" />
+  <TerminalPane ref="terminalRef" :uuid="props.uuid" />
   <CommandInput @send="handleSendCommand" />
 </template>

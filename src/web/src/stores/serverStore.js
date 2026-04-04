@@ -10,13 +10,13 @@ export const useServerStore = defineStore('server', () => {
     const error = ref(null)
 
     // 获取单个服务器详细信息，并更新到 servers 数组中，不支持轮询，需要自己设置定时器查询。
-    async function fetchServerInfo(id) {
+    async function fetchServerInfo(uuid) {
         loading.value = true
         error.value = null
         try {
-            const serverInfo = await api.getServerInfo(id)
+            const serverInfo = await api.getServerInfo(uuid)
             // 查找并更新 servers 中对应的项
-            const index = servers.value.findIndex(s => s.id === id)
+            const index = servers.value.findIndex(s => s.uuid === uuid)
             if (index !== -1) {
                 // 合并现有基础信息和新获取的详细信息
                 servers.value[index] = { ...servers.value[index], ...serverInfo }
@@ -109,7 +109,7 @@ export const useServerStore = defineStore('server', () => {
 
     // 提供更新单个服务器状态的便捷方法（可用于手动操作后局部更新）
     function updateServerStatus(serverId, isRunning) {
-        const server = servers.value.find(s => s.id === serverId)
+        const server = servers.value.find(s => s.uuid === serverId)
         if (server) server.isRunning = isRunning
     }
 

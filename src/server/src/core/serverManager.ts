@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
-import fs from 'node:fs'
-import path from 'node:path'
-import { PATHS } from '../utils/paths.ts'
 import GameServer from './gameServer.ts'
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts'
+
+// 测试数据库
+import { DBServers } from '../database/db.ts'
 
 // 界定 get()、info()、list() 函数返回的内容(服务器实例信息)
 export interface ServerInfo extends ServerConfigInterface {
@@ -15,38 +15,38 @@ export interface ServerInfo extends ServerConfigInterface {
 
 class ServerManager {
     servers: Map<string, GameServer>
-    file: string
+    // file: string
 
     constructor() {
         this.servers = new Map()
-        this.file = path.join(PATHS.data, 'servers.json') // 存储服务器列表的文件路径
+        // this.file = path.join(PATHS.data, 'servers.json') // 存储服务器列表的文件路径
         this.load()
     }
 
     /**
-     * 通过Id获取服务器实例信息
-     * @param id 服务器唯一Id
+     * 通过uuid获取服务器实例信息
+     * @param uuid 服务器唯一uuid
      * @returns 服务器实例信息或undefined
      */
-    get(id: string): GameServer | undefined {
+    get(uuid: string): GameServer | undefined {
         // 我想从结构中去掉一些值例如 process、clients、logBuffer 等等
-        const server = this.servers.get(id)
+        const server = this.servers.get(uuid)
         if (!server) return
         return server
     }
 
     /**
-     * 通过Id获取服务器状态信息
-     * @param id 服务器唯一Id
+     * 通过uuid获取服务器状态信息
+     * @param uuid 服务器唯一uuid
      * @returns 服务器实例信息或undefined
      */
-    info(id: string): ServerInfo | undefined {
-        const server = this.servers.get(id)
+    info(uuid: string): ServerInfo | undefined {
+        const server = this.servers.get(uuid)
         if (!server) return
 
         // 去除一些不需要的信息，Info信息最好精简来减少轮询性能损耗。
         const { process, clients, logBuffer, maxLines, ...newInfoData } = server;
-        
+
         return newInfoData
     }
 
@@ -56,7 +56,7 @@ class ServerManager {
      */
     list(): Array<ServerInfo> {
         return Array.from(this.servers.values()).map(s => ({
-            id: s.id,
+            uuid: s.uuid,
             name: s.name,
             fileName: s.fileName,
             command: s.command,
@@ -72,34 +72,38 @@ class ServerManager {
 
     /**
      * 创建服务器
-     * @param config 通过服务器配置对象创建服务器，唯一Id会自动生成
+     * @param config 通过服务器配置对象创建服务器，唯一uuid会自动生成
      * @returns GameServer实例
      */
-    create(config: Omit<ServerConfigInterface, 'id'>): GameServer {
-        // 通过 uuidv4 随机生成服务器的唯一 Id
-        const id = uuidv4()
+    create(config: Omit<ServerConfigInterface, 'uuid'>): GameServer {
+        // 通过 uuidv4 随机生成服务器的唯一 uuid
+        const uuid = uuidv4()
         // 融合数据
         const server = new GameServer({
-            id,
+            uuid,
             ...config
         })
         // 检测可执行文件是否存在
         server.checkFileExist()
         // 存入
-        this.servers.set(id, server)
-        this.save()
+        this.servers.set(uuid, server)
+        // this.save()
+
+        // 数据库插入
+        DBServers.add(server)
+
         return server
     }
 
     /**
-     * 通过服务器唯一Id更新服务器配置
-     * @param id 服务器唯一Id
+     * 通过服务器唯一uuid更新服务器配置
+     * @param uuid 服务器唯一uuid
      * @param config 服务器配置对象
      * @returns 更新后的GameServer实例或undefined
      */
-    update(id: string, config: Partial<Omit<ServerConfigInterface, 'id'>>): GameServer | undefined {
-        // 通过唯一ID获取原数据
-        const server = this.servers.get(id)
+    update(uuid: string, config: Partial<Omit<ServerConfigInterface, 'uuid'>>): GameServer | undefined {
+        // 通过唯一uuid获取原数据
+        const server = this.servers.get(uuid)
         if (!server) return
 
         // 更新数据
@@ -111,19 +115,26 @@ class ServerManager {
 
         // 更新可执行文件是否存在
         server.checkFileExist()
-        this.save()
+        // this.save()
+
+        // 通过 uuid 更新数据
+        DBServers.update(uuid, server)
+
         return server
     }
 
     /**
      * 删除服务器
-     * @param id 服务器唯一Id
-     * @returns 被删除的服务器唯一Id
+     * @param uuid 服务器唯一uuid
+     * @returns 被删除的服务器唯一uuid
      */
-    delete(id: string): string {
-        this.servers.delete(id)
-        this.save()
-        return id
+    delete(uuid: string): string {
+        this.servers.delete(uuid)
+        // this.save()
+
+        // 通过 uuid 删除数据
+        DBServers.delete(uuid)
+        return uuid
     }
 
     /**
@@ -131,39 +142,44 @@ class ServerManager {
      * TODO: 可能要改造成db
      */
     load(): void {
-        if (!fs.existsSync(this.file)) return
+        // if (!fs.existsSync(this.file)) return
+        // 老方案：通过文件加载
+        //const data: ServerConfigInterface[] = JSON.parse(fs.readFileSync(this.file, 'utf-8'))
 
-        const data: ServerConfigInterface[] = JSON.parse(fs.readFileSync(this.file, 'utf-8'))
+        // 新方案：通过 db 加载
+        const data: ServerConfigInterface[] = DBServers.getAll()
+
+        if(!data) return
 
         for (const item of data) {
             const server = new GameServer(item)
             // 载入时更新可执行文件是否存在
             server.checkFileExist()
-            this.servers.set(item.id, server)
+            this.servers.set(item.uuid, server)
         }
     }
 
     /**
      * 将服务器列表保存到文件
      */
-    save(): void {
-        // 确保数据目录存在
-        const dir = path.dirname(this.file)
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true })
-        }
-        // 只保存配置和运行状态，剔除运行时类信息
-        const data = this.list().map((
-            {
-                fileExist,
-                isRunning,
-                lastStartTime,
-                lastStopTime,
-                ...rest
-            }
-        ) => rest)
-        fs.writeFileSync(this.file, JSON.stringify(data, null, 2), 'utf-8')
-    }
+    // save(): void {
+    //     // 确保数据目录存在
+    //     const dir = path.dirname(this.file)
+    //     if (!fs.existsSync(dir)) {
+    //         fs.mkdirSync(dir, { recursive: true })
+    //     }
+    //     // 只保存配置和运行状态，剔除运行时类信息
+    //     const data = this.list().map((
+    //         {
+    //             fileExist,
+    //             isRunning,
+    //             lastStartTime,
+    //             lastStopTime,
+    //             ...rest
+    //         }
+    //     ) => rest)
+    //     fs.writeFileSync(this.file, JSON.stringify(data, null, 2), 'utf-8')
+    // }
 
 }
 

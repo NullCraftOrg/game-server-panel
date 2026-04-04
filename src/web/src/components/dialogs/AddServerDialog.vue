@@ -38,7 +38,7 @@
                 <path d="M14 2v5a1 1 0 0 0 1 1h5M10 18l3-3l-3-3" />
               </g>
             </svg>
-            <input type="text" class="grow" v-model="formData.fileName" placeholder="C:/myserver/example.exe"
+            <input type="text" class="grow" v-model="formData.fileName" placeholder="C:\myserver\example.exe"
               @input="clearError('fileName')" />
             <span class="badge badge-neutral badge-xs">必填</span>
           </label>
@@ -68,7 +68,7 @@
                 <path d="m8 16l3-3l-3-3" />
               </g>
             </svg>
-            <input type="text" class="grow" v-model="formData.cwd" placeholder="D:/serversaves"
+            <input type="text" class="grow" v-model="formData.cwd" placeholder="D:\serversaves"
               @input="clearError('fileName')" />
           </label>
           <p class="label">通常为服务器文件所在目录</p>
@@ -109,7 +109,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  // 编辑模式下传入的服务器对象（包含 id 和所有字段）
+  // 编辑模式下传入的服务器对象（包含 uuid 和所有字段）
   server: {
     type: Object,
     default: null
@@ -119,7 +119,7 @@ const props = defineProps({
 const emit = defineEmits(['confirm', 'update:visible'])
 
 // 判断是否为编辑模式
-const isEditMode = computed(() => !!props.server?.id)
+const isEditMode = computed(() => !!props.server?.uuid)
 
 // 表单数据
 const formData = ref({
@@ -188,12 +188,12 @@ const closeDialog = () => {
 const confirm = () => {
   if (!validateForm()) return
 
-  // 构建返回数据：如果是编辑模式，包含 id 和所有字段；新建模式则只包含字段
+  // 构建返回数据：如果是编辑模式，包含 uuid 和所有字段；新建模式则只包含字段
   const result = {
     ...formData.value
   }
-  if (isEditMode.value && props.server?.id) {
-    result.id = props.server.id
+  if (isEditMode.value && props.server?.uuid) {
+    result.uuid = props.server.uuid
   }
 
   emit('confirm', result)

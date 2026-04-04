@@ -1,6 +1,6 @@
 [
   {
-    "id": "a164c774-5021-497e-ac56-9544b31a39c1",
+    "uuid": "a164c774-5021-497e-ac56-9544b31a39c1",
     "name": "Bedrock",
     "fileName": "F:\\Minecraft\\Minecraft Server\\Bedrock\\bedrock_server.exe",
     "command": "-hello",
@@ -8,7 +8,7 @@
     "forceUtf8Mode": false
   },
   {
-    "id": "2aa35c67-8693-4dac-b67a-fd559a6fc441",
+    "uuid": "2aa35c67-8693-4dac-b67a-fd559a6fc441",
     "name": "WorkMCTest",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-21.0.10.7-hotspot\\bin\\java.exe",
     "command": "-jar paper-1.21.11-127.jar",
@@ -16,7 +16,7 @@
     "forceUtf8Mode": false
   },
   {
-    "id": "1718de46-b5dd-4f05-90d2-778096b8f755",
+    "uuid": "1718de46-b5dd-4f05-90d2-778096b8f755",
     "name": "WorkMC26.1",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
     "command": "-jar server.jar",
@@ -24,7 +24,7 @@
     "forceUtf8Mode": true
   },
   {
-    "id": "80e5f79d-c745-419b-ac63-893ee869f5ac",
+    "uuid": "80e5f79d-c745-419b-ac63-893ee869f5ac",
     "name": "MCPaper-1.21.11",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
     "command": "-jar paper-1.21.11-127.jar nogui",
@@ -32,15 +32,15 @@
     "forceUtf8Mode": false
   },
   {
-    "id": "155c4cf9-86e3-41d7-80ce-a4ec77370117",
+    "uuid": "155c4cf9-86e3-41d7-80ce-a4ec77370117",
     "name": "😀",
-    "fileName": "0",
+    "fileName": "123456",
     "command": "",
-    "cwd": ".",
+    "cwd": "",
     "forceUtf8Mode": false
   },
   {
-    "id": "57ea64e7-46a4-4865-8328-fad1d49d13c5",
+    "uuid": "57ea64e7-46a4-4865-8328-fad1d49d13c5",
     "name": "MC26.1",
     "fileName": "C:\\Program Files\\Microsoft\\jdk-25.0.2.10-hotspot\\bin\\java.exe",
     "command": "-jar server.jar",
@@ -48,11 +48,19 @@
     "forceUtf8Mode": true
   },
   {
-    "id": "152fe78d-4739-418a-a68d-de9c129ca44c",
+    "uuid": "152fe78d-4739-418a-a68d-de9c129ca44c",
     "name": "1",
     "fileName": "java",
     "command": "",
     "cwd": "",
     "forceUtf8Mode": false
+  },
+  {
+    "uuid": "3b366bd2-0930-4662-a70a-5d01038fd7d8",
+    "name": "数据库测试服务器",
+    "fileName": "A:/BBB/1.exe",
+    "command": "-hello!",
+    "cwd": "Z:/Server",
+    "forceUtf8Mode": true
   }
 ]

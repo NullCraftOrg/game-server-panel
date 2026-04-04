@@ -62,7 +62,7 @@ const animate = computed(() => props.server.fileExist ? 'animate-ping' : '')
             {{ statusText }}
           </div>
         </div>
-        <p class="font-mono text-xs">{{ server.id ?? '-' }}</p>
+        <p class="font-mono text-xs">{{ server.uuid ?? '-' }}</p>
       </div>
 
       <div class="flex gap-2">

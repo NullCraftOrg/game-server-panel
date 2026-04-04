@@ -22,7 +22,7 @@
 import { ref, watch } from 'vue'
 
 const props = defineProps({
-  // 待删除的服务器对象，包含 name 和 id 等字段
+  // 待删除的服务器对象，包含 name 和 uuid 等字段
   selectedServer: {
     type: Object,
     default: null
@@ -56,8 +56,8 @@ const closeDialog = () => {
 }
 
 const confirm = () => {
-  // 将服务器 ID 传递给父组件
-  emit('confirm', props.selectedServer?.id)
+  // 将服务器 uuid 传递给父组件
+  emit('confirm', props.selectedServer?.uuid)
   closeDialog()
 }
 

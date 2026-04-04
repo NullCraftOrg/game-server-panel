@@ -2,7 +2,7 @@
 // 这些是长期存在的数据，非必要存储的配置不要写入，可以使用继承。
 
 export interface ServerConfigInterface {
-  id: string              // 唯一ID（uuid）
+  uuid: string              // 唯一ID（uuid）
   name: string            // 服务器名称
   fileName: string        // 启动程序（例如：java.exe / hlds.exe）
   command: string         // 启动参数

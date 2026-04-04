@@ -43,9 +43,9 @@ function formattedTime(time) {
 
         <div class="flex justify-between p-4 pt-0">
             <ServerActionButtons @edit="$emit('edit', server)" @delete="$emit('delete', server)" />
-            <ServerControlButtons :server-id="server.id" :loading="loading" :is-running="server.isRunning"
-                @start="$emit('start', server.id)" @stop="$emit('stop', server.id)"
-                @console="$emit('console', server.id)" />
+            <ServerControlButtons :server-uuid="server.uuid" :loading="loading" :is-running="server.isRunning"
+                @start="$emit('start', server.uuid)" @stop="$emit('stop', server.uuid)"
+                @console="$emit('console', server.uuid)" />
         </div>
     </div>
 </template>

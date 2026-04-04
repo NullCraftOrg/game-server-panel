@@ -9,7 +9,7 @@ import { WebLinksAddon } from '@xterm/addon-web-links';
 import { WebglAddon } from '@xterm/addon-webgl';
 import { Unicode11Addon } from '@xterm/addon-unicode11';
 
-const props = defineProps(['id'])
+const props = defineProps(['uuid'])
 
 const termElement = ref(null)
 let term = null
@@ -75,7 +75,7 @@ onMounted(async () => {
 
   // 2026-03-23 已不需要通过API加载，补发日志功能使用 WebsSocket 连接时发送。
   // 通过HTTP API加载历史日志
-  // const data = await api.getServerLog(props.id)
+  // const data = await api.getServerLog(props.uuid)
   // if (data.logs) {
   //   console.log(data.logs, 'data.logs');
   //   term.write(data.logs)
@@ -83,7 +83,7 @@ onMounted(async () => {
 
   // 建立 WebSocket
   socket = createWS(
-    props.id,
+    props.uuid,
     (data) => {
       term.write(data)
     }

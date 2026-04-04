@@ -6,5 +6,5 @@ const route = useRoute()
 </script>
 
 <template>
-  <Console :id="route.params.id" />
+  <Console :uuid="route.params.uuid" />
 </template>

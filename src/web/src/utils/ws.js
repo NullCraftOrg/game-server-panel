@@ -1,9 +1,9 @@
-export function createWS(id, onMessage) {
+export function createWS(uuid, onMessage) {
   let ws;
   let timer;
 
   function connect() {
-    ws = new WebSocket(`ws://localhost:${__API_PORT__}?id=${id}`);
+    ws = new WebSocket(`ws://localhost:${__API_PORT__}?uuid=${uuid}`);
 
     ws.onmessage = (e) => {
       onMessage(e.data);
