@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { createWS } from '@/utils/ws'
-import { api } from '@/api'
 // xterm 终端相关
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
@@ -16,7 +15,14 @@ let term = null
 let fitAddon = null
 let socket = null
 
-// 暴露给父组件发送命令的方法
+// 滚动终端底部按钮显示状态
+const showTermScrollButton = ref(true)
+// 点击按钮滚动到底部
+const termScrollToBottom = () => {
+  term.scrollToBottom();
+};
+
+// 发送命令
 const sendCommand = (command) => {
   if (socket) {
     socket.send(command + '\r')
@@ -24,9 +30,6 @@ const sendCommand = (command) => {
     console.warn('WebSocket未连接，无法发送命令')
   }
 }
-
-// 暴露
-defineExpose({ sendCommand })
 
 // 跟随窗口大小变化自适应
 function resizeScreen() {
@@ -72,14 +75,13 @@ onMounted(async () => {
   // 自适应大小
   fitAddon.fit()
 
-
-  // 2026-03-23 已不需要通过API加载，补发日志功能使用 WebsSocket 连接时发送。
-  // 通过HTTP API加载历史日志
-  // const data = await api.getServerLog(props.uuid)
-  // if (data.logs) {
-  //   console.log(data.logs, 'data.logs');
-  //   term.write(data.logs)
-  // }
+  // 监听滚动事件，控制滚动到底部按钮显示
+  term.onScroll(() => {
+    // buffer.active.viewportY: 当前滚动到的行位置
+    // buffer.active.baseY: 终端内容的总行数（减去视口高度）
+    // 如果 viewportY < baseY，说明滚动条不在最下方
+    showTermScrollButton.value = term.buffer.active.viewportY >= term.buffer.active.baseY;
+  });
 
   // 建立 WebSocket
   socket = createWS(
@@ -103,10 +105,37 @@ onUnmounted(() => {
   socket?.close()
   term?.dispose()
 })
+
+// 暴露给父组件发送命令的方法
+defineExpose({ sendCommand })
 </script>
 
 <template>
-  <div class="rounded-box shadow-sm my-2 p-2" style="background-color: #212121;">
+  <div class="relative rounded-box shadow-sm my-2 p-2" style="background-color: #212121;">
     <div ref="termElement"></div>
+
+    <Transition name="fade">
+      <button v-if="!showTermScrollButton" @click="termScrollToBottom"
+        class="absolute bottom-7 right-7 z-10 btn btn-square btn-sm shadow hover:scale-108 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+          class="size-4">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 17V3m-6 8l6 6l6-6m1 10H5" />
+        </svg>
+      </button>
+    </Transition>
   </div>
+
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

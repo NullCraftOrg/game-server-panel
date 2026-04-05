@@ -24,10 +24,10 @@ const LEVEL_NAMES = {
 // 颜色
 const LEVEL_COLORS = {
   DEBUG: '\x1b[2m',
-  INFO: '\x1b[96m',
+  INFO: '\x1b[36m',
   WARN: '\x1b[33m',
   ERROR: '\x1b[31m',
-  NULLCRAFT: '\x1b[36m',
+  NULLCRAFT: '\x1b[96m',
   RESET: '\x1b[0m'
 }
 
@@ -66,7 +66,7 @@ class Logger {
   }
 
   private formatMessage(level: any, message: string): string {
-    const timestamp = new Date().toISOString()
+    const timestamp = new Date().toLocaleString()
     const levelStr = LEVEL_NAMES[level]
     return `[${timestamp}] [${levelStr}] ${message}`
   }

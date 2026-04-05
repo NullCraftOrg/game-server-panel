@@ -3,7 +3,7 @@ import systemMonitor from "../../core/systemMonitor.ts";
 
 const monitorRouter = express.Router();
 
-//BaseURL = /api/servers
+//BaseURL = /api/monitor
 
 monitorRouter.get("/", (req, res) => {
   res.json(systemMonitor.getInfo())

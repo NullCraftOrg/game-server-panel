@@ -94,7 +94,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                 this.lastStartTime = Date.now() // 更新启动时间
 
                 const startMsg = ['启动进程:', `${this.name}(${this.uuid})`, 'PID:', this.process.pid].join(' ')
-                this.appendLog(startMsg + '\r\n')
+                this.appendLog(startMsg + '\r\n', true)
                 log.info(startMsg)
             }
         }
@@ -136,7 +136,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.lastStopTime = Date.now() // 更新停止时间
 
             const exitMsg = ['进程退出:', `${this.name}(${this.uuid})`, 'ExitCode:', exitCode ?? -1, 'Signal:', signal ?? 'Exit'].join(' ')
-            this.appendLog(exitMsg + '\r\n')
+            this.appendLog(exitMsg + '\r\n', true)
             log.info(exitMsg)
         })
     }
@@ -147,7 +147,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
     private handleProcessError(error: any, customMsg: string = '') {
         const errMsg: string = [customMsg, error.name, error.message].join(' ')
         log.error(errMsg);
-        this.appendLog(errMsg + '\r\n');
+        this.appendLog(errMsg + '\r\n', true);
     }
 
     /**
@@ -187,7 +187,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.process = null
             this.isRunning = false
 
-            this.appendLog('正在重新启动服务器...、\r\n')
+            this.appendLog('正在重新启动服务器...、\r\n', true)
 
             setTimeout(() => {
                 this.start()
@@ -211,8 +211,14 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * 广播消息并追加到缓存日志中用于读取
      * 注意：非必要内容不建议加入到缓存日志中，可单独通过 broadcast() 发送通知
      * @param data 日志内容
+     * @param format 是否格式化内容显示
      */
-    appendLog(data: string): void {
+    appendLog(data: string, format: boolean = false): void {
+        if(format){
+            const timestamp = new Date().toLocaleString()
+            data = `[${timestamp}] ${data}`
+        }
+        
         this.logBuffer.push(data)
 
         // 移除达到上限值的先前内容

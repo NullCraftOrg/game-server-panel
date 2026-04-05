@@ -1,3 +1,18 @@
+v2026-04-05 22:50:00
+
+[后端更新]
+- 监控功能 `GET /api/monitor` 新增 CPU、RAM 的周期数据记录功能(60次记录)
+- `gameServer.ts` 中 `appendLog()` 函数新增 `format: boolean` 参数用于控制是否增加格式化内容(目前格式化内容：日期)
+- `logger.ts` 调换 `LEVEL_COLORS` 中 `NULLCRAFT` 与 `INFO` 的ANSI颜色
+
+[前端更新]
+- 仪表盘适配周期记录功能的监控卡片，现在它会渲染一个类似"任务管理器"的折线图表在背景上(请看下图)
+    - ![card](/images/changelog/UsageCard-202604052250.png)
+    - ![card](/images/changelog/UsageCard-Dark-202604052250.png)
+
+
+---
+
 v2026-04-05 16:20:00
 
 [后端更新]

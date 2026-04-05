@@ -46,7 +46,7 @@ After setting up the environment, proceed with dependency installation.
 
 ## Project Images
 
-![NGSP-Main](/images/Main.png)
-![NGSP-Dashbroad](/images/Dashbroad-20260331-201010.png)
-![NGSP-Console](/images/Console-20260330-215117.png)
-![NGSP-ServerList](/images/ServerList-20260330-215015.png)
+![NGSP-Dashbroad](/images/Dashboard-20260405223400.jpeg)
+![NGSP-Dashbroad-Dark](/images/Dashboard-Dark-20260405223500.jpeg)
+![NGSP-Console](/images/Console-20260405223000.jpeg)
+![NGSP-ServerList](/images/ServerList-20260405222500.jpeg)

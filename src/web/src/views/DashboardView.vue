@@ -142,7 +142,7 @@ let timer = null
 
 onMounted(async () => {
     await getMonitorData()
-    timer = setInterval(() => getMonitorData(), 3000)
+    timer = setInterval(() => getMonitorData(), 1000) // x毫秒刷新一次数据
 })
 
 onUnmounted(() => {
@@ -189,7 +189,8 @@ const handleConfirm = (data) => {
             <DashboardServerInfoCard :all="appInfo.servers?.total" :running="appInfo.servers?.running"
                 @create="openCreateDialog" />
 
-            <DashboardUsageCard title="系统内存" desc="已用内存/内存总数" :left="formatBytes(systemInfo.ram?.usage ?? 0, 1)"
+            <DashboardUsageCard title="系统内存" desc="已用内存/内存总数" lineColor="rgb(51, 120, 229)" areaColorTop="rgba(51, 120, 229, 0.5)" areaColorBottom="rgba(51, 120, 229, 0.2)"
+                :data="systemInfo.ram?.usagePercentData" :left="formatBytes(systemInfo.ram?.usage ?? 0, 1)"
                 :right="formatBytes(systemInfo.ram?.total ?? 0, 1)" :percent="systemInfo.ram?.usagePercent ?? 0"
                 :percent-color="percentColor(systemInfo.ram?.usagePercent ?? 0)">
                 <svg class="size-[1.2em] shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -204,7 +205,8 @@ const handleConfirm = (data) => {
             </DashboardUsageCard>
 
 
-            <DashboardUsageCard title="系统核心" desc="已用核心/核心总率" :left="systemCpuUsageCores + '%'"
+            <DashboardUsageCard title="系统核心" desc="已用核心/核心总率" lineColor="rgb(12, 119, 151)" areaColorTop="rgba(12, 119, 151, 0.6)" areaColorBottom="rgba(12, 119, 151, 0.2)"
+                :data="systemInfo.cpu?.usagePercentData" :left="systemCpuUsageCores + '%'"
                 :right="systemCpuTotalCores + '%'" :percent="systemInfo.cpu?.usagePercent ?? 0"
                 :desc="systemInfo.cpu?.model + ` (${systemInfo.cpu?.arch})`"
                 :percent-color="percentColor(systemInfo.cpu?.usagePercent ?? 0)">
