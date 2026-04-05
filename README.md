@@ -52,4 +52,4 @@
 ![NGSP-Dashbroad](/images/Dashboard-20260405223400.jpeg)
 ![NGSP-Dashbroad-Dark](/images/Dashboard-Dark-20260405223500.jpeg)
 ![NGSP-Console](/images/Console-20260405223000.jpeg)
-![NGSP-ServerList](/images/ServerList-20260404222500.jpeg)
+![NGSP-ServerList](/images/ServerList-20260405222500.jpeg)

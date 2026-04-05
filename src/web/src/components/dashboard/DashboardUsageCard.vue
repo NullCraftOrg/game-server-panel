@@ -32,8 +32,8 @@ const props = defineProps({
     },
 })
 
-// 生成唯一 ID（确保每个组件实例不同）
-const areaGrad = `areaGrad-${Math.random().toString(36).substr(2, 8)}`;
+// 随机 ID 用于渐变定义
+const areaGradId = `areaGrad-${Math.random()}`;
 
 // 数据到 0-100 范围
 const normalized = computed(() =>
@@ -74,7 +74,6 @@ const areaPath = computed(() => {
     d += ` L 100 100 Z`
     return d
 })
-console.log(props.areaColorTop, props.areaColorBottom)
 </script>
 
 <template>
@@ -83,14 +82,14 @@ console.log(props.areaColorTop, props.areaColorBottom)
         <svg class="absolute inset-0 w-full h-full pointer-events-none rounded-box" preserveAspectRatio="none" viewBox="0 0 100 100">
             <!-- 定义渐变 -->
             <defs>
-                <linearGradient :id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient :id="areaGradId" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" :stop-color="areaColorTop" />
                     <stop offset="100%" :stop-color="areaColorBottom" />
                 </linearGradient>
             </defs>
 
             <!-- 填充渐变 -->
-            <path :d="areaPath" :fill="`url(#${areaGrad})`" class="transition-all duration-500" />
+            <path :d="areaPath" :fill="`url(#${areaGradId})`" class="transition-all duration-500" />
 
             <!-- 添加折线 -->
             <path :d="linePath" fill="none" :stroke="lineColor" vector-effect="non-scaling-stroke"
