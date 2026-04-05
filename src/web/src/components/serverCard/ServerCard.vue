@@ -11,7 +11,7 @@ defineProps({
     loading: Boolean
 })
 
-defineEmits(['start', 'stop', 'edit', 'delete', 'console'])
+defineEmits(['start', 'stop', 'restart', 'edit', 'delete', 'console'])
 
 // 计算属性返回格式化字符串
 function formattedTime(time) {
@@ -44,7 +44,7 @@ function formattedTime(time) {
         <div class="flex justify-between p-4 pt-0">
             <ServerActionButtons @edit="$emit('edit', server)" @delete="$emit('delete', server)" />
             <ServerControlButtons :server-uuid="server.uuid" :loading="loading" :is-running="server.isRunning"
-                @start="$emit('start', server.uuid)" @stop="$emit('stop', server.uuid)"
+                @start="$emit('start', server.uuid)" @stop="$emit('stop', server.uuid)" @restart="$emit('restart', server.uuid)"
                 @console="$emit('console', server.uuid)" />
         </div>
     </div>

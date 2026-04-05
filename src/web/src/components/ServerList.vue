@@ -75,6 +75,18 @@ async function stop(uuid) {
     }
 }
 
+async function restart(uuid) {
+    setLoading(uuid, true)
+    try {
+        await api.restartServer(uuid)
+        await serverStore.fetchServers()
+    } catch (err) {
+        console.error('重启失败', err)
+    } finally {
+        setLoading(uuid, false)
+    }
+}
+
 async function remove(uuid) {
     await api.deleteServer(uuid)
     await serverStore.fetchServers()
@@ -140,8 +152,8 @@ onUnmounted(() => {
             <!-- 全部服务器卡片列表 -->
             <div class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <ServerCard v-for="server in serverStore.servers" :key="server.uuid" :server="server"
-                    :loading="isLoading(server.uuid)" @start="start" @stop="stop" @edit="openEditDialog"
-                    @delete="openDeleteDialog" @console="openConsole" />
+                    :loading="isLoading(server.uuid)" @edit="openEditDialog" @delete="openDeleteDialog" @start="start"
+                    @stop="stop" @restart="restart" @console="openConsole" />
             </div>
         </div>
 

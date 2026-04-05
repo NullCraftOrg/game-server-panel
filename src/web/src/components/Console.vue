@@ -46,6 +46,19 @@ async function stop() {
   }
 }
 
+async function restart() {
+  if (actionLoading.value) return
+  actionLoading.value = true
+  try {
+    await api.restartServer(props.uuid)
+    await getServerInfo()
+  } catch (err) {
+    console.error('重启失败', err)
+  } finally {
+    actionLoading.value = false
+  }
+}
+
 // 发送命令（由 CommandInput 触发）
 const terminalRef = ref(null)
 const handleSendCommand = (cmd) => {
@@ -73,6 +86,7 @@ onUnmounted(() => {
     :action-loading="actionLoading"
     @start="start"
     @stop="stop"
+    @restart="restart"
   />
   <TerminalPane ref="terminalRef" :uuid="props.uuid" />
   <CommandInput @send="handleSendCommand" />

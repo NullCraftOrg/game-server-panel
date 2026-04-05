@@ -75,4 +75,9 @@ serversRouter.post('/:id/stop', (req, res) => {
   res.send('ok')
 });
 
+serversRouter.post('/:id/restart', (req, res) => {
+  ServerManager.get(req.params.id)?.restart()
+  res.send('ok')
+});
+
 export default serversRouter

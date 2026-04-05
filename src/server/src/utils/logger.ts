@@ -32,24 +32,22 @@ const LEVEL_COLORS = {
 }
 
 class Logger {
-  private logToFile: boolean
-  private logFilePath: string
-  private stream: fs.WriteStream | null = null
+  level: number = LOG_LEVELS.INFO
+  logToFile: boolean
+  logFilePath: string
+  stream: fs.WriteStream | null = null
 
-  constructor(
-    logToFile: boolean = false,
-    logFilePath: string = path.join(PATHS.logs, 'app.log')
-  ) {
-    this.logToFile = logToFile
-    this.logFilePath = logFilePath
-
-    if (this.logToFile) {
-      this.initStream()
-    }
+  constructor(level: number = LOG_LEVELS.INFO, logToFile: boolean, logFilePath: string | null = null) {
+    this.level = level ?? LOG_LEVELS.INFO,
+    this.logToFile = logToFile ?? false,
+    this.logFilePath = logFilePath ?? path.join(PATHS.logs, 'app.log'),
+    this.initStream()
   }
 
   // 初始化写入流
   private initStream() {
+    if(!this.logToFile) return
+
     const dir = path.dirname(this.logFilePath)
     // 检测目录
     if (!fs.existsSync(dir)) {
@@ -85,6 +83,9 @@ class Logger {
   }
 
   private log(level: any, args: string[]): void {
+    // 当小于显示级别时返回
+    if (level < this.level) return;
+
     const message = args.join(' ')
     const formattedMessage =
       level === LOG_LEVELS.NONE ? message : this.formatMessage(level, message)
@@ -95,8 +96,8 @@ class Logger {
     // 控制台颜色
     const coloredMessage =
       this.getColor(level) + formattedMessage + LEVEL_COLORS.RESET
-    
-      // 控制台输出
+
+    // 控制台输出
     const consoleMethod = (() => {
       switch (level) {
         case LOG_LEVELS.DEBUG: return console.debug

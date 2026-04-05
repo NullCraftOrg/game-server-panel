@@ -1,6 +1,6 @@
 import os from 'node:os'
 import fs from 'node:fs'
-import pty from 'node-pty'
+import * as pty from 'node-pty';
 // 自实现日志
 import { log } from '../log.ts'
 // 引用接口定义
@@ -9,13 +9,16 @@ import type { ServerRuntimeInterface } from '../interface/ServerRuntimeInterface
 
 // 服务器类，负责管理游戏服务器的生命周期和状态
 export default class GameServer implements ServerConfigInterface, ServerRuntimeInterface {
+    // 仅自身使用
+    private isRestarting: boolean = false // 是否处于重启状态中
+
     // ServerConfigInterface
     uuid: string // 服务器唯一标识符(uuidv4)
     name: string
     fileName: string
     command: string
     cwd: string // 工作目录
-    forceUtf8Mode?: boolean // 强兼容UTF-8模式（仅Windows有效用于解决部分游戏乱码问题）
+    forceUtf8Mode?: boolean // 强兼容UTF-8模式(仅Windows有效用于解决部分游戏乱码问题)
 
     // ServerRuntimeInterface
     lastStartTime: number | null
@@ -57,15 +60,16 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         if (this.process) return
 
         try {
-            const isWindows = os.platform() === 'win32'
+            let file: string = this.fileName
+            let args: string = this.command
+            const isWindows: boolean = os.platform() === 'win32'
 
             if (this.forceUtf8Mode && isWindows) {
                 const useForceUtf8ModeMsg = "当前使用强兼容UTF-8模式启动服务器。"
-
                 log.warn(`${this.name}(${this.uuid})`, useForceUtf8ModeMsg)
-
-                const shell = 'cmd.exe'
-                const chcpArgs = [
+                // 重新设置启动参数
+                file = 'cmd.exe'
+                args = [
                     '/d',
                     '/s',
                     '/c',
@@ -73,58 +77,60 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                     '&&',
                     'chcp 65001>nul',
                     '&&',
-                    'cls',
-                    '&&',
                     `"${this.fileName}"`,
                     `${this.command}`
-                ]
-
-                this.process = pty.spawn(shell, chcpArgs.join(' '), {
-                    name: 'xterm-256color',
-                    rows: this.maxLines,
-                    cols: this.maxLines,
-                    cwd: this.cwd,
-                    // windowsHide: true,
-                })
-            }
-            else {
-                // 正常方式启动
-                this.process = pty.spawn(this.fileName, this.command, {
-                    name: 'xterm-256color',
-                    rows: this.maxLines,
-                    cols: this.maxLines,
-                    cwd: this.cwd,
-                    // windowsHide: true,
-                })
+                ].join(' ')
             }
 
+            // 启动PTY
+            this.process = this.spawnProcess(file, args)
+            // 绑定事件
+            this.bindEvents(this.process)
+
+            // 进程启动成功后，记录 PID 和状态，并发送日志消息
+            if (this.process.pid) {
+                this.pid = this.process.pid
+                this.isRunning = true
+                this.lastStartTime = Date.now() // 更新启动时间
+
+                const startMsg = ['启动进程:', `${this.name}(${this.uuid})`, 'PID:', this.process.pid].join(' ')
+                this.appendLog(startMsg + '\r\n')
+                log.info(startMsg)
+            }
         }
         catch (error: any) {
-            const errMsg = ['进程错误:', `${this.name}(${this.uuid})`, '启动失败!', '原因:', error.name, error.message].join(' ')
-            log.error(errMsg)
-            this.appendLog(errMsg + '\r\n')
-
-            return
+            this.handleProcessError(error, `启动错误: ${this.name}(${this.uuid})`)
         }
+    }
 
-        // 进程启动成功后，记录 PID 和状态，并发送日志消息
-        if (this.process.pid) {
-            this.pid = this.process.pid
-            this.isRunning = true
-            this.lastStartTime = Date.now() // 更新启动时间
+    /**
+     * 启动pty线程
+     * @param filePath 文件路径
+     * @param args 附加命令
+     * @returns Pty
+     */
+    private spawnProcess(filePath: string, args: string | string[]): pty.IPty {
+        return pty.spawn(filePath, args, {
+            name: 'xterm-256color',
+            // rows: this.maxLines, // 行(高度)
+            cols: this.maxLines, // 列(宽度)
+            cwd: this.cwd,
+            env: process.env
+        })
+    }
 
-            const startMsg = ['启动进程:', `${this.name}(${this.uuid})`, 'PID:', this.process.pid].join(' ')
-            this.appendLog(startMsg + '\r\n')
-            log.info(startMsg)
-        }
-
+    /**
+     * 绑定pty线程的事件
+     * @param process 
+     */
+    private bindEvents(process: pty.IPty): void {
         // 将进程输出通过 WebSocket 广播给所有客户端，并缓存日志
-        this.process.onData((data: any) => {
+        process.onData((data: any) => {
             this.appendLog(data)
         })
 
         // 监听进程退出事件，更新状态并发送日志消息
-        this.process.onExit(({ exitCode, signal }: any) => {
+        process.onExit(({ exitCode, signal }: any) => {
             this.process = null
             this.isRunning = false
             this.lastStopTime = Date.now() // 更新停止时间
@@ -133,6 +139,15 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.appendLog(exitMsg + '\r\n')
             log.info(exitMsg)
         })
+    }
+
+    /**
+     * 启动错误处理
+     */
+    private handleProcessError(error: any, customMsg: string = '') {
+        const errMsg: string = [customMsg, error.name, error.message].join(' ')
+        log.error(errMsg);
+        this.appendLog(errMsg + '\r\n');
     }
 
     /**
@@ -145,8 +160,42 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.process.kill()
         }
         catch (error: any) {
-            log.error(`停止服务器 ${this.name}(${this.uuid}) 时发生错误:`, error.message)
+            this.handleProcessError(error, `停止错误: ${this.name}(${this.uuid})`)
         }
+    }
+
+    /**
+     * 重启服务器进程
+     */
+    restart(): void {
+        if (!this.process) {
+            this.start()
+            return
+        }
+
+        if (this.isRestarting) {
+            log.warn('重启拦截:', `${this.name}(${this.uuid})` ,'服务器已在重启中')
+            return
+        }
+
+        // 设置重启状态，以防多次触发重启
+        this.isRestarting = true
+
+        // 重启进程
+        const lastProcess = this.process
+        lastProcess.onExit(() => {
+            this.process = null
+            this.isRunning = false
+
+            this.appendLog('正在重新启动服务器...、\r\n')
+
+            setTimeout(() => {
+                this.start()
+                this.isRestarting = false // 恢复状态
+            }, 1000)
+        })
+
+        this.stop()
     }
 
     /**
@@ -166,12 +215,13 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
     appendLog(data: string): void {
         this.logBuffer.push(data)
 
+        // 移除达到上限值的先前内容
         if (this.logBuffer.length > this.maxLines) {
             this.logBuffer.shift()
         }
 
-        // 写文件日志
-        // fs.appendFile(this.logFile, data, () => { })
+        // 写文件日志-考虑是否有必要这个功能
+        // fs.appendFile(path, data, () => { })
 
         // 推送
         this.broadcast(data)
@@ -199,4 +249,5 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         this.fileExist = isExist
         return isExist
     }
+
 }

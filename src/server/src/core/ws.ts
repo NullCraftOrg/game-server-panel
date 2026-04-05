@@ -1,18 +1,12 @@
 import { WebSocketServer } from 'ws'
 import ServerManager from './serverManager.ts'
 import { log } from '../log.ts'
-import config from '../utils/config.ts'
 
 export default function InitWebSocket(server: any) {
     const wss = new WebSocketServer({ server })
-    const ip = config.ip ?? "localhost";
-    const port = config.port ?? 9119;
-    const baseURL = `http://${ip}:${port}`
-
-    log.info('[WebSocket]', '初始化', 'WebSocket', '服务于:', baseURL)
 
     wss.on('connection', (ws: any, req: any) => {
-        const url = new URL(req.url, baseURL)
+        const url = new URL(req.url, 'http://' + req.headers.host)
         const uuid = url.searchParams.get('uuid')
         if (!uuid) return ws.close()
 

@@ -13,7 +13,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['start', 'stop'])
+defineEmits(['start', 'stop', 'restart'])
 
 const statusText = computed(() => {
   if (!props.server.fileExist) {
@@ -75,6 +75,7 @@ const animate = computed(() => props.server.fileExist ? 'animate-ping' : '')
           </svg>
           启动
         </button>
+
         <button class="btn btn-outline btn-error" @click="$emit('stop')">
           <span v-show="actionLoading" class="loading loading-spinner size-[1.2em]"></span>
           <svg v-show="!actionLoading" class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -83,6 +84,19 @@ const animate = computed(() => props.server.fileExist ? 'animate-ping' : '')
               stroke-linejoin="round" stroke-width="2" rx="2" />
           </svg>
           停止
+        </button>
+
+        <button class="btn btn-outline btn-info" @click="$emit('restart')">
+          <span v-show="actionLoading" class="loading loading-spinner size-[1.2em]"></span>
+          <svg v-show="!actionLoading" class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path d="M21 12a9 9 0 0 0-9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5m-5 4a9 9 0 0 0 9 9a9.75 9.75 0 0 0 6.74-2.74L21 16" />
+              <path d="M16 16h5v5" />
+            </g>
+          </svg>
+          重启
         </button>
       </div>
 

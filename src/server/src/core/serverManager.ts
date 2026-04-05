@@ -1,9 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import GameServer from './gameServer.ts'
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts'
-
-// 测试数据库
-import { DBServers } from '../database/db.ts'
+import { DBServers } from '../db.ts'
 
 // 界定 get()、info()、list() 函数返回的内容(服务器实例信息)
 export interface ServerInfo extends ServerConfigInterface {

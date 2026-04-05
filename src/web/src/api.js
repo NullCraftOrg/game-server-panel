@@ -16,6 +16,9 @@ export const api = {
   // 停止指定服务器
   stopServer: (uuid) => fetch(`${BASE}/servers/${uuid}/stop`, { method: 'POST' }),
 
+  // 重启指定服务器
+  restartServer: (uuid) => fetch(`${BASE}/servers/${uuid}/restart`, { method: 'POST' }),
+
   // 创建服务器
   createServer: (data) =>
     fetch(`${BASE}/servers`, {
