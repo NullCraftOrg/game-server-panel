@@ -77,9 +77,9 @@ const areaPath = computed(() => {
 </script>
 
 <template>
-    <div class="card bg-base-100 shadow">
-
-        <svg class="absolute inset-0 w-full h-full pointer-events-none rounded-box" preserveAspectRatio="none" viewBox="0 0 100 100">
+    <div class="relative bg-base-100 rounded-box shadow">
+        <svg class="absolute inset-0 w-full h-full pointer-events-none rounded-box" preserveAspectRatio="none"
+            viewBox="0 0 100 100">
             <!-- 定义渐变 -->
             <defs>
                 <linearGradient :id="areaGradId" x1="0" y1="0" x2="0" y2="1">
@@ -97,9 +97,10 @@ const areaPath = computed(() => {
                 class="transition-all duration-500" />
         </svg>
 
-        <div class="relative z-10 stat">
-            <div class="stat-figure ">
-                <div class="glass radial-progress" :class="percentColor" role="progressbar" style="--size: 3rem;" :style="{ '--value': Math.round(percent) }">{{ Math.round(percent) }}</div>
+        <div class="stat relative z-10">
+            <div class="stat-figure">
+                <div class="glass radial-progress" :class="percentColor" role="progressbar" style="--size: 3rem;"
+                    :style="{ '--value': Math.round(percent) }">{{ Math.round(percent) }}</div>
             </div>
             <div class="stat-title">{{ title ?? '-' }}</div>
             <div class="stat-value">{{ left ?? '-' }}<span class="text-2xl">/{{ right ?? '-' }}</span></div>

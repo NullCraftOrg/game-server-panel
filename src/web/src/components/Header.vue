@@ -4,7 +4,7 @@
 
         <ul class="menu menu-horizontal gap-2">
             <li>
-                <RouterLink to="/" exactActiveClass="menu-active">首页</RouterLink>
+                <RouterLink to="/" exactActiveClass="menu-active">仪表盘</RouterLink>
             </li>
             <li>
                 <RouterLink to="/servers" exactActiveClass="menu-active">服务器列表</RouterLink>

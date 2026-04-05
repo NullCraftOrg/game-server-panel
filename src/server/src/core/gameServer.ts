@@ -115,7 +115,8 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             // rows: this.maxLines, // 行(高度)
             cols: this.maxLines, // 列(宽度)
             cwd: this.cwd,
-            env: process.env
+            env: process.env,
+            useConpty: os.platform() === 'win32'
         })
     }
 
