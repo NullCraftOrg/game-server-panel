@@ -83,13 +83,20 @@ const percentColor = (percent) => {
         // 负数或大于100的情况
         return percentColorMap.neutral;
     }
-};
+}
+
+// 根据数值大小返回不同的背景色（可选，增加可读性）
+const percentBgColor = (val) => {
+    if (val > 80) return 'bg-red-400'
+    if (val > 60) return 'bg-orange-400 '
+    return 'bg-base-300'
+}
 
 const percentColorMap = {
-  neutral: 'text-neutral',
-  success: 'text-success',
-  warning: 'text-warning',
-  error: 'text-error'
+    neutral: 'text-neutral',
+    success: 'text-success',
+    warning: 'text-warning',
+    error: 'text-error'
 }
 
 // 获取监控数据
@@ -161,6 +168,7 @@ const openCreateDialog = () => {
 const handleConfirm = (data) => {
     create(data)
 }
+
 </script>
 
 <template>
@@ -189,36 +197,57 @@ const handleConfirm = (data) => {
             <DashboardServerInfoCard :all="appInfo.servers?.total" :running="appInfo.servers?.running"
                 @create="openCreateDialog" />
 
-            <DashboardUsageCard title="系统内存" desc="已用内存/内存总数" lineColor="rgb(51, 120, 229)" areaColorTop="rgba(51, 120, 229, 0.5)" areaColorBottom="rgba(51, 120, 229, 0.2)"
+            <DashboardUsageCard title="系统内存" desc="已用内存/内存总数" lineColor="rgb(51, 120, 229)"
+                areaColorTop="rgba(51, 120, 229, 0.5)" areaColorBottom="rgba(51, 120, 229, 0.2)"
                 :data="systemInfo.ram?.usagePercentData" :left="formatBytes(systemInfo.ram?.usage ?? 0, 1)"
                 :right="formatBytes(systemInfo.ram?.total ?? 0, 1)" :percent="systemInfo.ram?.usagePercent ?? 0"
                 :percent-color="percentColor(systemInfo.ram?.usagePercent ?? 0)">
-                <svg class="size-[1.2em] shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2">
-                        <path d="M12 12v-2m0 8v-2m4-4v-2m0 8v-2M2 11h1.5M20 18v-2m.5-5H22M4 18v-2m4-4v-2m0 8v-2" />
-                        <rect width="20" height="10" x="2" y="6" rx="2" />
-                    </g>
-
-                </svg>
+                <template v-slot:icon>
+                    <svg class="size-[1.2em] shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2">
+                            <path d="M12 12v-2m0 8v-2m4-4v-2m0 8v-2M2 11h1.5M20 18v-2m.5-5H22M4 18v-2m4-4v-2m0 8v-2" />
+                            <rect width="20" height="10" x="2" y="6" rx="2" />
+                        </g>
+                    </svg>
+                </template>
             </DashboardUsageCard>
 
 
-            <DashboardUsageCard title="系统核心" desc="已用核心/核心总率" lineColor="rgb(12, 119, 151)" areaColorTop="rgba(12, 119, 151, 0.6)" areaColorBottom="rgba(12, 119, 151, 0.2)"
+            <DashboardUsageCard class="cursor-pointer" title="系统核心" desc="已用核心/核心总率" lineColor="rgb(12, 119, 151)"
+                areaColorTop="rgba(12, 119, 151, 0.6)" areaColorBottom="rgba(12, 119, 151, 0.2)"
                 :data="systemInfo.cpu?.usagePercentData" :left="systemCpuUsageCores + '%'"
                 :right="systemCpuTotalCores + '%'" :percent="systemInfo.cpu?.usagePercent ?? 0"
                 :desc="systemInfo.cpu?.model + ` (${systemInfo.cpu?.arch})`"
                 :percent-color="percentColor(systemInfo.cpu?.usagePercent ?? 0)">
-                <svg class="size-[1.2em] shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2">
-                        <path d="M12 20v2m0-20v2m5 16v2m0-20v2M2 12h2m-2 5h2M2 7h2m16 5h2m-2 5h2M20 7h2M7 20v2M7 2v2" />
-                        <rect width="16" height="16" x="4" y="4" rx="2" />
-                        <rect width="8" height="8" x="8" y="8" rx="1" />
-                    </g>
-                </svg>
+                <template v-slot:icon>
+                    <svg class="size-[1.2em] shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2">
+                            <path
+                                d="M12 20v2m0-20v2m5 16v2m0-20v2M2 12h2m-2 5h2M2 7h2m16 5h2m-2 5h2M20 7h2M7 20v2M7 2v2" />
+                            <rect width="16" height="16" x="4" y="4" rx="2" />
+                            <rect width="8" height="8" x="8" y="8" rx="1" />
+                        </g>
+                    </svg>
+                </template>
+
+                <!-- 悬浮核心数据 -->
+                <template v-slot:tooltip>
+                    <div class="tooltip-content bg-base-200 border border-base-300 max-w-none p-3 rounded-lg shadow">
+                        <h3 class="text-xs font-bold mb-2 text-center text-base-content">核心数据(%)</h3>
+                        <div class="grid grid-cols-10 gap-1">
+                            <div v-for="(num, index) in systemInfo.cpu?.coresUsage"
+                                class="w-8 h-8 flex items-center justify-center text-[10px] text-base-content rounded-sm"
+                                :class="percentBgColor(num)" :title="`索引 ${index}: ${num.toFixed(0)}%`">
+                                {{ num.toFixed(1) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </template>
             </DashboardUsageCard>
 
             <DashboardNodeJsInfoCard :ip="appInfo?.ip" :port="appInfo?.port" :pid="nodejsInfo?.pid"

@@ -77,7 +77,7 @@ const areaPath = computed(() => {
 </script>
 
 <template>
-    <div class="relative bg-base-100 rounded-box shadow">
+    <div class="relative bg-base-100 rounded-box shadow tooltip tooltip-bottom">
         <svg class="absolute inset-0 w-full h-full pointer-events-none rounded-box" preserveAspectRatio="none"
             viewBox="0 0 100 100">
             <!-- 定义渐变 -->
@@ -105,10 +105,11 @@ const areaPath = computed(() => {
             <div class="stat-title">{{ title ?? '-' }}</div>
             <div class="stat-value">{{ left ?? '-' }}<span class="text-2xl">/{{ right ?? '-' }}</span></div>
             <div class="stat-desc overflow-hidden flex items-center gap-1">
-                <slot></slot>
+                <slot name="icon"></slot>
                 <p>{{ desc ?? '-' }}</p>
             </div>
         </div>
-
+        
+        <slot name="tooltip"></slot>
     </div>
 </template>

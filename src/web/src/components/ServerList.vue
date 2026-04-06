@@ -28,25 +28,13 @@ function setLoading(uuid, loading) {
 }
 
 async function create(data) {
-    await api.createServer({
-        name: data.name,
-        fileName: data.fileName,
-        command: data.command,
-        cwd: data.cwd,
-        forceUtf8Mode: data.forceUtf8Mode
-    })
+    await api.createServer(data)
     await serverStore.fetchServers()
     console.log('成功创建服务器。')
 }
 
 async function update(uuid, data) {
-    await api.updateServer(uuid, {
-        name: data.name,
-        fileName: data.fileName,
-        command: data.command,
-        cwd: data.cwd,
-        forceUtf8Mode: data.forceUtf8Mode
-    })
+    await api.updateServer(uuid, data)
     await serverStore.fetchServers()
     console.log('成功更新服务器。')
 }
@@ -113,6 +101,7 @@ const openEditDialog = (server) => {
 const handleConfirm = (data) => {
     if (data.uuid) {
         update(data.uuid, data)
+        console.log(data)
     } else {
         create(data)
     }

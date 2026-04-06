@@ -45,13 +45,37 @@ export class ServerDatabase {
                     command TEXT,
                     cwd TEXT,
                     forceUtf8Mode INTEGER DEFAULT 0,
+                    usePty INTEGER DEFAULT 1,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
                 CREATE INDEX IF NOT EXISTS idx_uuid ON servers(uuid);
             `;
         this.db.exec(createTableSQL);
+
+        // 更新先前部署而未被新增的列
+        this.ensureColumn('servers', 'usePty', 'INTEGER DEFAULT 1');
+
         log.debug(LOG_PREFIX, '表已就绪');
+    }
+
+    /**
+     * 确保表中存在指定列，若不存在则自动添加
+     * @param tableName 表名
+     * @param columnName 列名
+     * @param columnDefinition 列定义（如 "INTEGER DEFAULT 1"）
+     */
+    private ensureColumn(tableName: string, columnName: string, columnDefinition: string): void {
+        // 查询表结构
+        const checkSQL = `PRAGMA table_info(${tableName})`;
+        const columns = this.db.prepare(checkSQL).all() as Array<{ name: string }>;
+        const exists = columns.some(col => col.name === columnName);
+
+        if (!exists) {
+            const alterSQL = `ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${columnDefinition}`;
+            this.db.exec(alterSQL);
+            log.debug(LOG_PREFIX, `已为表 ${tableName} 添加列 ${columnName}，定义：${columnDefinition}`);
+        }
     }
 
     /**
@@ -60,12 +84,12 @@ export class ServerDatabase {
      * @returns 插入行的自增 id
      */
     add(data: Omit<ServerRecord, 'id'>): number {
-        const { uuid, name, fileName, command, cwd, forceUtf8Mode } = data;
+        const { uuid, name, fileName, command, cwd, forceUtf8Mode, usePty } = data;
         const stmt = this.db.prepare(`
-                INSERT INTO servers (uuid, name, fileName, command, cwd, forceUtf8Mode)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO servers (uuid, name, fileName, command, cwd, forceUtf8Mode, usePty)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             `);
-        const info = stmt.run(uuid, name, fileName, command, cwd, forceUtf8Mode ? 1 : 0);
+        const info = stmt.run(uuid, name, fileName, command, cwd, forceUtf8Mode ? 1 : 0, usePty ? 1 : 0);
         log.debug(LOG_PREFIX, '新增服务器', `${name}(${uuid}), 自增ID=${info.lastInsertRowid}`);
         return Number(info.lastInsertRowid);
     }
@@ -77,7 +101,7 @@ export class ServerDatabase {
      */
     get(uuid: string): ServerRecord | undefined {
         const stmt = this.db.prepare(`
-            SELECT id, uuid, name, fileName, command, cwd, forceUtf8Mode
+            SELECT id, uuid, name, fileName, command, cwd, forceUtf8Mode, usePty
             FROM servers
             WHERE uuid = ?
         `);
@@ -91,6 +115,7 @@ export class ServerDatabase {
             command: row.command,
             cwd: row.cwd,
             forceUtf8Mode: row.forceUtf8Mode === 1,
+            usePty: row.usePty === 1,
         };
     }
 
@@ -124,6 +149,10 @@ export class ServerDatabase {
         if (updates.forceUtf8Mode !== undefined) {
             fields.push('forceUtf8Mode = ?');
             values.push(updates.forceUtf8Mode ? 1 : 0);
+        }
+        if (updates.usePty !== undefined) {
+            fields.push('usePty = ?');
+            values.push(updates.usePty ? 1 : 0);
         }
 
         if (fields.length === 0) {
@@ -169,7 +198,7 @@ export class ServerDatabase {
      */
     getAll(): ServerRecord[] {
         const stmt = this.db.prepare(`
-            SELECT id, uuid, name, fileName, command, cwd, forceUtf8Mode
+            SELECT id, uuid, name, fileName, command, cwd, forceUtf8Mode, usePty
             FROM servers
             ORDER BY id
         `);
@@ -182,6 +211,7 @@ export class ServerDatabase {
             command: row.command,
             cwd: row.cwd,
             forceUtf8Mode: row.forceUtf8Mode === 1,
+            usePty: row.usePty === 1,
         }));
     }
 

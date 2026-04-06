@@ -2,6 +2,7 @@
 
 export interface ServerRuntimeInterface {
   isRunning: boolean      // 是否正在运行
+  isRestarting: boolean   // 是否处于重启中
   lastStartTime: number | null  // 最后启动时间
   lastStopTime: number | null  // 最后停止时间
   fileExist: boolean

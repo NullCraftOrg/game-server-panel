@@ -4,4 +4,4 @@ import config  from './utils/config.ts';
 
 const enableFileLog = config['app-log-to-file'] ?? false;
 
-export const log = new Logger(LOG_LEVELS.INFO, enableFileLog)
+export const log = new Logger(LOG_LEVELS.DEBUG, enableFileLog)

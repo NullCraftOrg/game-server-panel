@@ -2,10 +2,11 @@
 // 这些是长期存在的数据，非必要存储的配置不要写入，可以使用继承。
 
 export interface ServerConfigInterface {
-  uuid: string              // 唯一ID（uuid）
+  uuid: string            // 唯一ID
   name: string            // 服务器名称
-  fileName: string        // 启动程序（例如：java.exe / hlds.exe）
+  fileName: string        // 启动程序
   command: string         // 启动参数
   cwd: string             // 工作目录
-  forceUtf8Mode?: boolean // 是否强制UTF-8模式（Windows用）
+  forceUtf8Mode?: boolean // 是否强制UTF-8模式(仅Windows生效)
+  usePty?: boolean        // 是否启用仿终端模式
 }

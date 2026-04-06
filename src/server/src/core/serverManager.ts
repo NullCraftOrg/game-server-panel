@@ -17,7 +17,6 @@ class ServerManager {
 
     constructor() {
         this.servers = new Map()
-        // this.file = path.join(PATHS.data, 'servers.json') // 存储服务器列表的文件路径
         this.load()
     }
 
@@ -33,6 +32,19 @@ class ServerManager {
         return server
     }
 
+    // 定义需要剔除的字段(黑名单)
+    private readonly serverOmitKeys = ['process', 'clients', 'logBuffer', 'maxLines'] as const;
+
+    /**
+     * 工具函数：从 Server 实例中剔除黑名单字段用于返回给前端
+     * @param server GameServer
+     * @returns 自身的接口 interface ServerInfo extends ServerConfigInterface
+     */
+    private sanitizeServer(server: GameServer): Omit<ServerInfo, typeof this.serverOmitKeys[number]> {
+        const { process, clients, logBuffer, maxLines, ...rest } = server;
+        return rest;
+    }
+
     /**
      * 通过uuid获取服务器状态信息
      * @param uuid 服务器唯一uuid
@@ -42,10 +54,8 @@ class ServerManager {
         const server = this.servers.get(uuid)
         if (!server) return
 
-        // 去除一些不需要的信息，Info信息最好精简来减少轮询性能损耗。
-        const { process, clients, logBuffer, maxLines, ...newInfoData } = server;
-
-        return newInfoData
+        // 去除不需要的信息，Info信息最好精简来减少轮询性能损耗。
+        return this.sanitizeServer(server)
     }
 
     /**
@@ -53,19 +63,24 @@ class ServerManager {
      * @returns 服务器实例信息数组
      */
     list(): Array<ServerInfo> {
-        return Array.from(this.servers.values()).map(s => ({
-            uuid: s.uuid,
-            name: s.name,
-            fileName: s.fileName,
-            command: s.command,
-            cwd: s.cwd,
-            forceUtf8Mode: s.forceUtf8Mode,
-            // 继承同时存在于运行时
-            fileExist: s.fileExist,
-            isRunning: s.isRunning,
-            lastStartTime: s.lastStartTime,
-            lastStopTime: s.lastStopTime
-        }))
+        // 2020406 改为黑名单模式，去掉不需要的。
+        return Array.from(this.servers.values()).map(this.sanitizeServer);
+
+        // 老方案：白名单模式-维护起来太麻烦了
+        // return Array.from(this.servers.values()).map(s => ({
+        //     uuid: s.uuid,
+        //     name: s.name,
+        //     fileName: s.fileName,
+        //     command: s.command,
+        //     cwd: s.cwd,
+        //     forceUtf8Mode: s.forceUtf8Mode,
+        //     usePty: s.usePty,
+        //     // 继承同时存在于运行时
+        //     fileExist: s.fileExist,
+        //     isRunning: s.isRunning,
+        //     lastStartTime: s.lastStartTime,
+        //     lastStopTime: s.lastStopTime
+        // }))
     }
 
     /**
@@ -85,7 +100,6 @@ class ServerManager {
         server.checkFileExist()
         // 存入
         this.servers.set(uuid, server)
-        // this.save()
 
         // 数据库插入
         DBServers.add(server)
@@ -104,16 +118,16 @@ class ServerManager {
         const server = this.servers.get(uuid)
         if (!server) return
 
-        // 更新数据
+        // 更新数据空值检测
         if (config.name !== undefined) server.name = config.name
         if (config.fileName !== undefined) server.fileName = config.fileName
         if (config.command !== undefined) server.command = config.command
         if (config.cwd !== undefined) server.cwd = config.cwd
         if (config.forceUtf8Mode !== undefined) server.forceUtf8Mode = config.forceUtf8Mode
+        if (config.usePty != undefined) server.usePty = config.usePty
 
         // 更新可执行文件是否存在
         server.checkFileExist()
-        // this.save()
 
         // 通过 uuid 更新数据
         DBServers.update(uuid, server)
@@ -137,17 +151,12 @@ class ServerManager {
 
     /**
      * 从文件加载服务器列表
-     * TODO: 可能要改造成db
      */
     load(): void {
-        // if (!fs.existsSync(this.file)) return
-        // 老方案：通过文件加载
-        //const data: ServerConfigInterface[] = JSON.parse(fs.readFileSync(this.file, 'utf-8'))
-
         // 新方案：通过 db 加载
         const data: ServerConfigInterface[] = DBServers.getAll()
 
-        if(!data) return
+        if (!data) return
 
         for (const item of data) {
             const server = new GameServer(item)
@@ -156,28 +165,6 @@ class ServerManager {
             this.servers.set(item.uuid, server)
         }
     }
-
-    /**
-     * 将服务器列表保存到文件
-     */
-    // save(): void {
-    //     // 确保数据目录存在
-    //     const dir = path.dirname(this.file)
-    //     if (!fs.existsSync(dir)) {
-    //         fs.mkdirSync(dir, { recursive: true })
-    //     }
-    //     // 只保存配置和运行状态，剔除运行时类信息
-    //     const data = this.list().map((
-    //         {
-    //             fileExist,
-    //             isRunning,
-    //             lastStartTime,
-    //             lastStopTime,
-    //             ...rest
-    //         }
-    //     ) => rest)
-    //     fs.writeFileSync(this.file, JSON.stringify(data, null, 2), 'utf-8')
-    // }
 
 }
 
