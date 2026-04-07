@@ -15,10 +15,10 @@
         <ul class="menu menu-horizontal gap-2">
             <li>
                 <label class="swap swap-rotate">
-                    <!-- this hidden checkbox controls the state -->
+                    <!-- 切换主题 -->
                     <input type="checkbox" class="theme-controller" value="ngsp-dark" />
 
-                    <!-- sun icon -->
+                    <!-- 太阳图标 -->
                     <svg class="swap-off h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2">
@@ -28,7 +28,7 @@
                         </g>
                     </svg>
 
-                    <!-- moon icon -->
+                    <!-- 月亮图标 -->
                     <svg class="swap-on h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2"

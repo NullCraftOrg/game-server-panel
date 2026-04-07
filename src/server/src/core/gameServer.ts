@@ -72,8 +72,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
 
         try {
             let file: string = this.fileName
-            let args: string = this.command
-            let fullCommand: string
+            let args: string | string[] = this.command
             const isWindows: boolean = os.platform() === 'win32'
 
             if (this.forceUtf8Mode && isWindows) {
@@ -81,21 +80,20 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
                 log.warn(`${this.name}(${this.uuid})`, useForceUtf8ModeMsg)
                 // 重新设置启动参数
                 file = 'cmd.exe'
-                // args = [
-                //     '/d',
-                //     '/s',
-                //     '/c',
-                //     `echo ${useForceUtf8ModeMsg}`,
-                //     '&&',
-                //     'chcp 65001>nul',
-                //     '&&',
-                //     `"${this.fileName}"`,
-                //     `${this.command}`
-                // ].join(' ')
-
-                fullCommand = `echo ${useForceUtf8ModeMsg} && chcp 65001 > nul && "${this.fileName}" ${this.command}`;
-                args = ['/d', '/s', '/c', fullCommand].join(' ');
+                args = [
+                    '/d',
+                    '/s',
+                    '/c',
+                    `echo ${useForceUtf8ModeMsg}`,
+                    '&&',
+                    'chcp 65001>nul',
+                    '&&',
+                    `"${this.fileName}"`,
+                    `${this.command}`
+                ]
             }
+
+            log.debug(`${this.name}(${this.uuid})`, '启动参数:', file, args, this.cwd)
 
             // 判断启动方式
             if (this.usePty) {
@@ -106,8 +104,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             }
             else {
                 // 启动ChildProcess
-                this.process = this.spawnChildProcess(file, ['/d', '/s', '/c', `echo 当前使用强兼容UTF-8模式启动服务器。 && chcp 65001 > nul && "${this.fileName}" ${this.command}`])
-                // 绑定事件
+                this.process = this.spawnChildProcess(file, args)
                 this.bindChildProcessEvents(this.process)
             }
 
@@ -134,6 +131,9 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * @returns Pty
      */
     private spawnPtyProcess(filePath: string, args: string | string[]): pty.IPty {
+        if (typeof args === 'object') {
+            args = args.join(' ')
+        }
         return pty.spawn(filePath, args, {
             name: 'xterm-color',
             // rows: this.maxLines, // 行(高度)
@@ -172,8 +172,11 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * @param args 命令行
      * @returns ChildProcess
      */
-    private spawnChildProcess(filePath: string, args: string[]): ChildProcess {
+    private spawnChildProcess(filePath: string, args: string | string[]): ChildProcess {
         this.appendLog('已禁用仿真终端模拟\r\n', true)
+        if (typeof args === 'string') {
+            args = args.split(' ')
+        }
         return spawn(filePath, args, {
             stdio: ['pipe', 'pipe', 'pipe'],
             cwd: this.cwd,
@@ -189,14 +192,20 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * @param process 传入要绑定的 ChildProcess
      */
     private bindChildProcessEvents(process: ChildProcess): void {
+        // 捕获错误
+        process.on('error', (error) => {
+            this.handleProcessError(error, `启动错误: ${this.name}(${this.uuid})`)
+        })
+
+        // 输出
         process.stdout?.on('data', (data: string) => {
             this.appendLog(data.toString())
-        });
-
+        })
         process.stderr?.on('data', (data: string) => {
             this.appendLog(data.toString())
-        });
+        })
 
+        // 退出
         process.on('exit', (exitCode: any) => {
             this.process = null
             this.isRunning = false

@@ -47,52 +47,25 @@ update() {
 ### 更新新建、编辑服务器 dialog
 
 1. 前往 `src\web\src\components\dialogs\AddServerDialog.vue`
-2. 更新 formData 的 ref()
+2. 更新 formData 的 interface
 ```
-// 表单数据
-const formData = ref({
+// 表单数据类型
+interface FormData {
+  name: string
+  fileName: string
+  command: string
+  cwd: string
+  forceUtf8Mode: boolean
+  usePty: boolean
+}
+// 默认值
+const createDefaultForm = (): FormData => ({
   name: '',
   fileName: '',
   command: '',
   cwd: '',
   forceUtf8Mode: false,
   usePty: true,
-  // 在这里新增 接口定义的名称
 })
 ```
-3. 更新需要重置的表单数据
-```
-// 重置表单（清空所有输入）
-const resetForm = () => {
-  formData.value = {
-    name: '',
-    fileName: '',
-    command: '',
-    cwd: '',
-    forceUtf8Mode: false, // 默认值 false
-    usePty: true, // 默认值 true
-    // 在这里新增 接口定义的名称
-  }
-  errorMsg.value = ''
-}
-```
-4. 更新传入的对象数据
-```
-// 从传入的 server 对象填充表单
-const fillForm = () => {
-  if (props.server) {
-    formData.value = {
-      name: props.server.name,
-      fileName: props.server.fileName,
-      command: props.server.command,
-      cwd: props.server.cwd,
-      forceUtf8Mode: props.server.forceUtf8Mode,
-      usePty: props.server.usePty,
-      // 在这里新增 接口定义的名称
-    }
-  } else {
-    resetForm()
-  }
-}
-```
-5. HTML标签通过 ` v-model="formData.接口定义的名称"` 进行数据绑定用于更新
+3. HTML标签通过 ` v-model="formData.接口定义的名称"` 进行数据绑定用于更新

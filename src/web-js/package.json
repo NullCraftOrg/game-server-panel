@@ -1,0 +1,46 @@
+{
+  "name": "nullcraft-game-server-panel-web",
+  "version": "1.0.0",
+  "description": "Frontend web for NGSP(NullCraft Game Server Panel)",
+  "homepage": "https://github.com/NullCraftOrg/game-server-panel",
+  "funding": "https://docs.nullcraft.org/donate",
+  "keywords": [
+    "NullCraft",
+    "Game",
+    "Server",
+    "Panel"
+  ],
+  "author": "FastChen <fastchen@nullcraft.org> (https://fastchen.com)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NullCraftOrg/game-server-panel.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "setup": "npm i"
+  },
+  "dependencies": {
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-unicode11": "^0.9.0",
+    "@xterm/addon-web-links": "^0.12.0",
+    "@xterm/addon-webgl": "^0.19.0",
+    "@xterm/xterm": "^6.1.0-beta.196",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.30",
+    "vue-router": "^5.0.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "daisyui": "^5.5.19",
+    "tailwindcss": "^4.2.2",
+    "vite": "^7.3.1",
+    "vite-plugin-vue-devtools": "^8.0.7"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

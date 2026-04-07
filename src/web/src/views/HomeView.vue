@@ -1,10 +1,12 @@
-<script setup>
-import DashboardView from '@/views/DashboardView.vue';
-import ServerListView from '@/views//ServerListView.vue';
+<script setup lang="ts">
+import DashboradView from './DashboradView.vue'
+import ServerListView from './Servers/ServerListView.vue'
 </script>
 
 <template>
-  <DashboardView />
-  <div class="divider"></div>
-  <ServerListView />
+    <DashboradView />
+
+    <div class="divider"></div>
+
+    <ServerListView />
 </template>

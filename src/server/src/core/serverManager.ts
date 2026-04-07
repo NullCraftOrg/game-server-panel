@@ -20,18 +20,6 @@ class ServerManager {
         this.load()
     }
 
-    /**
-     * 通过uuid获取服务器实例信息
-     * @param uuid 服务器唯一uuid
-     * @returns 服务器实例信息或undefined
-     */
-    get(uuid: string): GameServer | undefined {
-        // 我想从结构中去掉一些值例如 process、clients、logBuffer 等等
-        const server = this.servers.get(uuid)
-        if (!server) return
-        return server
-    }
-
     // 定义需要剔除的字段(黑名单)
     private readonly serverOmitKeys = ['process', 'clients', 'logBuffer', 'maxLines'] as const;
 
@@ -41,8 +29,19 @@ class ServerManager {
      * @returns 自身的接口 interface ServerInfo extends ServerConfigInterface
      */
     private sanitizeServer(server: GameServer): Omit<ServerInfo, typeof this.serverOmitKeys[number]> {
-        const { process, clients, logBuffer, maxLines, ...rest } = server;
-        return rest;
+        const { process, clients, logBuffer, maxLines, ...rest } = server
+        return rest
+    }
+
+    /**
+     * 通过uuid获取服务器实例信息
+     * @param uuid 服务器唯一uuid
+     * @returns 服务器实例信息或undefined
+     */
+    get(uuid: string): GameServer | undefined {
+        const server = this.servers.get(uuid)
+        if (!server) return
+        return server
     }
 
     /**

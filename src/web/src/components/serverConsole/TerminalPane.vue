@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { createWS } from '@/utils/ws'
+import { createWS, type WSType } from '@/utils/ws'
 // xterm 终端相关
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
@@ -8,22 +8,26 @@ import { WebLinksAddon } from '@xterm/addon-web-links';
 import { WebglAddon } from '@xterm/addon-webgl';
 import { Unicode11Addon } from '@xterm/addon-unicode11';
 
-const props = defineProps(['uuid'])
+const props = defineProps<{
+  uuid: string
+}>()
 
-const termElement = ref(null)
-let term = null
-let fitAddon = null
-let socket = null
+console.log('TerminalPane props', props)
+
+const termElement: { value: HTMLElement | null } = ref(null)
+let term: Terminal | null = null
+let fitAddon: FitAddon | null = null
+let socket: WSType
 
 // 滚动终端底部按钮显示状态
 const showTermScrollButton = ref(true)
 // 点击按钮滚动到底部
 const termScrollToBottom = () => {
-  term.scrollToBottom();
+  term?.scrollToBottom();
 };
 
 // 发送命令
-const sendCommand = (command) => {
+const sendCommand = (command: string) => {
   if (socket) {
     socket.send(command + '\r')
   } else {
@@ -35,7 +39,7 @@ const sendCommand = (command) => {
 function resizeScreen() {
   try {
     fitAddon?.fit()
-  } catch (e) {
+  } catch (e: any) {
     console.log('resizeScreenError', e.message)
   }
 }
@@ -44,15 +48,36 @@ onMounted(async () => {
   // 初始化终端
   term = new Terminal({
     allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
-    rows: 28,
+    rows: 32,
     cursorBlink: true,
-    allowUnicode: true,
     convertEol: true,
     fontSize: 14,
     fontFamily: '"Fira Code", Consolas, monospace, "Powerline Extra Symbols"',
     theme: {
-      background: "#212121",
-    },
+      background: '#212121',    // 深色背景
+      // foreground: '#c6d0f5',    // 亮色前景文字
+
+      cursor: '#FFFFFF',        // 光标
+
+      black: "#232634",   // 黑色 f30 b40
+      red: "#e78284",     // 红色 f31 b41
+      green: "#a6d189",   // 绿色 f32 b42
+      yellow: "#e5c890",  // 黄色 f33 b43
+      blue: "#8caaee",    // 蓝色 f34 b44
+      magenta: "#ca9ee6", // 品红色(紫色) f35 b45
+      cyan: "#3A96DD",    // 青色 f36 b46
+      white: "#b5bfe2",   // 白色 f37 b47
+
+      brightBlack: "#767676",   // 亮黑色(灰色) f90 b100
+      brightRed: "#E74856",     // 亮红色 f91 b101
+      brightGreen: "#16C60C",   // 亮绿色 f92 b102
+      brightYellow: "#F9F1A5",  // 亮黄色 f93 b103
+      brightBlue: "#3B78FF",    // 亮蓝色 f94 b104
+      brightMagenta: '#B4009E', // 亮品红色(亮紫色) f95 b105
+      brightCyan: "#61D6D6",    // 亮青色 f96 b106
+      brightWhite: "#F2F2F2",   // 亮白色 f97 b107
+
+    }
     // 目前还没有使用场景。
     // allowTransparency: true,
     // theme: {
@@ -71,7 +96,7 @@ onMounted(async () => {
   term.unicode.activeVersion = '11';
 
   // 打开终端
-  term.open(termElement.value)
+  term.open(termElement.value as HTMLElement)
   // 自适应大小
   fitAddon.fit()
 
@@ -80,20 +105,22 @@ onMounted(async () => {
     // buffer.active.viewportY: 当前滚动到的行位置
     // buffer.active.baseY: 终端内容的总行数（减去视口高度）
     // 如果 viewportY < baseY，说明滚动条不在最下方
-    showTermScrollButton.value = term.buffer.active.viewportY >= term.buffer.active.baseY;
+    if (term) {
+      showTermScrollButton.value = term.buffer.active.viewportY >= term.buffer.active.baseY;
+    }
   });
 
   // 建立 WebSocket
   socket = createWS(
     props.uuid,
     (data) => {
-      term.write(data)
+      term?.write(data)
     }
   )
 
   // 发送终端输入数据到服务器
   term.onData((data) => {
-    socket.send(data)
+    socket?.send(data)
   })
 
   // 监听窗口大小变化
@@ -116,7 +143,7 @@ defineExpose({ sendCommand })
 
     <Transition name="fade">
       <button v-if="!showTermScrollButton" @click="termScrollToBottom"
-        class="absolute bottom-7 right-7 z-10 btn btn-square btn-sm shadow hover:scale-108 transition-transform">
+        class="absolute bottom-8 right-8 z-10 btn btn-square btn-sm shadow hover:scale-108 transition-transform">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
           class="size-4">
           <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -1,45 +1,55 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
+import type { ServerType } from '@/types/ServerType';
 import MainTitle from '../MainTitle.vue';
 
-const props = defineProps({
-  server: {
-    type: Object,
-    required: true
-  },
-  actionLoading: {
-    type: Boolean,
-    default: false
-  }
-})
+interface Props {
+  server: ServerType | null;
+  actionLoading?: boolean;
+}
+
+const props = defineProps<Props>()
 
 defineEmits(['start', 'stop', 'restart'])
 
 const statusText = computed(() => {
-  if (!props.server.fileExist) {
+  // 如果在运行就显示正在运行，
+  // 如果不在运行就显示未运行，
+  // 文件不存在最后判断因为有可能是通过bash启动不存在路径
+  if (props.server?.isRunning) {
+    return '正在运行'
+  } else if (!props.server?.fileExist) {
     return '文件不存在'
+  } else {
+    return '未运行'
   }
-  return props.server.isRunning ? '正在运行' : '未运行'
 })
 
 // 颜色映射不能拼接不然Tailwind会被裁切掉相关样式
-const statusMap = {
+const statusMap: { [key: string]: string } = {
+  none: '',
   success: 'status-success',
   error: 'status-error'
 }
 
-const badgeMap = {
+const badgeMap: { [key: string]: string } = {
+  none: '',
   success: 'badge-success',
   error: 'badge-error'
 }
 const state = computed(() => {
-  if (!props.server.fileExist) return ''
-  return props.server.isRunning ? 'success' : 'error'
+  if (props.server?.isRunning) {
+    return 'success'
+  } else if (!props.server?.fileExist) {
+    return 'none'
+  } else {
+    return 'error'
+  }
 })
 
 const status = computed(() => statusMap[state.value])
 const badge = computed(() => badgeMap[state.value])
-const animate = computed(() => props.server.fileExist ? 'animate-ping' : '')
+const animate = computed(() => {props.server?.isRunning ? 'animate-ping' : ''})
 </script>
 
 <template>
@@ -53,20 +63,20 @@ const animate = computed(() => props.server.fileExist ? 'animate-ping' : '')
               <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
             </g>
           </svg>
-          <p class="text-xl">{{ server.name ?? '读取中' }}</p>
+          <p class="text-xl">{{ server?.name ?? '读取中' }}</p>
           <div class="badge badge-soft shadow" :class="badge">
             <div class="inline-grid *:[grid-area:1/1]">
-              <div class="status" :class="status, animate"></div>
+              <div class="status" :class="[status, animate]"></div>
               <div class="status" :class="status"></div>
             </div>
             {{ statusText }}
           </div>
         </div>
-        <p class="font-mono text-xs">{{ server.uuid ?? '-' }}</p>
+        <p class="font-mono text-xs">{{ server?.uuid ?? '-' }}</p>
       </div>
 
       <div class="flex gap-2">
-        <button class="btn btn-outline btn-success" :disabled="server.isRunning" @click="$emit('start')">
+        <button class="btn btn-outline btn-success" :disabled="server?.isRunning" @click="$emit('start')">
           <span v-show="actionLoading" class="loading loading-spinner size-[1.2em]"></span>
           <svg v-show="!actionLoading" class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
             viewBox="0 0 24 24">
