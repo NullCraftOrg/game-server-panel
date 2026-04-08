@@ -76,7 +76,7 @@ const areaPath = computed(() => {
 </script>
 
 <template>
-    <div class="relative bg-base-100 rounded-box shadow tooltip tooltip-bottom">
+    <div class="relative rounded- bg-base-100 shadow tooltip tooltip-bottom [--tt-bg:var(--color-base-300)]">
         <slot name="tooltip"></slot>
 
         <svg class="absolute inset-0 w-full h-full pointer-events-none rounded-box" preserveAspectRatio="none"

@@ -8,7 +8,7 @@ import UsageChartCard from '@/components/Dashboard/UsageChartCard.vue'
 import BackendRamCard from '@/components/Dashboard/BackendRamCard.vue'
 import { useSystemMonitorStore } from '@/stores/SystemMonitorStore'
 import formatBytes from '@/utils/format/bytes'
-import { formatPercentToTextColor, formatPercentToBgColor } from '@/utils/format/percentToColor'
+import { formatPercentToTextColor, formatCoresPercentToBgColor } from '@/utils/format/percentToColor'
 import EditServerDialog from '@/components/Dialog/EditServerDialog.vue'
 import type { ServerType } from '@/types/ServerType'
 import { useServerStore } from '@/stores/ServerStore'
@@ -29,7 +29,6 @@ const systemCpuUsageCores = computed(() => {
         return 0
     }
 })
-
 
 // 对话框相关
 const dialogVisible = ref(false)
@@ -127,7 +126,7 @@ onUnmounted(() => {
                         <div class="grid grid-cols-10 gap-1">
                             <div v-for="(num, index) in systemInfo?.cpu.coresUsage"
                                 class="w-8 h-8 flex items-center justify-center text-[10px] text-base-content rounded-sm"
-                                :class="formatPercentToBgColor(num)" :title="`索引 ${index}: ${num.toFixed(0)}%`">
+                                :class="formatCoresPercentToBgColor(num)" :title="`索引 ${index}: ${num.toFixed(0)}%`">
                                 {{ num.toFixed(1) }}
                             </div>
                         </div>

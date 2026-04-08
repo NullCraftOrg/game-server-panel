@@ -54,7 +54,7 @@ const animate = computed(() => {props.server?.isRunning ? 'animate-ping' : ''})
 
 <template>
   <MainTitle>
-    <div class="flex justify-between mb-3">
+    <div class="flex flex-wrap gap-2 justify-between mb-3">
       <div>
         <div class="flex gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

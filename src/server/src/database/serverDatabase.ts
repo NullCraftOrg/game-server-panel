@@ -2,8 +2,10 @@ import { DatabaseSync } from 'node:sqlite';
 import { log } from '../log.ts';
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts';
 
+// 表名
+const TABLE_NAME = 'servers'
 // 日志前缀
-const LOG_PREFIX = '[Database(Servers)]';
+const LOG_PREFIX = '[Database(Servers)]'
 
 export interface ServerRecord extends ServerConfigInterface {
     id?: number;    // 自增主键(内部用)
@@ -37,7 +39,7 @@ export class ServerDatabase {
      */
     private initTable(): void {
         const createTableSQL = `
-                CREATE TABLE IF NOT EXISTS servers (
+                CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     uuid TEXT NOT NULL UNIQUE,
                     name TEXT NOT NULL,
@@ -56,7 +58,9 @@ export class ServerDatabase {
         // 更新先前部署而未被新增的列
         this.ensureColumn('servers', 'usePty', 'INTEGER DEFAULT 1');
 
-        log.debug(LOG_PREFIX, '表已就绪');
+        const tablecount = this.db.prepare(`SELECT COUNT(*) AS total FROM ${TABLE_NAME}`).all() as Array<{ total: number }>
+
+        log.debug(LOG_PREFIX, '表已就绪', `共计 ${tablecount[0].total} 条记录`);
     }
 
     /**
