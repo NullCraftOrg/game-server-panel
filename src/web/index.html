@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGSP</title>
+  <!-- 主题加载 -->
+  <script>
+    (function () {
+      // 通过本地存储获取设置的主题模式
+      const storageKey = 'theme-mode';
+      let theme = localStorage.getItem(storageKey);
+      if (theme !== 'light' && theme !== 'dark' && theme !== 'auto') theme = 'auto';
+
+      // 如果是 auto 检查系统主题
+      let appliedTheme;
+      if (theme === 'auto') {
+        appliedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } else {
+        appliedTheme = theme;
+      }
+
+      // 设置主题属性
+      document.documentElement.setAttribute('data-theme', appliedTheme);
+      // 先配置一个基本的背景色防止 CSS 加载前颜色闪烁
+      const bgColor = appliedTheme === 'dark' ? '#1A1A1A' : '#F8F8F8';
+      document.documentElement.style.backgroundColor = bgColor;
+      // 同时设置 body 的背景色
+      document.body.style.backgroundColor = bgColor;
+    })();
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
 </html>

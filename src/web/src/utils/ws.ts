@@ -1,6 +1,7 @@
 export interface WSType {
     send: (msg: string) => void
     close: () => void
+    readyState: () => number | undefined
 }
 
 export function createWS(uuid: string, onMessage: (data: string) => void): WSType {
@@ -28,6 +29,8 @@ export function createWS(uuid: string, onMessage: (data: string) => void): WSTyp
 
     return {
         send: (msg: string) => ws?.send(msg),
+        
+        readyState: () => ws?.readyState,
 
         close: () => {
             isClosedManually = true

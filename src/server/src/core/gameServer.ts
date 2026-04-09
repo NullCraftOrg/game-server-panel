@@ -136,8 +136,8 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         }
         return pty.spawn(filePath, args, {
             name: 'xterm-color',
-            // rows: this.maxLines, // 行(高度)
-            cols: this.maxLines, // 列(宽度)
+            rows: 32, // 行(高度)
+            cols: 1000, // 列(宽度)
             cwd: this.cwd,
             env: process.env,
             useConpty: os.platform() === 'win32',
@@ -293,21 +293,8 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.process.write(command)
         }
         else {
-            // for (let i = 0; i < command.length; i++) {
-            //     // 替换xtermjs的'\r'为'\n'
-            //     if (command[i] === 0x0d) command[i] = 0x0a;
-            // }
-            // this.process.stdin?.write(command);
-
-            const canWrite = this.process.stdin?.write(command.toString() + '\r\n', (error) => {
-                if (error) {
-                    console.error("写入失败:", error);
-                } else {
-                    console.log("数据已成功从 Node.js 进程发出");
-                }
-            });
-
-            console.log("缓存区状态:", canWrite, command, command.toString() + '\n');
+            const commandStr = command.toString().replace(/\r/g, '\r\n')
+            this.process.stdin?.write(commandStr)
         }
     }
 

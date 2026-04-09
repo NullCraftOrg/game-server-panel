@@ -9,7 +9,9 @@ import { WebglAddon } from '@xterm/addon-webgl';
 import { Unicode11Addon } from '@xterm/addon-unicode11';
 
 const props = defineProps<{
-  uuid: string
+  uuid: string,
+  usePty: boolean,
+  isRunning?: boolean
 }>()
 
 console.log('TerminalPane props', props)
@@ -49,26 +51,27 @@ onMounted(async () => {
   term = new Terminal({
     allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
     rows: 32,
+    cols: 1000,
     cursorBlink: true,
     convertEol: true,
     fontSize: 14,
     fontFamily: '"Fira Code", Consolas, monospace, "Powerline Extra Symbols"',
     theme: {
-      background: '#212121',    // 深色背景
-      // foreground: '#c6d0f5',    // 亮色前景文字
-
       cursor: '#FFFFFF',        // 光标
+
+      background: '#212121',    // 背景色
+      foreground: '#d8d8d8',    // 前景色
 
       black: "#232634",   // 黑色 f30 b40
       red: "#e78284",     // 红色 f31 b41
-      green: "#a6d189",   // 绿色 f32 b42
-      yellow: "#e5c890",  // 黄色 f33 b43
+      green: "#07962a",   // 绿色 f32 b42
+      yellow: "#f0c674",  // 黄色 f33 b43
       blue: "#8caaee",    // 蓝色 f34 b44
       magenta: "#ca9ee6", // 品红色(紫色) f35 b45
       cyan: "#3A96DD",    // 青色 f36 b46
       white: "#b5bfe2",   // 白色 f37 b47
 
-      brightBlack: "#767676",   // 亮黑色(灰色) f90 b100
+      brightBlack: "#767676",   // 亮黑色 f90 b100
       brightRed: "#E74856",     // 亮红色 f91 b101
       brightGreen: "#16C60C",   // 亮绿色 f92 b102
       brightYellow: "#F9F1A5",  // 亮黄色 f93 b103
@@ -119,8 +122,29 @@ onMounted(async () => {
   )
 
   // 发送终端输入数据到服务器
+  let inputBuffer = ''
   term.onData((data) => {
-    socket?.send(data)
+    // 当服务器未运行时，禁止输入内容
+    if (!props.isRunning) return
+
+    // 如果使用了仿真模拟则直接发送输入数据，否则模拟传统终端行为回车后整体发送
+    if (props.usePty) {
+      socket?.send(data)
+    }
+    else {
+      if (data === '\r') {
+        socket.send(inputBuffer + '\n')
+        inputBuffer = ''
+        term?.write('\r\n')
+      } else if (data === '\u007f') {
+        // 退格模拟
+        inputBuffer = inputBuffer.slice(0, -1)
+        term?.write('\b \b')
+      } else {
+        inputBuffer += data
+        term?.write(data)
+      }
+    }
   })
 
   // 监听窗口大小变化

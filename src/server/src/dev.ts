@@ -36,7 +36,7 @@ start();
 
 let timer: NodeJS.Timeout | null = null;
 
-watch(".", { recursive: true }, (_, filename) => {
+watch(".", { recursive: true }, (eventType, filename) => {
   if (!filename) return;
 
   // 过滤
@@ -45,7 +45,7 @@ watch(".", { recursive: true }, (_, filename) => {
     filename.includes("node_modules") ||
     filename.includes(".git")
   ) return;
-
+  
   if (timer) clearTimeout(timer);
 
   timer = setTimeout(() => {

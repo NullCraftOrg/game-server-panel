@@ -1,10 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, ngsp-dark --prefersdark;
+  themes: light --default, dark --prefersdark;
 }
 
 @plugin "daisyui/theme" {
-  name: "ngsp-dark";
+  name: "dark";
   default: false;
   prefersdark: true;
   color-scheme: "dark";

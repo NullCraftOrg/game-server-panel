@@ -78,7 +78,7 @@ onUnmounted(() => {
   <template v-if="server">
     <ServerInfoBar :server="server" :action-loading="serverStore.isLoading(uuid)" @start="serverStore.startServer(uuid)"
       @stop="serverStore.stopServer(uuid)" @restart="restartServer(uuid)" />
-    <TerminalPane ref="terminalRef" :uuid="uuid" />
+    <TerminalPane ref="terminalRef" :uuid="uuid" :use-pty="server?.usePty" :is-running="server?.isRunning" />
     <CommandInput @send="handleSendCommand" />
     <ConfirmDialog ref="restartServerDialogRef" title="重启服务器" @confirm="handleRestartConfirm">
       <template v-slot:content>
