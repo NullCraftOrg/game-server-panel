@@ -8,7 +8,7 @@ port: 9119
 app-log-to-file: false
 
 # 生成JWT的盐值，建议修改为随机字符串
-jwt-salt: "1da3997b-ddc1-421a-b678-8332d1ce4c59"
+jwt-salt: "YOUR_JWT_SALT_HERE"
 
 # JWT令牌过期时间，支持如 7d, 24h, 60m 等格式
-token-expires: "1m"
+token-expires: "7d"

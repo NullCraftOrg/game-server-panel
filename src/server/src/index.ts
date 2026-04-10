@@ -17,7 +17,7 @@ log.none('==============================');
 log.none('');
 
 // config
-import config from './utils/config.ts'
+import config from './config.ts'
 // 模块
 import http from 'http'
 import cors from 'cors'

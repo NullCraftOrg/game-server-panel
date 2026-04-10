@@ -4,17 +4,27 @@ import ServerListView from '@/views/Servers/ServerListView.vue'
 import ConsoleView from '@/views/Servers/ConsoleView.vue'
 import FileView from '@/views/Servers/FileView.vue'
 import TestView from '@/views/TestView.vue'
-
-import Login from '@/components/Login.vue'
+import Auth from '@/components/Auth.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/login',
-      component: Login,
+      name: 'Login',
+      component: Auth,
       meta: {
         title: '登录',
+        breadcrumbSkip: true, // 登录页不加入面包屑导航
+      },
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Auth,
+      meta: {
+        title: '注册',
+        breadcrumbSkip: true, // 注册页不加入面包屑导航
       },
     },
     {

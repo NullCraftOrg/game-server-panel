@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws'
 import ServerManager from './serverManager.ts'
 import { log } from '../log.ts'
-import { verifyToken } from '../auth.ts'
+import { verifyToken } from './auth.ts'
 
 export default function InitWebSocket(server: any) {
     const wss = new WebSocketServer({ server })

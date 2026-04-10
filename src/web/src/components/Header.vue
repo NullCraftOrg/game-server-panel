@@ -39,7 +39,7 @@ onMounted(() => {
     <div class="bg-base-100 navbar flex shadow">
 
         <div class="navbar-start">
-            <a class="btn btn-ghost text-xl" href="/">NGSP</a>
+            <RouterLink class="btn btn-ghost text-xl" to="/">NGSP</RouterLink>
         </div>
 
         <div class="navbar-center">
@@ -134,7 +134,7 @@ onMounted(() => {
             </div>
 
             <RouterLink to="/login" v-show="!userStore.user" class="btn btn-sm">登录</RouterLink>
-            <RouterLink to="/login" v-show="!userStore.user" class="btn btn-sm btn-neutral">注册</RouterLink>
+            <RouterLink to="/register" v-show="!userStore.user" class="btn btn-sm btn-neutral">注册</RouterLink>
         </div>
 
     </div>

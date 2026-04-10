@@ -1,7 +1,7 @@
 import { DatabaseSync } from 'node:sqlite'
 import { log } from '../log.ts'
 import { v4 as uuidv4 } from 'uuid'
-import { hashPassword, comparePassword, generateToken } from '../auth.ts'
+import { hashPassword } from '../core/auth.ts'
 
 // 表名
 const TABLE_NAME = 'users'
@@ -54,6 +54,11 @@ export class UserDatabase {
         return tablecount[0].count
     }
 
+    /**
+     * 通过用户ID获取用户信息（包含密码哈希，注意对外提供移除密码!）
+     * @param id 
+     * @returns 
+     */
     getUserById(id: string){
         const stmt = this.db.prepare(`SELECT id, username, password, role FROM users WHERE id = ?`)
         const row = stmt.get(id) as any;
@@ -62,7 +67,12 @@ export class UserDatabase {
         return row
     }
 
-    getUser(username: string) {
+    /**
+     * 通过用户名获取用户信息（包含密码哈希，注意对外提供移除密码!）
+     * @param username 
+     * @returns 
+     */
+    getUserByUsername(username: string) {
         const stmt = this.db.prepare(`SELECT id, username, password, role FROM users WHERE username = ?`)
         const row = stmt.get(username) as any;
         if (!row) return undefined;
@@ -70,6 +80,13 @@ export class UserDatabase {
         return row
     }
 
+    /**
+     * 添加新用户(密码会自动加密，请勿传入已加密的密码)
+     * @param username 用户名
+     * @param password 密码(未加密状态)
+     * @param role (角色)
+     * @returns 
+     */
     addUser(username: string, password: string, role: string) {
         const insert = this.db.prepare('INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)')
         const userId = uuidv4()

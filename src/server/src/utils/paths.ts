@@ -39,6 +39,9 @@ export function resolveFromHere(...paths: string[]): string{
 export const PATHS = {
     root: ROOT,
     src: resolvePath('src'),
+
     data: resolvePath('data'),
+    config: resolvePath('data', 'config.yml'), // 配置文件路径
+
     logs: resolvePath('logs'),
 }
