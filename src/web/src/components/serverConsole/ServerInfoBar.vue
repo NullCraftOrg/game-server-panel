@@ -64,7 +64,8 @@ const animate = computed(() => {props.server?.isRunning ? 'animate-ping' : ''})
             </g>
           </svg>
           <p class="text-xl">{{ server?.name ?? '读取中' }}</p>
-          <div class="badge badge-soft shadow" :class="badge">
+          <!-- 状态 -->
+          <div class="badge badge-soft rounded-md shadow" :class="badge">
             <div class="inline-grid *:[grid-area:1/1]">
               <div class="status" :class="[status, animate]"></div>
               <div class="status" :class="status"></div>

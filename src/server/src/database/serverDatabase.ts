@@ -1,6 +1,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { log } from '../log.ts';
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts';
+import { ensureColumn } from './dbHelper.ts'
 
 // 表名
 const TABLE_NAME = 'servers'
@@ -56,30 +57,14 @@ export class ServerDatabase {
         this.db.exec(createTableSQL);
 
         // 更新先前部署而未被新增的列
-        this.ensureColumn('servers', 'usePty', 'INTEGER DEFAULT 1');
+        ensureColumn(this.db, 'servers', 'usePty', 'INTEGER DEFAULT 1');
 
-        const tablecount = this.db.prepare(`SELECT COUNT(*) AS total FROM ${TABLE_NAME}`).all() as Array<{ total: number }>
-
-        log.debug(LOG_PREFIX, '表已就绪', `共计 ${tablecount[0].total} 条记录`);
+        log.debug(LOG_PREFIX, '表已就绪', `共计 ${this.getCount()} 条记录`);
     }
 
-    /**
-     * 确保表中存在指定列，若不存在则自动添加
-     * @param tableName 表名
-     * @param columnName 列名
-     * @param columnDefinition 列定义（如 "INTEGER DEFAULT 1"）
-     */
-    private ensureColumn(tableName: string, columnName: string, columnDefinition: string): void {
-        // 查询表结构
-        const checkSQL = `PRAGMA table_info(${tableName})`;
-        const columns = this.db.prepare(checkSQL).all() as Array<{ name: string }>;
-        const exists = columns.some(col => col.name === columnName);
-
-        if (!exists) {
-            const alterSQL = `ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${columnDefinition}`;
-            this.db.exec(alterSQL);
-            log.debug(LOG_PREFIX, `已为表 ${tableName} 添加列 ${columnName}，定义：${columnDefinition}`);
-        }
+    getCount() {
+        const tablecount = this.db.prepare(`SELECT COUNT(*) AS count FROM ${TABLE_NAME}`).all() as Array<{ count: number }>
+        return tablecount[0].count
     }
 
     /**

@@ -5,16 +5,26 @@ import ConsoleView from '@/views/Servers/ConsoleView.vue'
 import FileView from '@/views/Servers/FileView.vue'
 import TestView from '@/views/TestView.vue'
 
+import Login from '@/components/Login.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/login',
+      component: Login,
+      meta: {
+        title: '登录',
+      },
+    },
     {
       path: '/',
       name: 'Home',
       component: HomeView,
       meta: {
         title: '仪表盘',
-        breadcrumb: '首页'
+        breadcrumb: '首页',
+        requiresAuth: true
       }
     },
     {
@@ -24,7 +34,8 @@ const router = createRouter({
       meta: {
         title: '服务器列表',
         breadcrumb: '服务器列表',
-        parent: 'Home'
+        parent: 'Home',
+        requiresAuth: true
       },
       children: [
         {
@@ -66,7 +77,6 @@ const router = createRouter({
       component: TestView,
       meta: {
         breadcrumb: '测试页面',
-        parent: 'Home'
       }
     }
   ],
@@ -83,8 +93,23 @@ const router = createRouter({
 })
 
 // 设置名称
-router.beforeEach(to => {
-  document.title = 'NGSP - ' + (to.meta.title ?? to.name);
-});
+router.beforeEach((to, from) => {
+  const token = localStorage.getItem('token')
+  const requiresAuth = to.meta.requiresAuth
+  // 需要登录但无 token → 重定向到登录页
+  if (requiresAuth && !token) {
+    return '/login'
+  }
+
+  // 已登录访问登录页 → 重定向到首页
+  if (to.path === '/login' && token) {
+    return '/'
+  }
+
+  document.title = 'NGSP - ' + (to.meta.title ?? to.name)
+
+  // 其他情况放行
+  return true
+})
 
 export default router

@@ -1,57 +1,135 @@
 import type { ServerType } from "@/types/ServerType"
+import type { AuthType } from '@/types/AuthType'
+import type { UserType } from '@/types/UserType'
 
 const BASE = `http://localhost:${__API_PORT__}/api`
 
-export const api = {
+// 从 localStorage 获取 token
+function getToken(): string | null {
+  return localStorage.getItem('token')
+}
 
-  getMonitor: () => fetch(`${BASE}/monitor`).then(r => r.json()),
+// 处理 401 未授权
+function handleUnauthorized() {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  // 如果当前不在登录页，跳转
+  if (window.location.pathname !== '/login') {
+    window.location.href = '/login'
+  }
+}
 
-  // 获取全部服务器
-  getServers: () => fetch(`${BASE}/servers`).then(r => r.json()),
+// 通用请求封装
+async function request<T>(
+  url: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const token = getToken()
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(options.headers as Record<string, string> || {}),
+  }
 
-  // 获取指定服务器
-  getServer: async (uuid: string) => {
-    const response = await fetch(`${BASE}/servers/${uuid}`);
-    if (response.ok) {
-      return response.json()
-    }
-  },
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+  }
 
-  // 启动指定服务器
-  startServer: (uuid: string) => fetch(`${BASE}/servers/${uuid}/start`, { method: 'POST' }),
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  })
 
-  // 停止指定服务器
-  stopServer: (uuid: string) => fetch(`${BASE}/servers/${uuid}/stop`, { method: 'POST' }),
+  // 处理 401
+  if (response.status === 401) {
+    handleUnauthorized();
+    throw new Error('未授权，请重新登录')
+  }
 
-  // 重启指定服务器
-  restartServer: (uuid: string) => fetch(`${BASE}/servers/${uuid}/restart`, { method: 'POST' }),
+  // 如果是 204 No Content 或不需要解析 JSON
+  if (response.status === 204 || response.headers.get('content-length') === '0') {
+    return undefined as T
+  }
 
-  // 创建服务器
-  createServer: (data: ServerType) =>
-    fetch(`${BASE}/servers`, {
+  // 正常响应解析 JSON
+  if (response.ok) {
+    return response.json()
+  }
+
+  // 其他错误状态
+  const errorData = await response.json().catch(() => ({}));
+  throw new Error(errorData.error || `请求失败 (${response.status})`)
+}
+
+export const authApi = {
+  login: async (username: string, password: string): Promise<AuthType> => {
+    return fetch(`${BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }),
+      body: JSON.stringify({ username, password }),
+    }).then(r => {
+      if (!r.ok) {
+        throw new Error('登录失败');
+      }
+      return r.json() as Promise<AuthType>;
+    });
+  },
 
-  // 更新指定服务器
-  updateServer: (uuid: string, data: ServerType) =>
-    fetch(`${BASE}/servers/${uuid}`, {
-      method: 'PUT',
+  register: async (username: string, password: string): Promise<AuthType> => {
+    const r = await fetch(`${BASE}/auth/register`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ username, password }),
+    })
+    if (!r.ok) {
+      throw new Error('注册失败')
+    }
+    return await (r.json() as Promise<AuthType>)
+  },
+}
+
+export const userApi = {
+  getUserInfo: () => request(`${BASE}/users`) as Promise<UserType>,
+}
+
+export const api = {
+  
+  getMonitor: () => request(`${BASE}/monitor`),
+
+  /** 获取全部服务器 */
+  getServers: async (): Promise<ServerType[]> => request(`${BASE}/servers`),
+
+  /** 获取指定服务器(含运行时信息非必要不使用) */
+  getServer: async (uuid: string): Promise<ServerType> => request(`${BASE}/servers/${uuid}`),
+
+  /** 获取指定服务器(精简仅保留必要信息，优先使用) */
+  getServerInfo: async (uuid: string): Promise<ServerType> => request(`${BASE}/servers/${uuid}/info`),
+
+  /** 启动指定服务器 */
+  startServer: async (uuid: string) => request(`${BASE}/servers/${uuid}/start`, { method: 'POST' }),
+
+  /** 停止指定服务器 */
+  stopServer: async (uuid: string) => request(`${BASE}/servers/${uuid}/stop`, { method: 'POST' }),
+
+  /** 重启指定服务器 */
+  restartServer: async (uuid: string) => request(`${BASE}/servers/${uuid}/restart`, { method: 'POST' }),
+
+  /** 创建服务器 */
+  createServer: async (data: ServerType) =>
+    request(`${BASE}/servers`, {
+      method: 'POST',
+      body: JSON.stringify(data),
     }),
 
-  // 删除指定服务器
-  deleteServer: (uuid: string) =>
-    fetch(`${BASE}/servers/${uuid}`, { method: 'DELETE' }),
+  /** 更新服务器 */
+  updateServer: async (uuid: string, data: ServerType) =>
+    request(`${BASE}/servers/${uuid}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
 
-  // 获取服务器信息
-  getServerInfo: (uuid: string) => fetch(`${BASE}/servers/${uuid}/info`).then(r => r.json()),
+  /** 删除服务器 */
+  deleteServer: async (uuid: string) => request(`${BASE}/servers/${uuid}`, { method: 'DELETE' }),
 
-  // 通过 HTTP 获取历史日志
-  // 2026-03-23 注：终端页面中补发日志功能使用 WebsSocket 连接时发送。
-  getServerLog: (uuid: string) =>
-    fetch(`${BASE}/servers/${uuid}/log`).then(r => r.json())
-
+  /** 获取服务器日志(目前日志使用WS推送，仅保留接口) */
+  getServerLog: async (uuid: string) => request(`${BASE}/servers/${uuid}/log`),
 }

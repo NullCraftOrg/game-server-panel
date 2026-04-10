@@ -6,4 +6,7 @@ export interface RouterMetaType {
     breadcrumbSkip?: boolean
     /** 手动指定的父级路由名称 */
     parent?: string
+
+    /** 是否需要登录 */
+    requiresAuth?: boolean
 }

@@ -25,8 +25,8 @@ let socket: WSType
 const showTermScrollButton = ref(true)
 // 点击按钮滚动到底部
 const termScrollToBottom = () => {
-  term?.scrollToBottom();
-};
+  term?.scrollToBottom()
+}
 
 // 发送命令
 const sendCommand = (command: string) => {

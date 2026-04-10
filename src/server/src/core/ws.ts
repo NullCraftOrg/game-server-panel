@@ -1,6 +1,7 @@
 import { WebSocketServer } from 'ws'
 import ServerManager from './serverManager.ts'
 import { log } from '../log.ts'
+import { verifyToken } from '../auth.ts'
 
 export default function InitWebSocket(server: any) {
     const wss = new WebSocketServer({ server })
@@ -8,6 +9,18 @@ export default function InitWebSocket(server: any) {
     wss.on('connection', (ws: any, req: any) => {
         const url = new URL(req.url, 'http://' + req.headers.host)
         const uuid = url.searchParams.get('uuid')
+        const token = url.searchParams.get('token')
+        if (!token) {
+            ws.close(1008, 'Token required');
+            return;
+        }
+
+        const payload = verifyToken(token);
+        if (!payload) {
+            ws.close(1008, 'Invalid token');
+            return;
+        }
+
         if (!uuid) return ws.close()
 
         const server = ServerManager.get(uuid)

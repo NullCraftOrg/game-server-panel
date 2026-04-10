@@ -8,9 +8,10 @@ export function createWS(uuid: string, onMessage: (data: string) => void): WSTyp
     let ws: WebSocket | undefined
     let timer: number | undefined
     let isClosedManually = false // 调用close()手动关闭标识(不触发重连机制)
-
+    const token = localStorage.getItem('token') // token 认证
+    
     function connect(): void {
-        ws = new WebSocket(`ws://localhost:${__API_PORT__}?uuid=${uuid}`)
+        ws = new WebSocket(`ws://localhost:${__API_PORT__}?uuid=${uuid}&token=${token}`)
 
         ws.onmessage = (e: MessageEvent) => {
             onMessage(e.data)

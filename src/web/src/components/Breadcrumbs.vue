@@ -84,39 +84,8 @@ const buildBreadcrumbs = (routeRecord: RouteRecordNormalized | undefined, crumbs
 const breadcrumbs = computed<BreadcrumbItem[]>(() => {
     // 关键：通过当前路由的 name 获取路由记录对象
     const currentRecord = getRouteByName(route.name)
-    if (!currentRecord) {
-        // 如果没有 name 或者未找到，返回空数组（也可以根据路径降级处理，但推荐使用 name）
-        // 开发环境下可打印警告
-        if (import.meta.env.DEV) {
-            console.warn('未找到当前路由记录，请检查路由是否定义了 name', route)
-        }
-        return []
-    }
-
     // 构建面包屑
     let crumbs = buildBreadcrumbs(currentRecord)
-
-    // 可选：如果当前路由不是首页且面包屑中没有包含首页，自动添加首页项（如果首页存在）
-    const hasHome = crumbs.some(c => c.path === '/')
-    if (!hasHome && route.path !== '/') {
-        const homeRecord = getRouteByName('Home') // 假设首页路由名称为 'Home'
-        if (homeRecord) {
-            let homeTitle: string
-            const homeMeta = homeRecord.meta?.breadcrumb
-            if (typeof homeMeta === 'function') {
-                homeTitle = homeMeta(route)
-            } else if (typeof homeMeta === 'string') {
-                homeTitle = homeMeta
-            } else {
-                homeTitle = '首页'
-            }
-            crumbs.unshift({
-                title: homeTitle,
-                path: '/'
-            })
-        }
-    }
-
     return crumbs
 })
 </script>
