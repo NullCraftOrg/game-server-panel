@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS servers (
     command TEXT,
     cwd TEXT,
     forceUtf8Mode INTEGER DEFAULT 0,
+    usePty INTEGER DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

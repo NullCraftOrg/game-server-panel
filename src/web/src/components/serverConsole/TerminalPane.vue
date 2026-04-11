@@ -2,11 +2,12 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { createWS, type WSType } from '@/utils/ws'
 // xterm 终端相关
+import { defalutTheme, atomDarkTheme } from '@/utils/xtermTheme'
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
-import { WebLinksAddon } from '@xterm/addon-web-links';
-import { WebglAddon } from '@xterm/addon-webgl';
-import { Unicode11Addon } from '@xterm/addon-unicode11';
+import { WebLinksAddon } from '@xterm/addon-web-links'
+import { WebglAddon } from '@xterm/addon-webgl'
+import { Unicode11Addon } from '@xterm/addon-unicode11'
 
 const props = defineProps<{
   uuid: string,
@@ -56,32 +57,8 @@ onMounted(async () => {
     convertEol: true,
     fontSize: 14,
     fontFamily: '"Fira Code", Consolas, monospace, "Powerline Extra Symbols"',
-    theme: {
-      cursor: '#FFFFFF',        // 光标
-
-      background: '#212121',    // 背景色
-      foreground: '#d8d8d8',    // 前景色
-
-      black: "#232634",   // 黑色 f30 b40
-      red: "#e78284",     // 红色 f31 b41
-      green: "#07962a",   // 绿色 f32 b42
-      yellow: "#f0c674",  // 黄色 f33 b43
-      blue: "#8caaee",    // 蓝色 f34 b44
-      magenta: "#ca9ee6", // 品红色(紫色) f35 b45
-      cyan: "#3A96DD",    // 青色 f36 b46
-      white: "#b5bfe2",   // 白色 f37 b47
-
-      brightBlack: "#767676",   // 亮黑色 f90 b100
-      brightRed: "#E74856",     // 亮红色 f91 b101
-      brightGreen: "#16C60C",   // 亮绿色 f92 b102
-      brightYellow: "#F9F1A5",  // 亮黄色 f93 b103
-      brightBlue: "#3B78FF",    // 亮蓝色 f94 b104
-      brightMagenta: '#B4009E', // 亮品红色(亮紫色) f95 b105
-      brightCyan: "#61D6D6",    // 亮青色 f96 b106
-      brightWhite: "#F2F2F2",   // 亮白色 f97 b107
-
-    }
-    // 目前还没有使用场景。
+    theme: defalutTheme,
+    // 透明背景色：目前还没有使用场景。
     // allowTransparency: true,
     // theme: {
     //   background: "transparent",

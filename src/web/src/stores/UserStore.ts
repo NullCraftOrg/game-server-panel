@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', () => {
   const loading = ref(false)
   const initialized = ref(false)
 
-// 注册
+  // 注册
   async function register(username: string, password: string): Promise<AuthType> {
     const data = await authApi.register(username, password)
     localStorage.setItem('token', data.token);

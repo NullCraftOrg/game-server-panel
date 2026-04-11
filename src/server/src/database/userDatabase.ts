@@ -37,13 +37,14 @@ export class UserDatabase {
     private initTable(): void {
         const createTableSQL = `
             CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
-            id TEXT PRIMARY KEY,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            role TEXT NOT NULL DEFAULT 'user',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )`;
+                id TEXT PRIMARY KEY,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                role TEXT NOT NULL DEFAULT 'user',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
         this.db.exec(createTableSQL);
         
         log.debug(LOG_PREFIX, '表已就绪', `共计 ${this.getCount()} 条记录`);

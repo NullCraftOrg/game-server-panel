@@ -11,4 +11,5 @@ app-log-to-file: false
 jwt-salt: "YOUR_JWT_SALT_HERE"
 
 # JWT令牌过期时间，支持如 7d, 24h, 60m 等格式
+# 具体语法可参考：https://github.com/vercel/ms
 token-expires: "7d"

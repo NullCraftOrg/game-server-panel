@@ -32,10 +32,8 @@ const systemCpuUsageCores = computed(() => {
 
 // 对话框相关
 const dialogVisible = ref(false)
-const currentServer = ref<ServerType | null>(null)
 
 const openCreateDialog = () => {
-    currentServer.value = null
     dialogVisible.value = true
 }
 
@@ -143,6 +141,6 @@ onUnmounted(() => {
         </div>
     </div>
 
-    <EditServerDialog v-model:visible="dialogVisible" :server="currentServer" @confirm="handleConfirm">
+    <EditServerDialog v-model:visible="dialogVisible" @confirm="handleConfirm">
     </EditServerDialog>
 </template>

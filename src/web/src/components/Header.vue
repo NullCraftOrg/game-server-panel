@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { userApi } from '@/utils/api'
 import { useTheme } from '@/utils/useTheme'
 import { ref, computed, onMounted } from 'vue'
 import type { UserType } from '@/types/UserType'
@@ -8,8 +7,9 @@ import { useUserStore } from '@/stores/UserStore'
 const userStore = useUserStore()
 const userInfo = ref<UserType | null>(null)
 
+/** 加载用户信息 */
 async function loginInfo() {
-    const data = await userStore.fetchUser() // 注意 await
+    const data = await userStore.fetchUser()
     if (data) {
         userInfo.value = data;
     }
@@ -38,23 +38,45 @@ onMounted(() => {
 <template>
     <div class="bg-base-100 navbar flex shadow">
 
-        <div class="navbar-start">
+        <div class="navbar-start gap-2">
+            <!-- 品牌 Logo -->
             <RouterLink class="btn btn-ghost text-xl" to="/">NGSP</RouterLink>
+
+            <!-- 移动端汉堡菜单按钮小屏显示 -->
+            <div class="dropdown lg:hidden">
+                <label tabindex="0" class="btn btn-sm btn-ghost btn-square">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </label>
+                <ul tabindex="0"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                    <li>
+                        <RouterLink to="/" exactActiveClass="menu-active">仪表盘</RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink to="/servers" exactActiveClass="menu-active">服务器列表</RouterLink>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="navbar-center">
-            <ul class="menu menu-horizontal gap-2">
+        <!-- 大屏导航菜单 (小屏隐藏) -->
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal gap-2 px-1">
                 <li>
                     <RouterLink to="/" exactActiveClass="menu-active">仪表盘</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/servers" exactActiveClass="menu-active">服务器列表</RouterLink>
                 </li>
-
             </ul>
         </div>
 
         <div class="navbar-end flex gap-2">
+            <!-- 主题切换下拉菜单 -->
             <div class="dropdown dropdown-bottom dropdown-end">
                 <div tabindex="0" class="btn btn-sm btn-ghost">
                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -62,8 +84,10 @@ onMounted(() => {
                             stroke-width="2"
                             d="m14.622 17.897l-10.68-2.913M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0zM9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15" />
                     </svg>
-                    {{ currentMode }}
-                    <svg width="12px" height="12px" class="mt-px hidden size-2 fill-current opacity-60 sm:inline-block"
+
+                    <span class="hidden sm:inline">{{ currentMode }}</span>
+
+                    <svg width="12px" height="12px" class="size-2 fill-current opacity-60"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
                         <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
                     </svg>
@@ -72,7 +96,8 @@ onMounted(() => {
                     <li class="menu-title text-xs">切换主题</li>
                     <li>
                         <a @click="switchToLight">
-                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24">
                                 <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2">
                                     <circle cx="12" cy="12" r="4" />
@@ -83,10 +108,10 @@ onMounted(() => {
                             浅色
                         </a>
                     </li>
-
                     <li>
                         <a @click="switchToDark">
-                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24">
                                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2"
                                     d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
@@ -94,11 +119,10 @@ onMounted(() => {
                             深色
                         </a>
                     </li>
-
                     <li>
                         <a @click="switchToAuto">
-                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24">
+                            <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
                                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2"
                                     d="M12 2v2m2.837 12.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715M16 12a4 4 0 0 0-4-4m7-3l-1.256 1.256M20 12h2" />
@@ -109,32 +133,52 @@ onMounted(() => {
                 </ul>
             </div>
 
-            <div v-show="userStore.user" class="dropdown dropdown-end">
-                <div tabindex="0" class="btn btn-sm btn-ghost">
-                    <div class="avatar avatar-placeholder">
-                        <div class="bg-neutral text-neutral-content w-6 mask mask-squircle">
-                            <span>{{ userStore.user?.username.charAt(0).toUpperCase() }}</span>
+            <!-- 骨架占位 -->
+            <div v-if="!userStore.initialized" class="skeleton w-28 h-8"></div>
+            <template v-else>
+                <!-- 用户信息下拉菜单 -->
+                <div v-if="userStore.user" class="dropdown dropdown-end">
+                    <div tabindex="0" class="btn btn-sm btn-ghost">
+                        <div class="avatar avatar-placeholder">
+                            <div class="bg-neutral text-neutral-content w-6 mask mask-squircle">
+                                <span>{{ userStore.user?.username.charAt(0).toUpperCase() }}</span>
+                            </div>
                         </div>
+                        <div class="text-start max-sm:hidden">
+                            <p class="text-[12px]/none">{{ userStore.user?.username }}</p>
+                            <p class="text-base-content/50 text-[10px]/none">{{ userStore.user?.role }}</p>
+                        </div>
+
+                        <svg width="12px" height="12px" class="size-2 fill-current opacity-60"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
+                            <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
+                        </svg>
                     </div>
 
-                    <div class="text-start max-sm:hidden">
-                        <p class="text-[12px]/none">{{ userStore.user?.username }}</p>
-                        <p class="text-base-content/50 text-[10px]/none">{{ userStore.user?.role }}</p>
-                    </div>
-
-                    <svg width="12px" height="12px" class="mt-px hidden size-2 fill-current opacity-60 sm:inline-block"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
-                        <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
-                    </svg>
+                    <!-- 用户菜单 -->
+                    <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm">
+                        <li class="menu-title text-xs">用户菜单</li>
+                        <li>
+                            <a @click="userStore.logout()">
+                                <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"
+                                        d="m16 17l5-5l-5-5m5 5H9m0 9H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                </svg>
+                                退出登录
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <ul tabindex="-1"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                    <li><a @click="userStore.logout()">退出登录</a></li>
-                </ul>
-            </div>
 
-            <RouterLink to="/login" v-show="!userStore.user" class="btn btn-sm">登录</RouterLink>
-            <RouterLink to="/register" v-show="!userStore.user" class="btn btn-sm btn-neutral">注册</RouterLink>
+                <!-- 未登录状态按钮 -->
+                <div class="flex gap-2" v-else>
+                    <RouterLink to="/login" class="btn btn-sm">登录</RouterLink>
+                    <RouterLink to="/register" class="btn btn-sm btn-neutral">注册</RouterLink>
+                </div>
+            </template>
+
         </div>
 
     </div>
