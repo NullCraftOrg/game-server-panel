@@ -13,7 +13,6 @@ async function loginInfo() {
     if (data) {
         userInfo.value = data;
     }
-    console.log(data);
 }
 
 const { setMode, getMode } = useTheme()
@@ -51,8 +50,7 @@ onMounted(() => {
                             d="M4 6h16M4 12h16M4 18h7" />
                     </svg>
                 </label>
-                <ul tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow">
                     <li>
                         <RouterLink to="/" exactActiveClass="menu-active">仪表盘</RouterLink>
                     </li>
@@ -65,7 +63,7 @@ onMounted(() => {
 
         <!-- 大屏导航菜单 (小屏隐藏) -->
         <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal gap-2 px-1">
+            <ul class="menu menu-horizontal gap-2">
                 <li>
                     <RouterLink to="/" exactActiveClass="menu-active">仪表盘</RouterLink>
                 </li>
@@ -95,7 +93,7 @@ onMounted(() => {
                 <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm">
                     <li class="menu-title text-xs">切换主题</li>
                     <li>
-                        <a @click="switchToLight">
+                        <a @click="switchToLight" :class="{ 'menu-active': getMode() === 'light' }">
                             <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -109,7 +107,7 @@ onMounted(() => {
                         </a>
                     </li>
                     <li>
-                        <a @click="switchToDark">
+                        <a @click="switchToDark" :class="{ 'menu-active': getMode() === 'dark' }">
                             <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -120,7 +118,7 @@ onMounted(() => {
                         </a>
                     </li>
                     <li>
-                        <a @click="switchToAuto">
+                        <a @click="switchToAuto" :class="{ 'menu-active': getMode() === 'auto' }">
                             <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -138,7 +136,7 @@ onMounted(() => {
             <template v-else>
                 <!-- 用户信息下拉菜单 -->
                 <div v-if="userStore.user" class="dropdown dropdown-end">
-                    <div tabindex="0" class="btn btn-sm btn-ghost">
+                    <div tabindex="0" class="btn btn-ghost">
                         <div class="avatar avatar-placeholder">
                             <div class="bg-neutral text-neutral-content w-6 mask mask-squircle">
                                 <span>{{ userStore.user?.username.charAt(0).toUpperCase() }}</span>
@@ -146,7 +144,7 @@ onMounted(() => {
                         </div>
                         <div class="text-start max-sm:hidden">
                             <p class="text-[12px]/none">{{ userStore.user?.username }}</p>
-                            <p class="text-base-content/50 text-[10px]/none">{{ userStore.user?.role }}</p>
+                            <p class="text-base-content/60 text-[10px]/none">@{{ userStore.user?.role }}</p>
                         </div>
 
                         <svg width="12px" height="12px" class="size-2 fill-current opacity-60"

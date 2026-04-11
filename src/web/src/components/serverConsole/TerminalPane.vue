@@ -15,8 +15,6 @@ const props = defineProps<{
   isRunning?: boolean
 }>()
 
-console.log('TerminalPane props', props)
-
 const termElement: { value: HTMLElement | null } = ref(null)
 let term: Terminal | null = null
 let fitAddon: FitAddon | null = null
@@ -30,9 +28,11 @@ const termScrollToBottom = () => {
 }
 
 // 发送命令
+// (20260411: 更改为Json传输，增加type区分输入和调整终端大小)
+// input = 输入命令，resize = 调整终端大小
 const sendCommand = (command: string) => {
   if (socket) {
-    socket.send(command + '\r')
+    socket.send(JSON.stringify({ type: 'input', message: command + '\r' }))
   } else {
     console.warn('WebSocket未连接，无法发送命令')
   }
@@ -42,6 +42,11 @@ const sendCommand = (command: string) => {
 function resizeScreen() {
   try {
     fitAddon?.fit()
+    // 更新node-pty终端尺寸会有问题，暂时固定大小
+    // 问题1多页面下同一服务器不同尺寸问题问题
+    // 2调整大小可能导致更多的ANSI字符渲染问题。
+    // const { cols, rows } = term as Terminal
+    // socket.send(JSON.stringify({ type: 'resize', cols, rows }))
   } catch (e: any) {
     console.log('resizeScreenError', e.message)
   }
@@ -51,6 +56,7 @@ onMounted(async () => {
   // 初始化终端
   term = new Terminal({
     allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
+    // 暂时使用固定大小后期考虑更好的方案
     rows: 32,
     cols: 1000,
     cursorBlink: true,
@@ -80,6 +86,14 @@ onMounted(async () => {
   // 自适应大小
   fitAddon.fit()
 
+  // 建立 WebSocket
+  socket = createWS(
+    props.uuid,
+    (data) => {
+      term?.write(data)
+    }
+  )
+
   // 监听滚动事件，控制滚动到底部按钮显示
   term.onScroll(() => {
     // buffer.active.viewportY: 当前滚动到的行位置
@@ -90,13 +104,6 @@ onMounted(async () => {
     }
   });
 
-  // 建立 WebSocket
-  socket = createWS(
-    props.uuid,
-    (data) => {
-      term?.write(data)
-    }
-  )
 
   // 发送终端输入数据到服务器
   let inputBuffer = ''
@@ -106,11 +113,11 @@ onMounted(async () => {
 
     // 如果使用了仿真模拟则直接发送输入数据，否则模拟传统终端行为回车后整体发送
     if (props.usePty) {
-      socket?.send(data)
+      socket?.send(JSON.stringify({ type: 'input', message: data }))
     }
     else {
       if (data === '\r') {
-        socket.send(inputBuffer + '\n')
+        socket.send(JSON.stringify({ type: 'input', message: inputBuffer + '\n' }))
         inputBuffer = ''
         term?.write('\r\n')
       } else if (data === '\u007f') {
@@ -139,7 +146,8 @@ defineExpose({ sendCommand })
 </script>
 
 <template>
-  <div class="relative rounded-box shadow-sm my-2 p-2" style="background-color: #212121;">
+
+  <div class="relative rounded-md shadow my-2 p-2" style="background-color: #212121;">
     <div ref="termElement"></div>
 
     <Transition name="fade">

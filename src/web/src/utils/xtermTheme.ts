@@ -20,7 +20,7 @@ export const defalutTheme = {
 
     brightBlack: "#767676",   // 亮黑色 f90 b100
     brightRed: "#E74856",     // 亮红色 f91 b101
-    brightGreen: "#16C60C",   // 亮绿色 f92 b102
+    brightGreen: "#8ae234",   // 亮绿色 f92 b102
     brightYellow: "#F9F1A5",  // 亮黄色 f93 b103
     brightBlue: "#3B78FF",    // 亮蓝色 f94 b104
     brightMagenta: '#B4009E', // 亮品红色(亮紫色) f95 b105
@@ -32,7 +32,7 @@ export const defalutTheme = {
 export const atomDarkTheme = {
     cursor: '#fff',
 
-    background: '#212121', 
+    background: '#212121',
     foreground: '#d8d8d8',
 
     black: '#1d1f21',

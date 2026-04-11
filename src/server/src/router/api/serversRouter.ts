@@ -21,7 +21,7 @@ serversRouter.post("/", (req, res) => {
 serversRouter.get('/:uuid', (req, res) => {
   const server = ServerManager.get(req.params.uuid)
   if (!server) {
-   return res.status(404).end();
+    return res.status(404).end();
   }
   res.status(200).json(server);
 })
@@ -49,11 +49,11 @@ serversRouter.delete('/:uuid', (req, res) => {
 // 通过uuid获取服务器信息(后续考虑增加更多数据)
 serversRouter.get('/:uuid/info', (req, res) => {
   const infoData = ServerManager.info(req.params.uuid)
-  if (infoData) {
-    res.status(200).json(infoData);
+  if (!infoData) {
+    return res.status(404).end()
   }
   else {
-    res.status(404).end()
+    res.status(200).json(infoData)
   }
 })
 

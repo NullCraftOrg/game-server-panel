@@ -60,7 +60,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * @param process 传入要判断的 process
      * @returns 
      */
-    private isPty(process: any): process is pty.IPty {
+    isPty(process: any): process is pty.IPty {
         return process && typeof process.write === 'function' && typeof process.resize === 'function';
     }
 

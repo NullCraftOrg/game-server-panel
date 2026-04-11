@@ -35,9 +35,26 @@ export default function InitWebSocket(server: any) {
         }
 
         // 接收命令后发送到服务器线程
+        // (20260411: 更改为Json传输，增加type区分输入和调整终端大小)
+        // input = 输入命令，resize = 调整终端大小
         ws.on('message', (message: any) => {
-            server.sendCommand(message)
+            const data = JSON.parse(message.toString())
+
+            if (data.type === 'input') {
+                server.sendCommand(data.message)
+            }
+
+            // 问题过多暂时不做处理。
+            // if (data.type === 'resize' && server.isPty(server.process)) {
+            //     console.log('调整终端大小:', data.cols, 'x', data.rows)
+            //     server.process?.resize(data.cols, data.rows)
+            // }
         })
+
+        // 心跳检测
+        ws.on('pong', () => {
+            ws.isAlive = true;
+        });
 
         // 连接关闭时从服务器线程移除
         ws.on('close', () => {
