@@ -77,7 +77,7 @@ onUnmounted(() => {
         </div>
     </MainTitle>
 
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
         <ServerInfoCard @create="openCreateDialog" />
 
         <UsageChartCard title="系统内存" desc="已用内存/内存总数" lineColor="rgb(51, 120, 229)"

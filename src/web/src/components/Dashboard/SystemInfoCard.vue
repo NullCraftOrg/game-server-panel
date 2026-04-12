@@ -44,7 +44,7 @@ const formatedUptime = computed(() => systemInfo.value ? formatUptime(systemInfo
                         </div>
                         <div>
                             <div>{{ systemInfo?.hostname ?? '-' }}</div>
-                            <div class="text-xs opacity-60">主机名</div>
+                            <div class="text-xs text-base-content/50">主机名</div>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@ const formatedUptime = computed(() => systemInfo.value ? formatUptime(systemInfo
                         </div>
                         <div>
                             <div>{{ formatedUptime ?? '-' }}</div>
-                            <div class="text-xs opacity-60">运行时长</div>
+                            <div class="text-xs text-base-content/50">运行时长</div>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ const formatedUptime = computed(() => systemInfo.value ? formatUptime(systemInfo
                         </div>
                         <div>
                             <div>{{ systemInfo?.os.type ?? '-' }}{{ systemInfo?.os.release ? ` (${systemInfo?.os.release})` : '' }}</div>
-                            <div class="text-xs opacity-60">操作系统</div>
+                            <div class="text-xs text-base-content/50">操作系统</div>
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ const formatedUptime = computed(() => systemInfo.value ? formatUptime(systemInfo
                         </div>
                         <div>
                             <div>{{ systemInfo?.cpu.model ?? '-' }}</div>
-                            <div class="text-xs opacity-60">处理器型号</div>
+                            <div class="text-xs text-base-content/50">处理器型号</div>
                         </div>
                     </div>
                 </div>

@@ -9,6 +9,9 @@ import Footer from '@/components/Footer.vue'
         <Header />
 
         <main class="flex-1 container mx-auto p-3 my-3">
+            
+            <div id="global-container-alert"></div>
+
             <Breadcrumbs />
             <router-view />
         </main>

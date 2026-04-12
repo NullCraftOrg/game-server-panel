@@ -61,24 +61,26 @@ async function request<T>(
 }
 
 export const authApi = {
-  login: async (username: string, password: string): Promise<AuthType> => {
+  getUserInfo: (): Promise<UserType> => request(`${BASE}/auth/me`),
+
+  login: async (authData: string, password: string): Promise<AuthType> => {
     return fetch(`${BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ authData, password }),
     }).then(r => {
       if (!r.ok) {
-        throw new Error('登录失败');
+        throw new Error('登录失败')
       }
-      return r.json() as Promise<AuthType>;
-    });
+      return r.json() as Promise<AuthType>
+    })
   },
 
-  register: async (username: string, password: string): Promise<AuthType> => {
+  register: async (email: string, username: string, password: string): Promise<AuthType> => {
     const r = await fetch(`${BASE}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, username, password }),
     })
     if (!r.ok) {
       throw new Error('注册失败')
@@ -88,11 +90,11 @@ export const authApi = {
 }
 
 export const userApi = {
-  getUserInfo: () => request(`${BASE}/users`) as Promise<UserType>,
+  getUsers: async (): Promise<UserType[]> => request(`${BASE}/users`),
 }
 
 export const api = {
-  
+
   getMonitor: () => request(`${BASE}/monitor`),
 
   /** 获取全部服务器 */

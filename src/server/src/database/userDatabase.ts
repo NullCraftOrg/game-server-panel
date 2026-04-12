@@ -2,6 +2,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { log } from '../log.ts'
 import { v4 as uuidv4 } from 'uuid'
 import { hashPassword } from '../core/auth.ts'
+import type { UserInterface } from '../interface/UserInterface.ts'
 
 // 表名
 const TABLE_NAME = 'users'
@@ -37,7 +38,8 @@ export class UserDatabase {
     private initTable(): void {
         const createTableSQL = `
             CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
-                id TEXT PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT UNIQUE NOT NULL,
                 username TEXT UNIQUE NOT NULL,
                 password TEXT NOT NULL,
                 role TEXT NOT NULL DEFAULT 'user',
@@ -50,9 +52,22 @@ export class UserDatabase {
         log.debug(LOG_PREFIX, '表已就绪', `共计 ${this.getCount()} 条记录`);
     }
 
-    getCount() {
+    getCount(): number {
         const tablecount = this.db.prepare(`SELECT COUNT(*) AS count FROM ${TABLE_NAME}`).all() as Array<{ count: number }>
         return tablecount[0].count
+    }
+
+    listUsers(): Array<UserInterface> {
+        const stmt = this.db.prepare(`SELECT id, email, username, role FROM ${TABLE_NAME} ORDER BY created_at ASC`)
+        const rows = stmt.all() as Array<{ id: number, email: string, username: string, role: string }>
+        return rows
+    }
+
+    getUserByEmailOrUsername(authData: string): UserInterface | undefined {
+        const stmt = this.db.prepare(`SELECT id, email, username, password, role FROM ${TABLE_NAME} WHERE email = ? OR username = ?`)
+        const row = stmt.get(authData, authData) as UserInterface | undefined
+        if (!row) return undefined
+        return row
     }
 
     /**
@@ -60,10 +75,10 @@ export class UserDatabase {
      * @param id 
      * @returns 
      */
-    getUserById(id: string){
-        const stmt = this.db.prepare(`SELECT id, username, password, role FROM users WHERE id = ?`)
-        const row = stmt.get(id) as any;
-        if (!row) return undefined;
+    getUserById(id: number): UserInterface | undefined {
+        const stmt = this.db.prepare(`SELECT id, email, username, password, role FROM users WHERE id = ?`)
+        const row = stmt.get(id) as UserInterface | undefined
+        if (!row) return undefined
 
         return row
     }
@@ -73,10 +88,10 @@ export class UserDatabase {
      * @param username 
      * @returns 
      */
-    getUserByUsername(username: string) {
-        const stmt = this.db.prepare(`SELECT id, username, password, role FROM users WHERE username = ?`)
-        const row = stmt.get(username) as any;
-        if (!row) return undefined;
+    getUserByUsername(username: string): UserInterface | undefined {
+        const stmt = this.db.prepare(`SELECT id, email, username, password, role FROM users WHERE username = ?`)
+        const row = stmt.get(username) as UserInterface | undefined
+        if (!row) return undefined
 
         return row
     }
@@ -88,13 +103,12 @@ export class UserDatabase {
      * @param role (角色)
      * @returns 
      */
-    addUser(username: string, password: string, role: string) {
-        const insert = this.db.prepare('INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)')
-        const userId = uuidv4()
+    addUser(email: string, username: string, password: string, role: string): number {
+        const insert = this.db.prepare('INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)')
         const hashedPassword = hashPassword(password)
-        const result = insert.run(userId, username, hashedPassword, role)
+        const result = insert.run(email, username, hashedPassword, role)
         if (result.changes === 1) {
-            return { id: userId, username, role }
+            return result.lastInsertRowid as number
         } else {
             throw new Error('Failed to insert user')
         }

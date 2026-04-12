@@ -8,8 +8,11 @@ const router = useRouter()
 const route = useRoute()
 
 const isLoading = ref(false)
+
+const email = ref('')
 const username = ref('')
 const password = ref('')
+
 const error = ref('')
 
 // 根据路由名称判断是注册还是登录模式
@@ -19,6 +22,7 @@ const isRegister = computed(() => route.name === 'Register')
 watch(
   () => route.name,
   () => {
+    email.value = ''
     username.value = ''
     password.value = ''
     error.value = ''
@@ -37,7 +41,7 @@ async function handleSubmit() {
   try {
     // 根据路由进行注册/登录
     if (isRegister.value) {
-      await userStore.register(username.value, password.value)
+      await userStore.register(email.value, username.value, password.value)
     } else {
       await userStore.login(username.value, password.value)
     }
@@ -79,13 +83,26 @@ const passwordAutocomplete = computed(() =>
         <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-md border p-4 shadow">
           <legend class="fieldset-legend">{{ isRegister ? '注册' : '登录' }}</legend>
 
-          <label class="label">用户名</label>
-          <input type="text" class="input w-full" v-model="username" placeholder="用户名" required
-            :autocomplete="usernameAutocomplete" />
+          <template v-if="isRegister">
+            <!-- 注册时电子邮箱输入框 -->
+            <label class="label">电子邮箱</label>
+            <input type="email" class="w-full input validator" v-model="email" placeholder="电子邮箱" required
+              pattern="[^\s@]+@[^\s@]+\.[^\s@]+" />
+            <p class="m-0 mb-1 validator-hint hidden">请输入正确的电子邮箱地址</p>
+          </template>
 
+          <!-- 用户名输入框 -->
+          <label class="label">{{ isRegister ? '用户名' : '电子邮箱或用户名' }}</label>
+          <input type="text" class="w-full input validator" pattern="[a-zA-Z0-9]{2,32}" minlength="2" maxlength="32"
+            v-model="username" :placeholder="isRegister ? '用户名' : '电子邮箱或用户名'" required
+            :autocomplete="usernameAutocomplete" />
+          <p class="m-0 mb-1 validator-hint hidden">用户名仅能使用字母与数字且长度必须在2-32个字符之间</p>
+
+          <!-- 密码输入框 -->
           <label class="label">密码</label>
-          <input type="password" class="input w-full" v-model="password" placeholder="密码" required
-            :autocomplete="passwordAutocomplete" />
+          <input type="password" class="w-full input validator" v-model="password" placeholder="密码" required
+            minlength="6" :autocomplete="passwordAutocomplete" />
+          <p class="m-0 mb-1 validator-hint hidden">密码长度必须在6个字符以上</p>
 
           <button class="btn btn-neutral mt-4" type="submit" :disabled="isLoading">
             <span v-show="isLoading" class="loading loading-sm loading-spinner"></span>

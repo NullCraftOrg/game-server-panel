@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import TerminalPane from '@/components/ServerConsole/TerminalPane.vue'
 import ServerInfoBar from '@/components/ServerConsole/ServerInfoBar.vue'
 import CommandInput from '@/components/ServerConsole/CommandInput.vue'
+import Countdown from '@/components/Countdown.vue'
 import type { ServerType } from '@/types/ServerType';
 import { useRoute } from 'vue-router'
 
@@ -97,11 +98,7 @@ onUnmounted(() => {
       <p class="text-md text-red-500">{{ errorMessage }}</p>
       <div class="text-xl">
         已重试
-        <span class="countdown font-mono">
-          <span aria-live="polite" :aria-label="`已重试 ${retryCount} 次`" :style="{ '--value': retryCount }">
-            {{ retryCount }}
-          </span>
-        </span>
+        <Countdown :count="retryCount" />
         次
       </div>
     </div>

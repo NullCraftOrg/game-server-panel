@@ -1,17 +1,18 @@
-import { Router } from 'express';
+import { Router } from 'express'
 import { DBUsers } from '../../db.ts'
-import { authMiddleware } from '../../middleware/authMiddleware.ts';
+import { authMiddleware } from '../../middleware/authMiddleware.ts'
 
 const userRouter = Router();
 
 // BASE URL /api/users
 
 userRouter.get('/', authMiddleware, async (req, res) => {
-  const user = await DBUsers.getUserById((req as any).user.userId)
-  if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+  const reqUser = (req as any).user
+  if(reqUser.role !== 'admin') {
+    return res.status(403).end()
   }
-  res.json({ id: user.id, username: user.username, role: user.role });
+  const users = DBUsers.listUsers()
+  res.json(users)
 })
 
 export default userRouter;

@@ -7,7 +7,8 @@ interface Props {
     left: number | string
     right: number | string
     percent: number
-    percentColor: string,
+    percentSuffix?: string
+    percentColor: string
 
     lineColor?: string
     areaColorTop?: string
@@ -22,6 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
     left: '-',
     right: '-',
     percent: 0,
+    percentSuffix: '%',
     percentColor: 'text-neutral',
 
     lineColor: 'rgb(0,200,150)',
@@ -99,9 +101,12 @@ const areaPath = computed(() => {
         </svg>
 
         <div class="stat relative z-10">
+            <!-- 圆形进度 -->
             <div class="stat-figure">
-                <div class="glass radial-progress" :class="percentColor" role="progressbar" style="--size: 3rem;"
-                    :style="{ '--value': Math.round(percent) }">{{ Math.round(percent) }}</div>
+                <div class="glass radial-progress" :class="percentColor" role="progressbar" style="--size: 3.5rem;"
+                    :style="{ '--value': Math.round(percent) }">
+                    <span class="text-sm">{{ Math.round(percent) }}<span class="text-xs">{{ percentSuffix }}</span></span>
+                </div>
             </div>
             <div class="stat-title">{{ title }}</div>
             <div class="stat-value">{{ left }}<span class="text-2xl">/{{ right }}</span></div>

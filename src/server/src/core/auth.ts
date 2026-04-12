@@ -26,14 +26,14 @@ export function comparePassword(password: string, hash: string): boolean {
 }
 
 /** 生成Token */
-export function generateToken(userId: string, role: string): string {
+export function generateToken(userId: number, role: string): string {
   return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: TOKEN_EXPIRES })
 }
 
 /** 验证Token */
-export function verifyToken(token: string): { userId: string; role: string } | null {
+export function verifyToken(token: string): { userId: number; role: string } | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as { userId: string; role: string }
+    return jwt.verify(token, JWT_SECRET) as { userId: number; role: string }
   } catch {
     return null
   }

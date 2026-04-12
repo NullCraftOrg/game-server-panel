@@ -1,22 +1,16 @@
 <script setup lang="ts">
 import { useTheme } from '@/utils/useTheme'
-import { ref, computed, onMounted } from 'vue'
-import type { UserType } from '@/types/UserType'
+import { computed, onMounted } from 'vue'
 import { useUserStore } from '@/stores/UserStore'
 
 const userStore = useUserStore()
-const userInfo = ref<UserType | null>(null)
 
 /** 加载用户信息 */
 async function loginInfo() {
-    const data = await userStore.fetchUser()
-    if (data) {
-        userInfo.value = data;
-    }
+    await userStore.fetchUser()
 }
 
 const { setMode, getMode } = useTheme()
-
 const switchToLight = () => setMode('light')
 const switchToDark = () => setMode('dark')
 const switchToAuto = () => setMode('auto')
@@ -52,23 +46,69 @@ onMounted(() => {
                 </label>
                 <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow">
                     <li>
-                        <RouterLink to="/" exactActiveClass="menu-active">仪表盘</RouterLink>
+                        <RouterLink to="/" exactActiveClass="menu-active">
+                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2">
+                                    <rect width="7" height="9" x="3" y="3" rx="1" />
+                                    <rect width="7" height="5" x="14" y="3" rx="1" />
+                                    <rect width="7" height="9" x="14" y="12" rx="1" />
+                                    <rect width="7" height="5" x="3" y="16" rx="1" />
+                                </g>
+                            </svg>
+                            仪表盘
+                        </RouterLink>
                     </li>
                     <li>
-                        <RouterLink to="/servers" exactActiveClass="menu-active">服务器列表</RouterLink>
+                        <RouterLink to="/servers" exactActiveClass="menu-active">
+                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2">
+                                    <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+                                    <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+                                    <path d="M6 6h.01M6 18h.01" />
+                                </g>
+                            </svg>
+                            服务器列表
+                        </RouterLink>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <!-- 大屏导航菜单 (小屏隐藏) -->
+        <!-- 大屏导航菜单(小屏隐藏) -->
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal gap-2">
                 <li>
-                    <RouterLink to="/" exactActiveClass="menu-active">仪表盘</RouterLink>
+                    <RouterLink to="/" exactActiveClass="menu-active">
+                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2">
+                                <rect width="7" height="9" x="3" y="3" rx="1" />
+                                <rect width="7" height="5" x="14" y="3" rx="1" />
+                                <rect width="7" height="9" x="14" y="12" rx="1" />
+                                <rect width="7" height="5" x="3" y="16" rx="1" />
+                            </g>
+                        </svg>
+                        仪表盘
+                    </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/servers" exactActiveClass="menu-active">服务器列表</RouterLink>
+                    <RouterLink to="/servers" exactActiveClass="menu-active">
+                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2">
+                                <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+                                <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+                                <path d="M6 6h.01M6 18h.01" />
+                            </g>
+                        </svg>
+                        服务器列表
+                    </RouterLink>
                 </li>
             </ul>
         </div>
@@ -132,14 +172,14 @@ onMounted(() => {
             </div>
 
             <!-- 骨架占位 -->
-            <div v-if="!userStore.initialized" class="skeleton w-28 h-8"></div>
+            <div v-if="userStore.loading" class="skeleton w-28 h-8"></div>
             <template v-else>
                 <!-- 用户信息下拉菜单 -->
                 <div v-if="userStore.user" class="dropdown dropdown-end">
                     <div tabindex="0" class="btn btn-ghost">
                         <div class="avatar avatar-placeholder">
-                            <div class="bg-neutral text-neutral-content w-6 mask mask-squircle">
-                                <span>{{ userStore.user?.username.charAt(0).toUpperCase() }}</span>
+                            <div class="bg-neutral text-neutral-content size-6 mask mask-squircle">
+                                <span class="font-bold uppercase">{{ userStore.user?.username.charAt(0) }}</span>
                             </div>
                         </div>
                         <div class="text-start max-sm:hidden">
@@ -156,6 +196,17 @@ onMounted(() => {
                     <!-- 用户菜单 -->
                     <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm">
                         <li class="menu-title text-xs">用户菜单</li>
+                        <li v-if="userStore.user?.role === 'admin'">
+                            <RouterLink :to="{ name: 'Admin' }">
+                                <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"
+                                        d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" />
+                                </svg>
+                                后台管理
+                            </RouterLink>
+                        </li>
                         <li>
                             <a @click="userStore.logout()">
                                 <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
