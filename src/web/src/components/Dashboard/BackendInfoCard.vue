@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useSystemMonitorStore } from '@/stores/SystemMonitorStore'
 import formatUptime from '@/utils/format/uptime'
 import formatMicroToMillisecond from '@/utils/format/microToMillisecond'
@@ -40,8 +40,9 @@ const calculatePercent = (num1: number | null | undefined, num2: number | null |
                     </svg>
                     后端信息
                 </h2>
-                <a class="btn btn-xs" :href="`http://${appInfo?.ip}:${appInfo?.port}`" target="_blank"><svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24">
+                <a class="btn btn-xs" :href="`http://${appInfo?.ip}:${appInfo?.port}`" target="_blank"><svg
+                        class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2">
                             <path d="m10 16l4-4l-4-4m-7 4h11"></path>
@@ -66,6 +67,15 @@ const calculatePercent = (num1: number | null | undefined, num2: number | null |
                 </div>
             </div>
 
+            <!-- 分隔线 -->
+            <div class="divider my-0"></div>
+
+            <!-- CPU时间总计 -->
+            <div class="flex justify-between">
+                <span class="font-bold">总计 CPU 时间</span>
+                <span class="font-bold font-mono">{{ totalCpuTimes }}</span>
+            </div>
+
             <!-- 堆叠进度条：使用 flex 布局手动构建 -->
             <div class="h-2 flex w-full overflow-hidden rounded-full">
                 <!-- 用户态占比：宽度 58% -->
@@ -78,22 +88,18 @@ const calculatePercent = (num1: number | null | undefined, num2: number | null |
             <div class="flex justify-between">
                 <div class="flex items-center gap-2">
                     <div class="h-2 w-2 rounded-full bg-primary"></div>
-                    <span class="text-xs">用户态 <span class="font-mono font-bold">{{ formatMicroToMillisecond(backendInfo?.cpu.user) }}</span></span>
+                    <span class="text-xs">用户态 <span class="font-mono font-bold">{{
+                        formatMicroToMillisecond(backendInfo?.cpu.user) }}</span></span>
                     <span class="text-xs text-base-content/50">({{ userPercent + '%' }})</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <div class="h-2 w-2 rounded-full bg-secondary"></div>
-                    <span class="text-xs">系统态 <span class="font-mono font-bold">{{ formatMicroToMillisecond(backendInfo?.cpu.system) }}</span></span>
+                    <span class="text-xs">系统态 <span class="font-mono font-bold">{{
+                        formatMicroToMillisecond(backendInfo?.cpu.system) }}</span></span>
                     <span class="text-xs text-base-content/50">({{ systemPercent + '%' }})</span>
                 </div>
             </div>
 
-            <!-- 分隔线与总计 -->
-            <div class="divider my-0"></div>
-            <div class="flex justify-between">
-                <span class="font-semibold">总计 CPU 时间</span>
-                <span class="font-mono font-bold">{{ totalCpuTimes }}</span>
-            </div>
         </div>
     </div>
 

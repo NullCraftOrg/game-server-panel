@@ -18,7 +18,7 @@ const send = () => {
         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M12 19h8M4 17l6-6l-6-6" />
       </svg>
-      <input type="text" class="grow" v-model="command" placeholder="发送命令至终端 回车快捷发送" @keyup.enter="send" />
+      <input type="text" class="grow" v-model="command" placeholder="发送命令至终端 回车快捷发送 (也可以直接在终端中输入内容)" @keyup.enter="send" />
     </label>
     <button class="btn btn-sm" @click="send">
       发送命令

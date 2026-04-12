@@ -32,7 +32,7 @@ const termScrollToBottom = () => {
 // input = 输入命令，resize = 调整终端大小
 const sendCommand = (command: string) => {
   if (socket) {
-    socket.send(JSON.stringify({ type: 'input', message: command + '\r' }))
+    socket.sendJSON({ type: 'input', message: command + '\r' })
   } else {
     console.warn('WebSocket未连接，无法发送命令')
   }
@@ -104,7 +104,6 @@ onMounted(async () => {
     }
   });
 
-
   // 发送终端输入数据到服务器
   let inputBuffer = ''
   term.onData((data) => {
@@ -113,11 +112,11 @@ onMounted(async () => {
 
     // 如果使用了仿真模拟则直接发送输入数据，否则模拟传统终端行为回车后整体发送
     if (props.usePty) {
-      socket?.send(JSON.stringify({ type: 'input', message: data }))
+      socket?.sendJSON({ type: 'input', message: data })
     }
     else {
       if (data === '\r') {
-        socket.send(JSON.stringify({ type: 'input', message: inputBuffer + '\n' }))
+        socket.sendJSON({ type: 'input', message: inputBuffer + '\n' })
         inputBuffer = ''
         term?.write('\r\n')
       } else if (data === '\u007f') {

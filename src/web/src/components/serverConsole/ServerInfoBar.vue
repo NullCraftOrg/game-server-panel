@@ -54,16 +54,16 @@ const animate = computed(() => {props.server?.isRunning ? 'animate-ping' : ''})
 
 <template>
   <MainTitle>
-    <div class="flex flex-wrap gap-2 justify-between mb-3">
+    <div class="flex flex-wrap justify-between gap-2">
       <div>
-        <div class="flex gap-2">
+        <div class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
               <path d="m7 11l2-2l-2-2m4 6h4" />
               <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
             </g>
           </svg>
-          <p class="text-xl">{{ server?.name ?? '读取中' }}</p>
+          <p class="text-xl font-bold">{{ server?.name ?? '读取中' }}</p>
           <!-- 状态 -->
           <div class="badge badge-soft rounded-md shadow" :class="badge">
             <div class="inline-grid *:[grid-area:1/1]">
@@ -76,7 +76,7 @@ const animate = computed(() => {props.server?.isRunning ? 'animate-ping' : ''})
         <p class="font-mono text-xs">{{ server?.uuid ?? '-' }}</p>
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex items-center gap-2">
         <button class="btn btn-outline btn-success" :disabled="server?.isRunning" @click="$emit('start')">
           <span v-show="actionLoading" class="loading loading-spinner size-[1.2em]"></span>
           <svg v-show="!actionLoading" class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
