@@ -8,6 +8,11 @@ import { log } from '../log.ts'
 import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts'
 import type { ServerRuntimeInterface } from '../interface/ServerRuntimeInterface.ts'
 
+interface StartOptions {
+    cols?: number
+    rows?: number
+}
+
 // 服务器类，负责管理游戏服务器的生命周期和状态
 export default class GameServer implements ServerConfigInterface, ServerRuntimeInterface {
     // ServerConfigInterface
@@ -67,7 +72,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
     /**
      * 启动服务器线程
      */
-    start(): void {
+    start(options: StartOptions = {}): void {
         if (this.process) return
 
         try {
@@ -99,6 +104,11 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             if (this.usePty) {
                 // 启动PTY
                 this.process = this.spawnPtyProcess(file, args)
+                // 设置初始终端大小
+                const cols = options.cols ?? 80
+                const rows = options.rows ?? 24
+                this.process.resize(cols, rows)
+                log.debug(`${this.name}(${this.uuid})`, `初始终端大小: ${cols} cols x ${rows} rows`)
                 // 绑定事件
                 this.bindPtyEvents(this.process)
             }
@@ -135,9 +145,9 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             args = args.join(' ')
         }
         return pty.spawn(filePath, args, {
-            name: 'xterm-color',
-            rows: 32, // 行(高度)
-            cols: 1000, // 列(宽度)
+            name: 'xterm-256color',
+            // rows: 30, // 行(高度)
+            // cols: 1000, // 列(宽度)
             cwd: this.cwd,
             env: process.env,
             useConpty: os.platform() === 'win32',

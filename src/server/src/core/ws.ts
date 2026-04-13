@@ -44,11 +44,12 @@ export default function InitWebSocket(server: any) {
                 server.sendCommand(data.message)
             }
 
-            // 问题过多暂时不做处理。
-            // if (data.type === 'resize' && server.isPty(server.process)) {
-            //     console.log('调整终端大小:', data.cols, 'x', data.rows)
-            //     server.process?.resize(data.cols, data.rows)
-            // }
+            // 通过WebSocket调整终端大小时
+            // 前端发送的数据格式为：{ type: 'resize', cols: number, rows: number }
+            if (data.type === 'resize' && server.isPty(server.process)) {
+                server.process?.resize(data.cols, data.rows)
+                log.debug('[WebSocket]', '更新终端大小:', uuid, 'Cols:', data.cols, 'Rows:', data.rows)
+            }
         })
 
         // 心跳检测

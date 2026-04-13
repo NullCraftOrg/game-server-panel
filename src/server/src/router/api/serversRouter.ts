@@ -69,10 +69,25 @@ serversRouter.get('/:uuid/log', (req, res) => {
   })
 })
 
-// 通过uuid管理服务器
+// 通过 uuid 管理服务器
+// 启动服务器时可选参数 cols 和 rows 用于调整终端大小
 serversRouter.post('/:uuid/start', (req, res) => {
-  ServerManager.get(req.params.uuid)?.start()
-  res.status(200).end()
+  const { uuid } = req.params
+  const { cols, rows } = req.body || {}
+
+  const server = ServerManager.get(uuid)
+
+  if (!server) {
+    return res.status(404).json({ message: 'Server not found' })
+  }
+
+  try {
+    server.start({ cols, rows })
+    res.status(200).json({ success: true })
+  } catch (error) {
+    console.error('启动服务器失败:', error)
+    res.status(500).json({ message: 'Failed to start server' })
+  }
 })
 
 serversRouter.post('/:uuid/stop', (req, res) => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { createWS, type WSType } from '@/utils/ws'
 // xterm 终端相关
 import { defalutTheme, atomDarkTheme } from '@/utils/xtermTheme'
@@ -19,12 +19,23 @@ const termElement: { value: HTMLElement | null } = ref(null)
 let term: Terminal | null = null
 let fitAddon: FitAddon | null = null
 let socket: WSType
+let resizeObserver: ResizeObserver
 
 // 滚动终端底部按钮显示状态
 const showTermScrollButton = ref(true)
 // 点击按钮滚动到底部
 const termScrollToBottom = () => {
   term?.scrollToBottom()
+}
+
+/** 获取终端尺寸 */
+function getTerminalSize(): { cols: number; rows: number } {
+  fitAddon?.fit()
+  if (term != null) {
+    const { cols, rows } = term
+    return { cols, rows }
+  }
+  return { cols: 80, rows: 24 } // 默认值
 }
 
 // 发送命令
@@ -38,27 +49,44 @@ const sendCommand = (command: string) => {
   }
 }
 
-// 跟随窗口大小变化自适应
-function resizeScreen() {
-  try {
-    fitAddon?.fit()
-    // 更新node-pty终端尺寸会有问题，暂时固定大小
-    // 问题1多页面下同一服务器不同尺寸问题问题
-    // 2调整大小可能导致更多的ANSI字符渲染问题。
-    // const { cols, rows } = term as Terminal
-    // socket.send(JSON.stringify({ type: 'resize', cols, rows }))
-  } catch (e: any) {
-    console.log('resizeScreenError', e.message)
+// 防抖函数，短时间内多次调用只执行最后一次
+function debounce<T extends (...args: any[]) => void>(
+  fn: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  let timer: number | undefined
+  return (...args: Parameters<T>) => {
+    if (timer) window.clearTimeout(timer)
+    timer = window.setTimeout(() => fn(...args), delay)
   }
 }
+
+// 跟随窗口大小变化自适应
+function resizeScreen() {
+  if (!term || !fitAddon || !socket) return
+  if (socket.readyState() !== WebSocket.OPEN) return
+
+  fitAddon.fit()
+  const { cols, rows } = term
+
+  if (cols > 0 && rows > 0) {
+    socket.sendJSON({
+      type: 'resize',
+      cols,
+      rows,
+    })
+  }
+}
+
+// 创建防抖版本（100ms）
+const debounceResize = debounce(resizeScreen, 100)
 
 onMounted(async () => {
   // 初始化终端
   term = new Terminal({
     allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
-    // 暂时使用固定大小后期考虑更好的方案
-    rows: 32,
-    cols: 1000,
+    // rows: 30,
+    // cols: 1000,
     cursorBlink: true,
     convertEol: true,
     fontSize: 14,
@@ -83,14 +111,21 @@ onMounted(async () => {
 
   // 打开终端
   term.open(termElement.value as HTMLElement)
-  // 自适应大小
-  fitAddon.fit()
 
   // 建立 WebSocket
   socket = createWS(
     props.uuid,
     (data) => {
       term?.write(data)
+    },
+    () => {
+      // 等待 DOM 稳定后向服务器更新仿终端尺寸
+      nextTick(async () => {
+        await document.fonts.ready
+        requestAnimationFrame(() => {
+          debounceResize()
+        })
+      })
     }
   )
 
@@ -131,23 +166,26 @@ onMounted(async () => {
   })
 
   // 监听窗口大小变化
-  window.addEventListener('resize', resizeScreen)
+  resizeObserver = new ResizeObserver(() => {
+    debounceResize()
+  })
+  resizeObserver.observe(termElement.value!)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', resizeScreen)
+  resizeObserver?.disconnect()
   socket?.close()
   term?.dispose()
 })
 
 // 暴露给父组件发送命令的方法
-defineExpose({ sendCommand })
+defineExpose({ sendCommand, getTerminalSize })
 </script>
 
 <template>
 
   <div class="relative rounded-md shadow my-2 p-2" style="background-color: #212121;">
-    <div ref="termElement"></div>
+    <div class="h-[60vh]" ref="termElement"></div>
 
     <Transition name="fade">
       <button v-if="!showTermScrollButton" @click="termScrollToBottom"

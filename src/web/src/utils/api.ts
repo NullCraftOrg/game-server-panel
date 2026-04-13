@@ -107,7 +107,7 @@ export const api = {
   getServerInfo: async (uuid: string): Promise<ServerType> => request(`${BASE}/servers/${uuid}/info`),
 
   /** 启动指定服务器 */
-  startServer: async (uuid: string) => request(`${BASE}/servers/${uuid}/start`, { method: 'POST' }),
+  startServer: async (uuid: string, terminalSize?: { cols: number; rows: number }) => request(`${BASE}/servers/${uuid}/start`, { method: 'POST', body: JSON.stringify(terminalSize ?? {}), }),
 
   /** 停止指定服务器 */
   stopServer: async (uuid: string) => request(`${BASE}/servers/${uuid}/stop`, { method: 'POST' }),

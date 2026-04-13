@@ -31,11 +31,11 @@ export const useServerStore = defineStore("server", () => {
         router.push(`/servers/${uuid}/console`)
     }
 
-    async function startServer(uuid: string | undefined): Promise<boolean> {
+    async function startServer(uuid: string | undefined, terminalSize?: { cols: number; rows: number }): Promise<boolean> {
         if (!uuid) return false
         setLoading(uuid, true)
         try {
-            await api.startServer(uuid)
+            await api.startServer(uuid, terminalSize)
             await getServerByUUID(uuid) // 请求更新单个服务器数据
             return true
         }

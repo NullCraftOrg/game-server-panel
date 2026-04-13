@@ -47,7 +47,12 @@ refreshServerInfo()
 const terminalRef = ref()
 const handleSendCommand = (cmd: string) => {
   terminalRef.value?.sendCommand(cmd)
-  console.log(cmd)
+}
+
+/** 启动服务器(封装了获取终端尺寸) */
+const startServer = () => {
+  const size = terminalRef.value?.getTerminalSize()
+  serverStore.startServer(uuid, size)
 }
 
 // 重启服务器确认对话框引用
@@ -77,10 +82,13 @@ onUnmounted(() => {
 
 <template>
   <template v-if="server">
-    <ServerInfoBar :server="server" :action-loading="serverStore.isLoading(uuid)" @start="serverStore.startServer(uuid)"
+    <ServerInfoBar :server="server" :action-loading="serverStore.isLoading(uuid)" @start="startServer()"
       @stop="serverStore.stopServer(uuid)" @restart="restartServer(uuid)" />
+
     <TerminalPane ref="terminalRef" :uuid="uuid" :use-pty="server?.usePty" :is-running="server?.isRunning" />
+
     <CommandInput @send="handleSendCommand" />
+
     <ConfirmDialog ref="restartServerDialogRef" title="重启服务器" @confirm="handleRestartConfirm">
       <template v-slot:content>
         <div class="py-4">
@@ -92,6 +100,7 @@ onUnmounted(() => {
       </template>
     </ConfirmDialog>
   </template>
+
   <template v-else-if="errorMessage">
     <div class="text-center">
       <p class="text-2xl">获取服务器信息失败</p>
