@@ -5,9 +5,9 @@
 
 ## Special Notice
 
-This is currently a basic game server management tool with a frontend-backend separation architecture. Its functionality is very rudimentary at this stage.
+A basic game server management panel with a frontend-backend separation architecture. Currently, it implements fundamental server creation, management, and basic permission control. It is still under continuous development and maintenance. If you have new ideas, you are welcome to submit code for development, or suggest update directions via [issue](https://github.com/NullCraftOrg/game-server-panel/issues).
 
-It is only minimally functional and **currently has no security features**! There is no user management functionality. Therefore, please do not deploy this tool on a public network. If deployed, the frontend and backend ports should not be exposed to the external network.
+To view the update roadmap, please visit: [Roadmap Board](https://github.com/orgs/NullCraftOrg/projects/1)
 
 **Default Frontend Port:** `6996`  
 **Default Backend Port:** `9119`
@@ -46,7 +46,8 @@ After setting up the environment, proceed with dependency installation.
 
 ## Project Images
 
-![NGSP-Dashbroad](/images/Dashboard-20260405223400.jpeg)
-![NGSP-Dashbroad-Dark](/images/Dashboard-Dark-20260405223500.jpeg)
-![NGSP-Console](/images/Console-20260405223000.jpeg)
+![NGSP-Dashbroad](/images/Dashborad-20260413-155800.png)
+![NGSP-Dashbroad-Dark](/images/Dashborad-Dark-20260413-155800.png)
+![NGSP-Console](/images/Console-20260413-160558.png)
+![NGSP-Console](/images/Console-Dark-20260413-160558.png)
 ![NGSP-ServerList](/images/ServerList-20260405222500.jpeg)

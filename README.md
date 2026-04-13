@@ -5,8 +5,9 @@
 
 ## 特别提醒
 
-这目前只是一个最基础的前后端分离式的游戏服务器管理工具，目前功能非常基础。
-只能做到基本能用，并且**目前没有安全防护**功能!没有用户管理功能，所以请不要在公共网络上部署此工具，如部署则不应该将前后端端口公开映射到外网之中。
+一个基础的前后端分离式的游戏专用服务器管理面板，目前实现了基本的服务器新建、管理、和基本的权限控制管理，目前还在持续开发维护中，如有新想发欢迎提交代码参与开发，或通过 [issue](https://github.com/NullCraftOrg/game-server-panel/issues) 提交更新方向建议。
+
+查看更新线路图可前往：[Roadmap看板](https://github.com/orgs/NullCraftOrg/projects/1)
 
 **前端默认端口：**`6996`
 **后端默认端口：**`9119`
@@ -49,7 +50,8 @@
 
 ## 项目图片
 
-![NGSP-Dashbroad](/images/Dashboard-20260405223400.jpeg)
-![NGSP-Dashbroad-Dark](/images/Dashboard-Dark-20260405223500.jpeg)
-![NGSP-Console](/images/Console-20260405223000.jpeg)
+![NGSP-Dashbroad](/images/Dashborad-20260413-155800.png)
+![NGSP-Dashbroad-Dark](/images/Dashborad-Dark-20260413-155800.png)
+![NGSP-Console](/images/Console-20260413-160558.png)
+![NGSP-Console](/images/Console-Dark-20260413-160558.png)
 ![NGSP-ServerList](/images/ServerList-20260405222500.jpeg)

@@ -60,7 +60,7 @@ onMounted(async () => {
                 </tr>
             </thead>
 
-            <tr v-for="user in users" :key="user.id">
+            <tr class="hover:bg-base-300" v-for="user in users" :key="user.id">
                 <th>
                     <label>
                         <input type="checkbox" class="checkbox" />
