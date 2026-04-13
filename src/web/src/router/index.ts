@@ -134,9 +134,10 @@ const router = createRouter({
 
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach(async(to, from) => {
   const token = localStorage.getItem('token')
   const requiresAuth = to.meta.requiresAuth
+
   // 需要登录但无 token → 重定向到登录页
   if (requiresAuth && !token) {
     return '/login'
