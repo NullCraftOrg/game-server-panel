@@ -51,6 +51,8 @@ const handleSendCommand = (cmd: string) => {
 
 /** 启动服务器(封装了获取终端尺寸) */
 const startServer = () => {
+  // const { cols, rows } = terminalRef.value?.getTerminalSize()
+  // serverStore.startServer(uuid, { cols, rows })
   serverStore.startServer(uuid)
 }
 
@@ -68,6 +70,8 @@ function restartServer(uuid: string) {
 }
 
 const handleRestartConfirm = (key: string) => {
+  // const { cols, rows } = terminalRef.value?.getTerminalSize()
+  // serverStore.restartServer(key, { cols, rows })
   serverStore.restartServer(key)
 }
 

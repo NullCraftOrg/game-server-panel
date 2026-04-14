@@ -38,18 +38,28 @@ const sendCommand = (command: string) => {
   }
 }
 
-function resizeScreen() {
-  if (!term || !fitAddon) return
-
-  fitAddon.fit()
+// 更新终端大小
+function resizeTerminal() {
+  requestAnimationFrame(() => {
+    if (!term || !fitAddon) return
+    fitAddon.proposeDimensions();
+    fitAddon.fit();
+  })
 }
+
+// 对外提供获取终端尺寸
+// const getTerminalSize = () => {
+//   if (!term) return { cols: 80, rows: 24 }
+//   console.log('获取终端尺寸:', term.cols, term.rows)
+//   return { cols: term.cols, rows: term.rows }
+// }
 
 onMounted(async () => {
   // 初始化终端
   term = new Terminal({
     allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
-    rows: 30,
-    cols: 1000,
+    // rows: 24,
+    // cols: 80,
     cursorBlink: true,
     convertEol: !props.usePty, // 非仿终端需要开启转换
     fontSize: 14,
@@ -76,18 +86,30 @@ onMounted(async () => {
     (data) => {
       term?.write(data)
     },
-    // 会影响进入错误的尺寸
     // async () => {
-    //   await document.fonts.ready
-    //   resizeScreen() // 初始调整一次尺寸，确保后端仿终端正确创建
+    //   // 连接成功后发送初始尺寸
+    //   await nextTick()
+    //   fitAddon?.fit()
+    //   const { cols, rows } = getTerminalSize()
+    //   socket?.sendJSON({
+    //     type: 'resize',
+    //     cols: cols,
+    //     rows: rows,
+    //   })
+    //   console.info('WebSocket连接已建立，发送初始尺寸:', cols, rows)
     // }
   )
 
   // 监听窗口大小变化
   resizeObserver = new ResizeObserver(() => {
-    resizeScreen()
+    resizeTerminal()
   })
   resizeObserver.observe(termElement.value!)
+
+  // term.onResize(({ cols, rows }) => {
+  //   socket.sendJSON({ type: 'resize', cols, rows })
+  //   console.info('变动尺寸:', cols, rows)
+  // })
 
   // 监听滚动事件，控制滚动到底部按钮显示
   term.onScroll(() => {
@@ -133,13 +155,14 @@ onUnmounted(() => {
 })
 
 // 暴露给父组件发送命令的方法
+// defineExpose({ sendCommand, getTerminalSize })
 defineExpose({ sendCommand })
 </script>
 
 <template>
 
-  <div class="relative rounded-md shadow my-2 p-2" style="background-color: #212121">
-    <div ref="termElement"></div>
+  <div class="relative rounded-md shadow my-2 p-2 h-[60vh]" style="background-color: #212121">
+    <div class="h-full w-full overflow-hidden" ref="termElement"></div>
 
     <Transition name="fade">
       <button v-if="!showTermScrollButton" @click="termScrollToBottom"

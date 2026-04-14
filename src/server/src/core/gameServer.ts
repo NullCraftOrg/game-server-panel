@@ -141,12 +141,13 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
         }
         // const cols = options.cols ?? 80
         // const rows = options.rows ?? 24
+        // console.debug("options:",options)
         return pty.spawn(filePath, args, {
             name: 'xterm-256color',
             // rows: rows, // 行(高度)
             // cols: cols, // 列(宽度)
-            rows: 30, // 行(高度)
-            cols: 1000, // 列(宽度)
+            rows: 500, // 行(高度)
+            cols: 500, // 列(宽度)
             cwd: this.cwd,
             env: process.env,
             useConpty: os.platform() === 'win32',
