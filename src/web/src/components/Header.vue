@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useTheme } from '@/utils/useTheme'
 import { computed, onMounted } from 'vue'
-import { useUserStore } from '@/stores/UserStore'
+import { useAuthStore } from '@/stores/AuthStore'
 
-const userStore = useUserStore()
+const authStore = useAuthStore()
 
 /** 加载用户信息 */
 async function loginInfo() {
-    await userStore.fetchUser()
+    await authStore.fetchAuthMe()
 }
 
 const { setMode, getMode } = useTheme()
@@ -172,19 +172,19 @@ onMounted(() => {
             </div>
 
             <!-- 骨架占位 -->
-            <div v-if="userStore.loading" class="skeleton w-28 h-8"></div>
+            <div v-if="authStore.loading" class="skeleton w-28 h-8"></div>
             <template v-else>
                 <!-- 用户信息下拉菜单 -->
-                <div v-if="userStore.user" class="dropdown dropdown-end">
+                <div v-if="authStore.user" class="dropdown dropdown-end">
                     <div tabindex="0" class="btn btn-ghost">
                         <div class="avatar avatar-placeholder">
                             <div class="bg-neutral text-neutral-content size-6 mask mask-squircle">
-                                <span class="font-bold uppercase">{{ userStore.user?.username.charAt(0) }}</span>
+                                <span class="font-bold uppercase">{{ authStore.user?.username.charAt(0) }}</span>
                             </div>
                         </div>
                         <div class="text-start max-sm:hidden">
-                            <p class="text-[12px]/none">{{ userStore.user?.username }}</p>
-                            <p class="text-base-content/60 text-[10px]/none">@{{ userStore.user?.role }}</p>
+                            <p class="text-[12px]/none">{{ authStore.user?.username }}</p>
+                            <p class="text-base-content/60 text-[10px]/none">@{{ authStore.user?.role }}</p>
                         </div>
 
                         <svg width="12px" height="12px" class="size-2 fill-current opacity-60"
@@ -196,7 +196,7 @@ onMounted(() => {
                     <!-- 用户菜单 -->
                     <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm">
                         <li class="menu-title text-xs">用户菜单</li>
-                        <li v-if="userStore.user?.role === 'admin'">
+                        <li v-if="authStore.user?.role === 'admin'">
                             <RouterLink :to="{ name: 'Admin' }">
                                 <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
@@ -208,7 +208,7 @@ onMounted(() => {
                             </RouterLink>
                         </li>
                         <li>
-                            <a @click="userStore.logout()">
+                            <a @click="authStore.logout()">
                                 <svg class="size-4 fill-current opacity-80" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path fill="none" stroke="currentColor" stroke-linecap="round"

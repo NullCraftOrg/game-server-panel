@@ -113,7 +113,7 @@ export const api = {
   stopServer: async (uuid: string) => request(`${BASE}/servers/${uuid}/stop`, { method: 'POST' }),
 
   /** 重启指定服务器 */
-  restartServer: async (uuid: string) => request(`${BASE}/servers/${uuid}/restart`, { method: 'POST' }),
+  restartServer: async (uuid: string, terminalSize?: { cols: number; rows: number }) => request(`${BASE}/servers/${uuid}/restart`, { method: 'POST', body: JSON.stringify(terminalSize ?? {}), }),
 
   /** 创建服务器 */
   createServer: async (data: ServerType) =>

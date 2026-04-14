@@ -103,12 +103,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             // 判断启动方式
             if (this.usePty) {
                 // 启动PTY
-                this.process = this.spawnPtyProcess(file, args)
-                // 设置初始终端大小
-                const cols = options.cols ?? 80
-                const rows = options.rows ?? 24
-                this.process.resize(cols, rows)
-                log.debug(`${this.name}(${this.uuid})`, `初始终端大小: ${cols} cols x ${rows} rows`)
+                this.process = this.spawnPtyProcess(file, args, options)
                 // 绑定事件
                 this.bindPtyEvents(this.process)
             }
@@ -140,14 +135,18 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * @param args 附加命令
      * @returns Pty
      */
-    private spawnPtyProcess(filePath: string, args: string | string[]): pty.IPty {
+    private spawnPtyProcess(filePath: string, args: string | string[], options: StartOptions = {}): pty.IPty {
         if (typeof args === 'object') {
             args = args.join(' ')
         }
+        // const cols = options.cols ?? 80
+        // const rows = options.rows ?? 24
         return pty.spawn(filePath, args, {
             name: 'xterm-256color',
-            // rows: 30, // 行(高度)
-            // cols: 1000, // 列(宽度)
+            // rows: rows, // 行(高度)
+            // cols: cols, // 列(宽度)
+            rows: 30, // 行(高度)
+            cols: 1000, // 列(宽度)
             cwd: this.cwd,
             env: process.env,
             useConpty: os.platform() === 'win32',
@@ -253,10 +252,10 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
     /**
      * 重启服务器进程
      */
-    restart(): void {
+    restart(options: StartOptions = {}): void {
         // 直接启动
         if (!this.process) {
-            this.start()
+            this.start(options)
             return
         }
         // 重启中直接返回
@@ -277,7 +276,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
             this.appendLog('正在重新启动服务器...\r\n', true)
 
             setTimeout(() => {
-                this.start()
+                this.start(options)
                 this.isRestarting = false // 恢复状态
             }, 1000)
         };

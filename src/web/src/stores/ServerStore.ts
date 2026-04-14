@@ -65,11 +65,11 @@ export const useServerStore = defineStore("server", () => {
         return false
     }
 
-    async function restartServer(uuid: string | undefined): Promise<boolean> {
+    async function restartServer(uuid: string | undefined, terminalSize?: { cols: number; rows: number }): Promise<boolean> {
         if (!uuid) return false
         setLoading(uuid, true)
         try {
-            await api.restartServer(uuid)
+            await api.restartServer(uuid, terminalSize)
             await getServerByUUID(uuid) // 请求更新单个服务器数据
             return true
         }

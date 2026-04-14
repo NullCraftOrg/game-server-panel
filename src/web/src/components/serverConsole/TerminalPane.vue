@@ -28,18 +28,7 @@ const termScrollToBottom = () => {
   term?.scrollToBottom()
 }
 
-/** 获取终端尺寸 */
-function getTerminalSize(): { cols: number; rows: number } {
-  fitAddon?.fit()
-  if (term != null) {
-    const { cols, rows } = term
-    return { cols, rows }
-  }
-  return { cols: 80, rows: 24 } // 默认值
-}
-
 // 发送命令
-// (20260411: 更改为Json传输，增加type区分输入和调整终端大小)
 // input = 输入命令，resize = 调整终端大小
 const sendCommand = (command: string) => {
   if (socket) {
@@ -49,54 +38,23 @@ const sendCommand = (command: string) => {
   }
 }
 
-// 防抖函数，短时间内多次调用只执行最后一次
-function debounce<T extends (...args: any[]) => void>(
-  fn: T,
-  delay: number
-): (...args: Parameters<T>) => void {
-  let timer: number | undefined
-  return (...args: Parameters<T>) => {
-    if (timer) window.clearTimeout(timer)
-    timer = window.setTimeout(() => fn(...args), delay)
-  }
-}
-
-// 跟随窗口大小变化自适应
 function resizeScreen() {
-  if (!term || !fitAddon || !socket) return
-  if (socket.readyState() !== WebSocket.OPEN) return
+  if (!term || !fitAddon) return
 
   fitAddon.fit()
-  const { cols, rows } = term
-
-  if (cols > 0 && rows > 0) {
-    socket.sendJSON({
-      type: 'resize',
-      cols,
-      rows,
-    })
-  }
 }
-
-// 创建防抖版本（100ms）
-const debounceResize = debounce(resizeScreen, 100)
 
 onMounted(async () => {
   // 初始化终端
   term = new Terminal({
     allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
-    // rows: 30,
-    // cols: 1000,
+    rows: 30,
+    cols: 1000,
     cursorBlink: true,
-    convertEol: true,
+    convertEol: !props.usePty, // 非仿终端需要开启转换
     fontSize: 14,
     fontFamily: '"Fira Code", Consolas, monospace, "Powerline Extra Symbols"',
     theme: defalutTheme,
-    // 透明背景色：目前还没有使用场景。
-    // allowTransparency: true,
-    // theme: {
-    //   background: "transparent",
-    // },
   })
 
   // 加载插件
@@ -118,16 +76,18 @@ onMounted(async () => {
     (data) => {
       term?.write(data)
     },
-    () => {
-      // 等待 DOM 稳定后向服务器更新仿终端尺寸
-      nextTick(async () => {
-        await document.fonts.ready
-        requestAnimationFrame(() => {
-          debounceResize()
-        })
-      })
-    }
+    // 会影响进入错误的尺寸
+    // async () => {
+    //   await document.fonts.ready
+    //   resizeScreen() // 初始调整一次尺寸，确保后端仿终端正确创建
+    // }
   )
+
+  // 监听窗口大小变化
+  resizeObserver = new ResizeObserver(() => {
+    resizeScreen()
+  })
+  resizeObserver.observe(termElement.value!)
 
   // 监听滚动事件，控制滚动到底部按钮显示
   term.onScroll(() => {
@@ -164,12 +124,6 @@ onMounted(async () => {
       }
     }
   })
-
-  // 监听窗口大小变化
-  resizeObserver = new ResizeObserver(() => {
-    debounceResize()
-  })
-  resizeObserver.observe(termElement.value!)
 })
 
 onUnmounted(() => {
@@ -179,13 +133,13 @@ onUnmounted(() => {
 })
 
 // 暴露给父组件发送命令的方法
-defineExpose({ sendCommand, getTerminalSize })
+defineExpose({ sendCommand })
 </script>
 
 <template>
 
-  <div class="relative rounded-md shadow my-2 p-2" style="background-color: #212121;">
-    <div class="h-[60vh]" ref="termElement"></div>
+  <div class="relative rounded-md shadow my-2 p-2" style="background-color: #212121">
+    <div ref="termElement"></div>
 
     <Transition name="fade">
       <button v-if="!showTermScrollButton" @click="termScrollToBottom"

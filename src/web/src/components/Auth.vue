@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
-import { useUserStore } from '@/stores/UserStore'
+import { useAuthStore } from '@/stores/AuthStore'
 
-const userStore = useUserStore()
+const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -41,9 +41,9 @@ async function handleSubmit() {
   try {
     // 根据路由进行注册/登录
     if (isRegister.value) {
-      await userStore.register(email.value, username.value, password.value)
+      await authStore.register(email.value, username.value, password.value)
     } else {
-      await userStore.login(username.value, password.value)
+      await authStore.login(username.value, password.value)
     }
     // 成功后转到根
     router.push('/')

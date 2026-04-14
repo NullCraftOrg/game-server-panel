@@ -96,7 +96,16 @@ serversRouter.post('/:uuid/stop', (req, res) => {
 })
 
 serversRouter.post('/:uuid/restart', (req, res) => {
-  ServerManager.get(req.params.uuid)?.restart()
+  const { uuid } = req.params
+  const { cols, rows } = req.body || {}
+
+  const server = ServerManager.get(uuid)
+
+  if (!server) {
+    return res.status(404).json({ message: 'Server not found' })
+  }
+
+  server.restart({ cols, rows })
   res.status(200).end()
 })
 

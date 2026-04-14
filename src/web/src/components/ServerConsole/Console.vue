@@ -51,8 +51,7 @@ const handleSendCommand = (cmd: string) => {
 
 /** 启动服务器(封装了获取终端尺寸) */
 const startServer = () => {
-  const size = terminalRef.value?.getTerminalSize()
-  serverStore.startServer(uuid, size)
+  serverStore.startServer(uuid)
 }
 
 // 重启服务器确认对话框引用
@@ -67,8 +66,9 @@ function restartServer(uuid: string) {
     handleRestartConfirm(uuid)
   }
 }
-const handleRestartConfirm = async (key: string) => {
-  await serverStore.restartServer(key)
+
+const handleRestartConfirm = (key: string) => {
+  serverStore.restartServer(key)
 }
 
 onMounted(() => {
