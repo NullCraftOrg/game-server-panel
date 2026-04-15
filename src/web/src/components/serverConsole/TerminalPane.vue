@@ -19,6 +19,7 @@ const termElement: { value: HTMLElement | null } = ref(null)
 let term: Terminal | null = null
 let fitAddon: FitAddon | null = null
 let socket: WSType
+// 终端容器尺寸监听
 let resizeObserver: ResizeObserver
 
 // 滚动终端底部按钮显示状态
@@ -28,8 +29,7 @@ const termScrollToBottom = () => {
   term?.scrollToBottom()
 }
 
-// 发送命令
-// input = 输入命令，resize = 调整终端大小
+/** 发送命令，对外公开 */
 const sendCommand = (command: string) => {
   if (socket) {
     socket.sendJSON({ type: 'input', message: command + '\r' })
@@ -38,28 +38,37 @@ const sendCommand = (command: string) => {
   }
 }
 
-// 更新终端大小
-function resizeTerminal() {
-  requestAnimationFrame(() => {
-    if (!term || !fitAddon) return
-    fitAddon.proposeDimensions();
-    fitAddon.fit();
-  })
+/** 获取终端尺寸，对外公开 */
+const getTerminalSize = () => {
+  if (!term) return { cols: 80, rows: 24 }
+  console.log('获取终端尺寸:', term.cols, term.rows)
+  return { cols: term.cols, rows: term.rows }
 }
 
-// 对外提供获取终端尺寸
-// const getTerminalSize = () => {
-//   if (!term) return { cols: 80, rows: 24 }
-//   console.log('获取终端尺寸:', term.cols, term.rows)
-//   return { cols: term.cols, rows: term.rows }
-// }
+/** 附属函数：防抖 */
+function debounce<T extends (...args: any[]) => void>(
+  fn: T,
+  delay: number,
+) {
+  let timer: number | undefined
+  return (...args: Parameters<T>) => {
+    if (timer) window.clearTimeout(timer)
+    timer = window.setTimeout(() => fn(...args), delay)
+  }
+}
+
+// 防抖更新尺寸
+const debouncedFit = debounce(() => {
+  if (term && fitAddon) {
+    fitAddon.fit()
+  }
+}, 150)
 
 onMounted(async () => {
   // 初始化终端
   term = new Terminal({
     allowProposedApi: true, // 启用实验API(Unicode11Addon需要)
-    // rows: 24,
-    // cols: 80,
+    scrollback: 1000,
     cursorBlink: true,
     convertEol: !props.usePty, // 非仿终端需要开启转换
     fontSize: 14,
@@ -80,36 +89,42 @@ onMounted(async () => {
   // 打开终端
   term.open(termElement.value as HTMLElement)
 
+  // 初始化尺寸
+  fitAddon.fit()
+
   // 建立 WebSocket
-  socket = createWS(
-    props.uuid,
-    (data) => {
-      term?.write(data)
-    },
-    // async () => {
-    //   // 连接成功后发送初始尺寸
-    //   await nextTick()
-    //   fitAddon?.fit()
-    //   const { cols, rows } = getTerminalSize()
-    //   socket?.sendJSON({
-    //     type: 'resize',
-    //     cols: cols,
-    //     rows: rows,
-    //   })
-    //   console.info('WebSocket连接已建立，发送初始尺寸:', cols, rows)
-    // }
-  )
+  socket = createWS(props.uuid,)
 
-  // 监听窗口大小变化
-  resizeObserver = new ResizeObserver(() => {
-    resizeTerminal()
+  // 打开时发送初始化命令，用于请求历史日志与设置伪终端大小
+  socket.onopen = () => {
+    const { cols, rows } = getTerminalSize()
+    socket?.sendJSON({
+      type: 'init',
+      cols: cols,
+      rows: rows,
+    })
+    console.info('WebSocket初始化，发送初始尺寸:', cols, rows, '接收历史日志')
+  }
+
+  // 将内容加入到终端
+  socket.onmessage = (message) => {
+    term?.write(message.data)
+  }
+
+  socket.onclose = () => {
+    console.log('Websocket 连接关闭')
+  }
+
+  socket.onerror = (err) => {
+    console.error('Websocket 连接错误', err)
+  }
+
+  term.onResize(({ cols, rows }) => {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type: 'resize', cols, rows }))
+      console.info('发送变动尺寸:', cols, rows)
+    }
   })
-  resizeObserver.observe(termElement.value!)
-
-  // term.onResize(({ cols, rows }) => {
-  //   socket.sendJSON({ type: 'resize', cols, rows })
-  //   console.info('变动尺寸:', cols, rows)
-  // })
 
   // 监听滚动事件，控制滚动到底部按钮显示
   term.onScroll(() => {
@@ -146,6 +161,15 @@ onMounted(async () => {
       }
     }
   })
+
+  // ResizeObserver 监听容器大小变化
+  resizeObserver = new ResizeObserver(() => {
+    debouncedFit()
+  })
+  if (termElement.value) {
+    resizeObserver.observe(termElement.value)
+  }
+
 })
 
 onUnmounted(() => {
@@ -155,14 +179,14 @@ onUnmounted(() => {
 })
 
 // 暴露给父组件发送命令的方法
-// defineExpose({ sendCommand, getTerminalSize })
-defineExpose({ sendCommand })
+defineExpose({ sendCommand, getTerminalSize })
+// defineExpose({ sendCommand })
 </script>
 
 <template>
 
-  <div class="relative rounded-md shadow my-2 p-2 h-[60vh]" style="background-color: #212121">
-    <div class="h-full w-full overflow-hidden" ref="termElement"></div>
+  <div class="relative rounded-md shadow my-2 p-2" style="background-color: #212121">
+    <div class="overflow-hidden" ref="termElement"></div>
 
     <Transition name="fade">
       <button v-if="!showTermScrollButton" @click="termScrollToBottom"

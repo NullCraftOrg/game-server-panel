@@ -5,14 +5,14 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
-    <div class="flex flex-col min-h-screen bg-base-200">
+    <div class="flex flex-col h-screen bg-base-200">
         <Header />
 
         <main class="flex-1 container mx-auto p-3 my-3">
-            
             <div id="global-container-alert"></div>
 
             <Breadcrumbs />
+
             <router-view />
         </main>
 

@@ -29,24 +29,29 @@ export default function InitWebSocket(server: any) {
         server.clients.add(ws)
         log.debug('[WebSocket]', '已连接至:', uuid, '客户端数量:', server.clients.size)
 
-        // 连接后发送服务器日志缓冲区中的内容
-        for (const line of server.logBuffer) {
-            ws.send(line)
-        }
-
         // 接收命令后发送到服务器线程
         // (20260411: 更改为Json传输，增加type区分输入和调整终端大小)
         // input = 输入命令，resize = 调整终端大小
         ws.on('message', (message: any) => {
+            // 解析消息格式
             const data = JSON.parse(message.toString())
 
-            if (data.type === 'input') {
+            if (data.type === 'init') {
+                if (server.isPty(server.process)) {
+                    server.process?.resize(data.cols, data.rows)
+                    log.debug('收到初始化命令，设置尺寸并发送历史日志', 'Cols:', data.cols, 'Rows:', data.rows)
+                }
+                // 发送服务器日志缓冲区中的内容
+                for (const line of server.logBuffer) {
+                    ws.send(line)
+                }
+            }
+            // 前端发送内容
+            else if (data.type === 'input') {
                 server.sendCommand(data.message)
             }
-
             // 通过WebSocket调整终端大小时
-            // 前端发送的数据格式为：{ type: 'resize', cols: number, rows: number }
-            if (data.type === 'resize' && server.isPty(server.process)) {
+            else if (data.type === 'resize' && server.isPty(server.process)) {
                 server.process?.resize(data.cols, data.rows)
                 log.debug('[WebSocket]', '更新终端大小:', uuid, 'Cols:', data.cols, 'Rows:', data.rows)
             }
