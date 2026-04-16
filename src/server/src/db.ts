@@ -1,7 +1,7 @@
-import path from 'node:path';
-import { PATHS } from './utils/paths.ts';
-import { ServerDatabase } from './database/serverDatabase.ts';
-import { UserDatabase } from './database/userDatabase.ts';
+import path from 'node:path'
+import { PATHS } from './utils/paths.ts'
+import { ServerDatabase } from './database/serverDatabase.ts'
+import { UserDatabase } from './database/userDatabase.ts'
 
 // 数据库文件路径
 const DB_PATH = path.join(PATHS.data, 'panel.db');

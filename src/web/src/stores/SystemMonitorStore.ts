@@ -1,9 +1,9 @@
-import { defineStore } from "pinia"
-import { ref } from "vue"
-import { api } from "@/utils/api"
-import type { SystemMonitorType } from "@/types/SystemMonitorType"
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import { monitorApi } from '@/api/index'
+import type { SystemMonitorType } from '@/types/SystemMonitorType'
 
-export const useSystemMonitorStore = defineStore("monitor", () => {
+export const useSystemMonitorStore = defineStore('monitor', () => {
     // 监控数据
     const MonitorData = ref<SystemMonitorType | null>(null)
     // 数据刷新时间戳
@@ -16,7 +16,7 @@ export const useSystemMonitorStore = defineStore("monitor", () => {
      */
     async function fetchMonitorData() {
         try {
-            MonitorData.value = await api.getMonitor()
+            MonitorData.value = await monitorApi.getMonitor()
             RefreshTime.value = Date.now()
             console.debug("监控数据已更新:", MonitorData.value?.app_info.ip)
         }

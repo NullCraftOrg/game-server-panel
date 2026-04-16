@@ -1,5 +1,5 @@
-    import { DatabaseSync } from 'node:sqlite';
-    import { log } from '../log.ts';
+    import { DatabaseSync } from 'node:sqlite'
+    import { log } from '../log.ts'
 
     /**
      * 确保表中存在指定列，若不存在则自动添加

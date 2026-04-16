@@ -1,5 +1,5 @@
-import express from "express";
-import systemMonitor from "../../core/systemMonitor.ts";
+import express from 'express'
+import systemMonitor from '../../core/systemMonitor.ts'
 
 const monitorRouter = express.Router();
 

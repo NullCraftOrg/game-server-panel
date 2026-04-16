@@ -1,6 +1,6 @@
-import { DatabaseSync } from 'node:sqlite';
-import { log } from '../log.ts';
-import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts';
+import { DatabaseSync } from 'node:sqlite'
+import { log } from '../log.ts'
+import type { ServerConfigInterface } from '../interface/ServerConfigInterface.ts'
 import { ensureColumn } from './dbHelper.ts'
 
 // 表名
@@ -14,25 +14,33 @@ export interface ServerRecord extends ServerConfigInterface {
 
 export class ServerDatabase {
     private dbPath: string
-    private db: DatabaseSync
-    private dbInstance: DatabaseSync | null = null
+    private db: DatabaseSync | null = null
 
     constructor(dbPath: string) {
         this.dbPath = dbPath
-        this.db = this.getDB()
-        this.dbInstance = null
+        this.initConnection()  // 建立连接
         this.initTable()
     }
 
+    /**
+     * 建立数据库连接（仅内部调用）
+     */
+    private initConnection(): void {
+        if (this.db) return  // 防止重复初始化
+        this.db = new DatabaseSync(this.dbPath)
+        // 外键约束
+        this.db.exec('PRAGMA foreign_keys = ON;')
+        this.db.exec('PRAGMA journal_mode = WAL;')
+    }
+
+    /**
+     * 获取数据库实例（内部使用，保证调用时一定非空）
+     */
     private getDB(): DatabaseSync {
-        if (!this.dbInstance) {
-            this.dbInstance = new DatabaseSync(this.dbPath);
-            // 外键约束
-            this.dbInstance.exec('PRAGMA foreign_keys = ON;');
-            // 设置 journal 模式为 WAL 提高并发性能
-            this.dbInstance.exec('PRAGMA journal_mode = WAL;');
+        if (!this.db) {
+            throw new Error(`数据库连接已关闭或未初始化，请重新创建 ${LOG_PREFIX} 实例。`)
         }
-        return this.dbInstance;
+        return this.db
     }
 
     /**
@@ -54,17 +62,17 @@ export class ServerDatabase {
                 );
                 CREATE INDEX IF NOT EXISTS idx_uuid ON servers(uuid);
             `;
-        this.db.exec(createTableSQL);
+        this.getDB().exec(createTableSQL);
 
         // 更新先前部署而未被新增的列
-        ensureColumn(this.db, 'servers', 'usePty', 'INTEGER DEFAULT 1');
+        ensureColumn(this.getDB(), 'servers', 'usePty', 'INTEGER DEFAULT 1');
 
         log.debug(LOG_PREFIX, '表已就绪', `共计 ${this.getCount()} 条记录`);
     }
 
     getCount() {
-        const tablecount = this.db.prepare(`SELECT COUNT(*) AS count FROM ${TABLE_NAME}`).all() as Array<{ count: number }>
-        return tablecount[0].count
+        const tablecount = this.getDB().prepare(`SELECT COUNT(*) AS count FROM ${TABLE_NAME}`).all() as Array<{ count: number }>
+        return tablecount[0]?.count ?? 0
     }
 
     /**
@@ -74,8 +82,8 @@ export class ServerDatabase {
      */
     add(data: Omit<ServerRecord, 'id'>): number {
         const { uuid, name, fileName, command, cwd, forceUtf8Mode, usePty } = data;
-        const stmt = this.db.prepare(`
-                INSERT INTO servers (uuid, name, fileName, command, cwd, forceUtf8Mode, usePty)
+        const stmt = this.getDB().prepare(`
+                INSERT INTO ${TABLE_NAME} (uuid, name, fileName, command, cwd, forceUtf8Mode, usePty)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             `);
         const info = stmt.run(uuid, name, fileName, command, cwd, forceUtf8Mode ? 1 : 0, usePty ? 1 : 0);
@@ -89,9 +97,9 @@ export class ServerDatabase {
      * @returns 服务器记录或 undefined
      */
     get(uuid: string): ServerRecord | undefined {
-        const stmt = this.db.prepare(`
+        const stmt = this.getDB().prepare(`
             SELECT id, uuid, name, fileName, command, cwd, forceUtf8Mode, usePty
-            FROM servers
+            FROM ${TABLE_NAME}
             WHERE uuid = ?
         `);
         const row = stmt.get(uuid) as any;
@@ -153,8 +161,8 @@ export class ServerDatabase {
         fields.push('updated_at = CURRENT_TIMESTAMP');
         values.push(uuid); // WHERE 条件参数
 
-        const sql = `UPDATE servers SET ${fields.join(', ')} WHERE uuid = ?`;
-        const stmt = this.db.prepare(sql);
+        const sql = `UPDATE ${TABLE_NAME} SET ${fields.join(', ')} WHERE uuid = ?`;
+        const stmt = this.getDB().prepare(sql);
         const info = stmt.run(...values);
         const success = info.changes > 0;
         if (success) {
@@ -171,7 +179,7 @@ export class ServerDatabase {
      * @returns 是否删除成功（影响行数 > 0）
      */
     delete(uuid: string): boolean {
-        const stmt = this.db.prepare('DELETE FROM servers WHERE uuid = ?');
+        const stmt = this.getDB().prepare(`DELETE FROM ${TABLE_NAME} WHERE uuid = ?`);
         const info = stmt.run(uuid);
         const success = info.changes > 0;
         if (success) {
@@ -186,9 +194,9 @@ export class ServerDatabase {
      * 获取所有服务器列表
      */
     getAll(): ServerRecord[] {
-        const stmt = this.db.prepare(`
+        const stmt = this.getDB().prepare(`
             SELECT id, uuid, name, fileName, command, cwd, forceUtf8Mode, usePty
-            FROM servers
+            FROM ${TABLE_NAME}
             ORDER BY id
         `);
         const rows = stmt.all() as any[];
@@ -205,13 +213,13 @@ export class ServerDatabase {
     }
 
     /**
-         * 关闭数据库连接（应用退出时调用）
-         */
+     * 关闭数据库连接（应用退出时调用）
+     */
     close(): void {
-        if (this.dbInstance) {
-            this.dbInstance.close();
-            this.dbInstance = null;
-            log.debug(LOG_PREFIX, '数据库连接已关闭');
+        if (this.db) {
+            this.db.close()
+            this.db = null
+            log.debug(LOG_PREFIX, '数据库连接已关闭')
         }
     }
 }

@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
-import { ref, reactive } from "vue"
-import router from "@/router";
-import { api } from "@/utils/api"
-import type { ServerType } from "@/types/ServerType"
-import type { FetchErrorType } from "@/types/FetchErrorType"
+import { defineStore } from 'pinia'
+import { ref, reactive } from 'vue'
+import router from '@/router'
+import { serverApi } from '@/api/index'
+import type { ServerType } from '@/types/ServerType'
+import type { FetchErrorType } from '@/types/FetchErrorType'
 
 export const useServerStore = defineStore("server", () => {
     // 服务器数据
@@ -35,7 +35,7 @@ export const useServerStore = defineStore("server", () => {
         if (!uuid) return false
         setLoading(uuid, true)
         try {
-            await api.startServer(uuid, terminalSize)
+            await serverApi.startServer(uuid, terminalSize)
             await getServerByUUID(uuid) // 请求更新单个服务器数据
             return true
         }
@@ -52,7 +52,7 @@ export const useServerStore = defineStore("server", () => {
         if (!uuid) return false
         setLoading(uuid, true)
         try {
-            await api.stopServer(uuid)
+            await serverApi.stopServer(uuid)
             await getServerByUUID(uuid) // 请求更新单个服务器数据
             return true
         }
@@ -69,7 +69,7 @@ export const useServerStore = defineStore("server", () => {
         if (!uuid) return false
         setLoading(uuid, true)
         try {
-            await api.restartServer(uuid, terminalSize)
+            await serverApi.restartServer(uuid, terminalSize)
             await getServerByUUID(uuid) // 请求更新单个服务器数据
             return true
         }
@@ -87,7 +87,7 @@ export const useServerStore = defineStore("server", () => {
      */
     async function fetchServerData() {
         try {
-            ServerData.value = await api.getServers()
+            ServerData.value = await serverApi.getServers()
             RefreshTime.value = Date.now()
             console.debug("服务器数据已更新:", ServerData.value)
         }
@@ -103,7 +103,7 @@ export const useServerStore = defineStore("server", () => {
      */
     async function createServer(data: ServerType) {
         try {
-            const newServer = await api.createServer(data)
+            const newServer = await serverApi.createServer(data)
             fetchServerData()
         }
         catch (error) {
@@ -119,7 +119,7 @@ export const useServerStore = defineStore("server", () => {
     async function getServerByUUID(uuid: string): Promise<ServerType | FetchErrorType | undefined> {
         try {
             // 注意：这里是是 api.getServerInfo()、api.getServer() 会包含一些不需要的数据
-            const server = await api.getServerInfo(uuid)
+            const server = await serverApi.getServerInfo(uuid)
             console.debug(`获取服务器 ${uuid} 的数据:`, server)
 
             // 把请求到的单个结果更新到 ServerData 列表中
@@ -160,7 +160,7 @@ export const useServerStore = defineStore("server", () => {
      */
     async function updateServerByUUID(uuid: string, data: ServerType) {
         try {
-            await api.updateServer(uuid, data)
+            await serverApi.updateServer(uuid, data)
             // 直接将更新后的数据更新到 ServerData 列表中
             if (ServerData.value) {
                 patchServer(uuid, data)
@@ -196,7 +196,7 @@ export const useServerStore = defineStore("server", () => {
      */
     async function deleteServerByUUID(uuid: string) {
         try {
-            await api.deleteServer(uuid)
+            await serverApi.deleteServer(uuid)
             // 从 ServerData 列表中删除对应项
             if (ServerData.value) {
                 ServerData.value = ServerData.value.filter(s => s.uuid !== uuid)

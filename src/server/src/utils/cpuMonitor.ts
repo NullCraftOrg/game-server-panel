@@ -1,4 +1,4 @@
-import * as os from 'os'
+import os from 'os'
 
 // CPU 核心时间信息类型
 interface CoreTimes {

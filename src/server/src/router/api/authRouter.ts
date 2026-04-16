@@ -11,7 +11,7 @@ const authRouter = Router()
 authRouter.get('/me', authMiddleware, async (req, res) => {
   const user = DBUsers.getUserById((req as any).user.userId)
   if (!user) {
-    return res.status(404).json({ error: 'User not found' })
+    return res.status(401).json({ error: 'User not found' })
   }
   res.json({ id: user.id, email: user.email, username: user.username, role: user.role })
 })

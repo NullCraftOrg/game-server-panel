@@ -105,7 +105,8 @@ const areaPath = computed(() => {
             <div class="stat-figure">
                 <div class="glass radial-progress" :class="percentColor" role="progressbar" style="--size: 3.5rem;"
                     :style="{ '--value': Math.round(percent) }">
-                    <span class="text-sm">{{ Math.round(percent) }}<span class="text-xs">{{ percentSuffix }}</span></span>
+                    <span class="text-sm">{{ Math.round(percent) }}<span class="text-xs">{{ percentSuffix
+                            }}</span></span>
                 </div>
             </div>
             <div class="stat-title">{{ title }}</div>

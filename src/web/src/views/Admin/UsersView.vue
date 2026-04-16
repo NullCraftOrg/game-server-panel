@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import MainTitle from '@/components/MainTitle.vue'
 import type { UserType } from '@/types/UserType'
-import { userApi } from '@/utils/api'
+import { userApi } from '@/api/index'
 
 const users = ref<UserType[]>([])
 
@@ -19,6 +19,14 @@ const roleBadge = computed(() => {
         }
     }
 })
+
+async function deleteUser(id: number | string) {
+    const uid = Number(id)
+    if (!isNaN(uid)) {
+        console.log(uid, '删除')
+        await userApi.deleteUser(uid)
+    }
+}
 
 onMounted(async () => {
     users.value = await userApi.getUsers()
@@ -97,7 +105,7 @@ onMounted(async () => {
                         </svg>
                     </button>
 
-                    <button class="btn btn-error btn-square btn-ghost">
+                    <button class="btn btn-error btn-square btn-ghost" @click="deleteUser(user.id)">
                         <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2"

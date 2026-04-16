@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import YAML from 'yaml';
+import fs from 'fs'
+import YAML from 'yaml'
 
 /**
  * YAML 键值存储助手（保留注释与格式）

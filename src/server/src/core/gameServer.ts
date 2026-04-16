@@ -1,6 +1,6 @@
 import os from 'node:os'
 import fs from 'node:fs'
-import * as pty from 'node-pty';
+import pty from 'node-pty'
 import { ChildProcess, spawn } from 'node:child_process'
 // 自实现日志
 import { log } from '../log.ts'

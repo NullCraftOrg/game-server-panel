@@ -1,7 +1,7 @@
 // 一个简单的热重载系统，用于开发阶段文本变动自动重启服务器
-import { spawn, ChildProcess } from 'node:child_process';
-import { watch } from 'node:fs';
-import { resolve } from 'node:path';
+import { spawn, ChildProcess } from 'node:child_process'
+import { watch } from 'node:fs'
+import { resolve } from 'node:path'
 import { log } from './log.ts'
 
 let child: ChildProcess | null = null;

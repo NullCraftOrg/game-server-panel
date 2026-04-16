@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import MainTitle from '@/components/MainTitle.vue'
 import Countdown from '@/components/Countdown.vue'
-import { userApi } from '@/utils/api'
+import { userApi } from '@/api/index'
 
 const usersCount = ref(0)
 
