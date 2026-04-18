@@ -97,6 +97,8 @@ const animate = computed(() => {props.server?.isRunning ? 'animate-ping' : ''})
           停止
         </button>
 
+        <div class="py-2 m-0 divider divider-horizontal"></div>
+
         <button class="btn btn-outline btn-info" @click="$emit('restart')">
           <span v-show="actionLoading" class="loading loading-spinner size-[1.2em]"></span>
           <svg v-show="!actionLoading" class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"

@@ -15,6 +15,8 @@ const totalCpuTimes = computed(() => formatMicroToMillisecond((backendInfo.value
 const userPercent = computed(() => calculatePercent(backendInfo.value?.cpu.user, backendInfo.value?.cpu.system).toFixed(1))
 const systemPercent = computed(() => calculatePercent(backendInfo.value?.cpu.system, backendInfo.value?.cpu.user).toFixed(1))
 
+const fullIPAddress = computed(() => (appInfo.value?.ip ?? '-') + ':' + (appInfo.value?.port ?? '-'))
+
 // 计算 NodeJS 的 CPU user/system 占用时间比 value1 返回value1的结果百分比。
 const calculatePercent = (num1: number | null | undefined, num2: number | null | undefined) => {
     const total = (num1 || 0) + (num2 || 0);
@@ -55,12 +57,14 @@ const calculatePercent = (num1: number | null | undefined, num2: number | null |
 
             <!-- 基本信息区域 使用 stat 组件 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div class="stat bg-base-200 rounded-box p-3 border border-base-300">
+                <div class="stat bg-base-200 rounded-box p-3 border border-base-300 tooltip tooltip-bottom"
+                :data-tip="'后端地址:' + fullIPAddress + ' 运行版本:' + (backendInfo?.version ?? '-')">
                     <div class="stat-title">后端地址</div>
-                    <div class="stat-value text-xl truncate">{{ `${appInfo?.ip ?? '-'}:${appInfo?.port ?? '-'}` }}</div>
+                    <div class="stat-value text-xl truncate">{{ fullIPAddress }}</div>
                     <div class="stat-desc">运行版本: {{ backendInfo?.version ?? '-' }}</div>
                 </div>
-                <div class="stat bg-base-200 rounded-box p-3 border border-base-300">
+                <div class="stat bg-base-200 rounded-box p-3 border border-base-300 tooltip tooltip-bottom"
+                    :data-tip="'运行时间:' + backendUptime + ' PID:' + (backendInfo?.pid ?? '-')">
                     <div class="stat-title">运行时间</div>
                     <div class="stat-value text-xl truncate">{{ backendUptime }}</div>
                     <div class="stat-desc">PID: {{ backendInfo?.pid ?? '-' }}</div>

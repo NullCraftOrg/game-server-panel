@@ -3,7 +3,9 @@ import { computed, onMounted, ref } from 'vue'
 import MainTitle from '@/components/MainTitle.vue'
 import type { UserType } from '@/types/UserType'
 import { userApi } from '@/api/index'
+import ConfirmDialog from '@/components/Dialog/ConfirmDialog.vue'
 
+// 用户表
 const users = ref<UserType[]>([])
 
 // 根据用户角色返回对应的 badge 样式
@@ -20,16 +22,35 @@ const roleBadge = computed(() => {
     }
 })
 
-async function deleteUser(id: number | string) {
-    const uid = Number(id)
+// 请求用户列表
+async function fetchUsers() {
+    users.value = await userApi.getUsers()
+}
+
+// 被选择删除的用户信息
+const selectDeleteUser = ref<UserType>()
+// 删除对话框ref
+const deleteUserDialogRef = ref<InstanceType<typeof ConfirmDialog> | null>(null)
+// 打开删除用户
+const openDeleteUserDialog = (user: UserType) => {
+    if (!user) return
+    selectDeleteUser.value = user
+
+    const uid = Number(user.id)
+    if (isNaN(uid) || !deleteUserDialogRef) return
+    deleteUserDialogRef.value?.open(uid)
+}
+// 删除用户
+const deleteUserHandle = async (uid: number) => {
     if (!isNaN(uid)) {
         console.log(uid, '删除')
         await userApi.deleteUser(uid)
+        fetchUsers()
     }
 }
 
 onMounted(async () => {
-    users.value = await userApi.getUsers()
+    fetchUsers()
 })
 </script>
 
@@ -56,12 +77,12 @@ onMounted(async () => {
             <!-- 表头 -->
             <thead>
                 <tr>
-                    <th class="w-10">
+                    <th>
                         <label>
                             <input type="checkbox" class="checkbox" />
                         </label>
                     </th>
-                    <th>#</th>
+                    <th>UID</th>
                     <th>用户信息</th>
                     <th>角色</th>
                     <th>操作</th>
@@ -105,7 +126,7 @@ onMounted(async () => {
                         </svg>
                     </button>
 
-                    <button class="btn btn-error btn-square btn-ghost" @click="deleteUser(user.id)">
+                    <button class="btn btn-error btn-square btn-ghost" @click="openDeleteUserDialog(user)">
                         <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2"
@@ -118,4 +139,12 @@ onMounted(async () => {
         </table>
 
     </div>
+
+    <ConfirmDialog ref="deleteUserDialogRef" title="确定删除用户?" @confirm="deleteUserHandle">
+        <template v-slot:content>
+            <p class="py-4">
+                这将完全将用户 <strong class="text-error">{{ selectDeleteUser?.username }}</strong> 在数据库中删除，无法恢复！
+            </p>
+        </template>
+    </ConfirmDialog>
 </template>

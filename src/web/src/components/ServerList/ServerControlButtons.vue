@@ -31,7 +31,7 @@ defineEmits(['start', 'stop', 'restart', 'console'])
           stroke-linejoin="round" stroke-width="2" rx="2" />
       </svg>
     </button>
-
+    
     <!-- 重启按钮 -->
     <button class="btn btn-sm btn-square btn-soft btn-info" @click="$emit('restart')">
       <span v-show="loading" class="size-[1.2em] loading loading-spinner"></span>

@@ -81,7 +81,7 @@ onUnmounted(() => {
         <ServerInfoCard @create="openCreateDialog" />
 
         <UsageChartCard title="系统内存" desc="已用内存/内存总数" lineColor="rgb(69, 130, 230)"
-            areaColorTop="rgba(69, 130, 230, 0.5)" areaColorBottom="rgba(69, 130, 230, 0.2)"
+            areaColorTop="rgba(69, 130, 230, 0.6)" areaColorBottom="rgba(69, 130, 230, 0.2)"
             :data="systemInfo?.ram.usagePercentData" :left="formatBytes(systemInfo?.ram.usage ?? 0, 1)"
             :right="formatBytes(systemInfo?.ram.total ?? 0, 1)" :percent="systemInfo?.ram.usagePercent ?? 0"
             :percent-color="formatPercentToTextColor(systemInfo?.ram.usagePercent ?? 0)">

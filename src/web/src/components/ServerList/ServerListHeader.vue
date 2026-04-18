@@ -3,7 +3,7 @@ defineEmits(['create', 'refresh'])
 </script>
 
 <template>
-  <div class="flex justify-end gap-2 mb-3">
+  <div class="flex sm:justify-end gap-2 mb-3">
     <button class="btn btn-primary" @click="$emit('create')">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

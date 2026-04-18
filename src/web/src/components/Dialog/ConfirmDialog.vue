@@ -36,10 +36,10 @@ const emit = defineEmits(['confirm', 'update:visible'])
 
 const dialogRef = ref<HTMLDialogElement | null>(null)
 
-const currentKey = ref<string | null>(null)
+const currentKey = ref<any | null>(null)
 
 // 对外暴露 open 方法
-const open = (key: string) => {
+const open = (key: any) => {
     currentKey.value = key
     dialogRef.value?.showModal()
 }
