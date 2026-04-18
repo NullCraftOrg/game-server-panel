@@ -135,9 +135,9 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * @param args 附加命令
      * @returns Pty
      */
-    private spawnPtyProcess(filePath: string, args: string | string[], options: StartOptions = {}): pty.IPty {
-        if (typeof args === 'object') {
-            args = args.join(' ')
+    private spawnPtyProcess(filePath: string, args: string[] | string, options: StartOptions = {}): pty.IPty {
+        if (typeof args === 'string') {
+            args = args.split(' ')
         }
         const cols = options.cols ?? 80
         const rows = options.rows ?? 24
@@ -180,7 +180,7 @@ export default class GameServer implements ServerConfigInterface, ServerRuntimeI
      * @param args 命令行
      * @returns ChildProcess
      */
-    private spawnChildProcess(filePath: string, args: string | string[]): ChildProcess {
+    private spawnChildProcess(filePath: string, args: string[] | string): ChildProcess {
         this.appendLog('已禁用仿真终端模拟\r\n', true)
         if (typeof args === 'string') {
             args = args.split(' ')
