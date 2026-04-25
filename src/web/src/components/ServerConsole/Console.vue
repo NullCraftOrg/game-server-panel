@@ -85,45 +85,40 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <template v-if="server">
-    <div class="flex flex-col">
-      <!-- 顶部服务器信息 -->
-      <ServerInfoBar :server="server" :action-loading="serverStore.isLoading(uuid)" @start="startServer()"
-        @stop="serverStore.stopServer(uuid)" @restart="restartServer(uuid)" />
+  <div class="flex-1 min-h-0 flex flex-col">
+    <template v-if="server">
+      <div class="flex flex-col flex-1 min-h-0">
+        <ServerInfoBar :server="server" :action-loading="serverStore.isLoading(uuid)" @start="startServer()"
+          @stop="serverStore.stopServer(uuid)" @restart="restartServer(uuid)" />
+        <TerminalPane ref="terminalRef" :uuid="uuid" :use-pty="server?.usePty" :is-running="server?.isRunning" />
+        <CommandInput @send="handleSendCommand" />
+      </div>
+      <ConfirmDialog ref="restartServerDialogRef" title="重启服务器" @confirm="handleRestartConfirm">
+        <template #content>
+          <div class="py-4">
+            <p>确定要重启 <strong class="text-info">{{ server?.name }}</strong> 服务器吗？</p>
+            <p class="text-base-content/70">
+              重启服务器可能会导致未保存的数据丢失而回档，当前连接的玩家可能会被断开。
+            </p>
+          </div>
+        </template>
+      </ConfirmDialog>
+    </template>
 
-      <!-- 终端区域，占据剩余空间 -->
-      <TerminalPane ref="terminalRef" :uuid="uuid" :use-pty="server?.usePty" :is-running="server?.isRunning" />
-
-      <!-- 底部命令输入 -->
-      <CommandInput @send="handleSendCommand" />
-    </div>
-
-    <!-- 重启确认弹窗 -->
-    <ConfirmDialog ref="restartServerDialogRef" title="重启服务器" @confirm="handleRestartConfirm">
-      <template #content>
-        <div class="py-4">
-          <p>
-            确定要重启
-            <strong class="text-info">{{ server?.name }}</strong>
-            服务器吗？
-          </p>
-          <p class="text-base-content/70">
-            重启服务器可能会导致未保存的数据丢失而回档，当前连接的玩家可能会被断开。
-          </p>
+    <div v-else-if="errorMessage" class="flex-1 flex items-center justify-center text-center">
+      <div>
+        <p class="text-2xl">获取服务器信息失败</p>
+        <p class="text-md text-red-500">{{ errorMessage }}</p>
+        <div class="text-xl">
+          已重试
+          <Countdown :count="retryCount" />
+          次
         </div>
-      </template>
-    </ConfirmDialog>
-  </template>
-
-  <template v-else-if="errorMessage">
-    <div class="text-center">
-      <p class="text-2xl">获取服务器信息失败</p>
-      <p class="text-md text-red-500">{{ errorMessage }}</p>
-      <div class="text-xl">
-        已重试
-        <Countdown :count="retryCount" />
-        次
       </div>
     </div>
-  </template>
+
+    <div v-else class="flex-1 flex items-center justify-center">
+      <span class="loading loading-spinner loading-lg"></span>
+    </div>
+  </div>
 </template>

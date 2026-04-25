@@ -5,17 +5,17 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
-    <div class="flex flex-col h-screen bg-base-200">
-        <Header />
+  <div class="flex flex-col h-screen bg-base-200">
+    <Header />
 
-        <main class="flex-1 container mx-auto p-3 my-3">
-            <div id="global-container-alert"></div>
+    <!-- 使用 flex flex-col，让 main 成为纵向弹性容器 -->
+    <main class="flex-1 container mx-auto p-3 my-3 flex flex-col">
+      <div id="global-container-alert"></div>
+      <Breadcrumbs />
 
-            <Breadcrumbs />
+      <router-view />
+    </main>
 
-            <router-view />
-        </main>
-
-        <Footer />
-    </div>
+    <Footer />
+  </div>
 </template>

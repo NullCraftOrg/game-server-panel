@@ -184,9 +184,9 @@ defineExpose({ sendCommand, getTerminalSize })
 </script>
 
 <template>
-
-  <div class="relative rounded-md shadow my-2 p-2" style="background-color: #212121">
-    <div class="overflow-hidden" ref="termElement"></div>
+  <div class="relative rounded-md shadow my-2 p-2 flex flex-col flex-1 min-h-0" style="background-color: #212121">
+    <!-- 终端元素容器使用 flex-1 占满外层剩余高度，overflow-hidden 保证 xterm 裁剪 -->
+    <div class="flex-1 min-h-0 overflow-hidden" ref="termElement"></div>
 
     <Transition name="fade">
       <button v-if="!showTermScrollButton" @click="termScrollToBottom"
@@ -199,7 +199,6 @@ defineExpose({ sendCommand, getTerminalSize })
       </button>
     </Transition>
   </div>
-
 </template>
 
 <style scoped>
