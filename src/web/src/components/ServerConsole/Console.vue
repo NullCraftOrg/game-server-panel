@@ -88,11 +88,16 @@ onUnmounted(() => {
   <div class="flex-1 min-h-0 flex flex-col">
     <template v-if="server">
       <div class="flex flex-col flex-1 min-h-0">
+        <!-- 顶部服务器信息 -->
         <ServerInfoBar :server="server" :action-loading="serverStore.isLoading(uuid)" @start="startServer()"
           @stop="serverStore.stopServer(uuid)" @restart="restartServer(uuid)" />
-        <TerminalPane ref="terminalRef" :uuid="uuid" :use-pty="server?.usePty" :is-running="server?.isRunning" />
+        <!-- 终端区域，占据剩余空间 -->
+        <TerminalPane class="flex-1" ref="terminalRef" :uuid="uuid" :use-pty="server?.usePty" :is-running="server?.isRunning" />
+        <!-- 底部命令输入 -->
         <CommandInput @send="handleSendCommand" />
       </div>
+      
+      <!-- 重启服务器确认对话框 -->
       <ConfirmDialog ref="restartServerDialogRef" title="重启服务器" @confirm="handleRestartConfirm">
         <template #content>
           <div class="py-4">

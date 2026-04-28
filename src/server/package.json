@@ -1,5 +1,5 @@
 {
-  "name": "nullcraft-game-server-panel-server-ts",
+  "name": "nullcraft-game-server-panel-server",
   "version": "1.0.0",
   "description": "Backend server for NGSP(NullCraft Game Server Panel)",
   "homepage": "https://github.com/NullCraftOrg/game-server-panel",
