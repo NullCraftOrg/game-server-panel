@@ -96,11 +96,11 @@ onUnmounted(() => {
 
     <ServerListHeader @create="openCreateDialog" @refresh="serverStore.fetchServerData"></ServerListHeader>
     
-    <div class="tabs tabs-box border-0 p-0 shadow-none">
-        <input type="radio" name="tabs_servers" class="tab" :aria-label="`全部 (${allServers?.length})`" checked="true" />
-        <div class="tab-content mt-3 border-0">
+    <div class="tabs tabs-box bg-base-300 p-2">
+        <input type="radio" name="tabs_servers" class="tab" :aria-label="`全部 (${allServers?.length})`" checked="true" :disabled="allServers?.length == 0"/>
+        <div class="tab-content border-0">
             <!-- 全部服务器卡片列表 -->
-            <div class="tab-content grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="mt-1 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <ServerCard v-for="server in allServers" :key="server.uuid" :server="server" @edit="openEditDialog"
                     @delete="openDeleteDialog(server)" :loading="serverStore.isLoading(server.uuid)"
                     @start="serverStore.startServer(server.uuid)" @stop="serverStore.stopServer(server.uuid)"
@@ -108,10 +108,10 @@ onUnmounted(() => {
             </div>
         </div>
 
-        <input type="radio" name="tabs_servers" class="tab" :aria-label="`正在运行 (${runnningServers?.length})`" />
-        <div class="tab-content mt-3 border-0">
+        <input type="radio" name="tabs_servers" class="tab" :aria-label="`正在运行 (${runnningServers?.length})`" :disabled="runnningServers?.length == 0"/>
+        <div class="tab-content border-0">
             <!-- 正在运行服务器卡片列表 -->
-            <div class="tab-content grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="mt-1 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <ServerCard v-for="server in runnningServers" :key="server.uuid" :server="server" @edit="openEditDialog"
                     @delete="openDeleteDialog(server)" :loading="serverStore.isLoading(server.uuid)"
                     @start="serverStore.startServer(server.uuid)" @stop="serverStore.stopServer(server.uuid)"
@@ -119,10 +119,10 @@ onUnmounted(() => {
             </div>
         </div>
 
-        <input type="radio" name="tabs_servers" class="tab" :aria-label="`未运行 (${stoppedServers?.length})`" />
-        <div class="tab-content mt-3 border-0">
+        <input type="radio" name="tabs_servers" class="tab" :aria-label="`未运行 (${stoppedServers?.length})`" :disabled="stoppedServers?.length == 0"/>
+        <div class="tab-content border-0">
             <!-- 未运行服务器卡片列表 -->
-            <div class="tab-content grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="mt-1 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <ServerCard v-for="server in stoppedServers" :key="server.uuid" :server="server" @edit="openEditDialog"
                     @delete="openDeleteDialog(server)" :loading="serverStore.isLoading(server.uuid)"
                     @start="serverStore.startServer(server.uuid)" @stop="serverStore.stopServer(server.uuid)"
@@ -130,10 +130,10 @@ onUnmounted(() => {
             </div>
         </div>
 
-        <input type="radio" name="tabs_servers" class="tab" :aria-label="`无法运行 (${fileNotExistServers?.length})`" />
-        <div class="tab-content mt-3 border-0">
+        <input type="radio" name="tabs_servers" class="tab" :aria-label="`无法运行 (${fileNotExistServers?.length})`" :disabled="fileNotExistServers?.length == 0" />
+        <div class="tab-content border-0">
             <!-- 无法运行服务器卡片列表 -->
-            <div class="tab-content grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="mt-1 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <ServerCard v-for="server in fileNotExistServers" :key="server.uuid" :server="server"
                     @edit="openEditDialog" @delete="openDeleteDialog(server)"
                     :loading="serverStore.isLoading(server.uuid)" @start="serverStore.startServer(server.uuid)"

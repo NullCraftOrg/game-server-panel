@@ -55,7 +55,7 @@ onUnmounted(() => {
             <div class="stat-value text-primary">
                 <Countdown :count="totalServers" />
             </div>
-            <div class="stat-desc">
+            <div class="stat-actions">
                 <button class="btn btn-xs" @click="$emit('create')">
                     <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24">
@@ -91,7 +91,7 @@ onUnmounted(() => {
             <div class="stat-value text-success">
                 <Countdown :count="runningServers" />
             </div>
-            <div class="stat-desc">
+            <div class="stat-actions">
                 <RouterLink to="/servers" class="btn btn-xs">
                     查看列表
                     <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
